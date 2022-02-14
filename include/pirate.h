@@ -10,9 +10,15 @@ namespace jackal {
 
         int get_col() const noexcept;
 
+        int get_coins() const noexcept;
+
         int set_row() noexcept;
 
         int set_col() noexcept;
+
+        int set_coins() noexcept;
+
+        void set_status() const noexcept;
 
         void make_move();
 
@@ -20,8 +26,8 @@ namespace jackal {
 
     private:
         status m_status;
-        int row_pos;
-        int col_pos;
+        int m_row_pos;
+        int m_col_pos;
         int m_coins = 0;
         int m_stucked_for = 0;
     };
