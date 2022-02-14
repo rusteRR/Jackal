@@ -6,15 +6,15 @@
 #include "player.h"
 
 namespace jackal{
-enum class game_type{};
-class Game{
-public:
+  enum class game_type{};
+  class Game{
+  public:
 
-private:
-field m_field;
-std::vector<Player*> players;
-int current_player;
-};
+  private:
+    field m_field;
+    std::vector<Player*> players;
+    int current_player;
+  };
 
 } // namespace jackal
 
