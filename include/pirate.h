@@ -10,9 +10,13 @@ namespace jackal {
 
         int get_col() const noexcept;
 
-        int set_row() const noexcept;
+        int set_row() noexcept;
 
-        int set_col() const noexcept;
+        int set_col() noexcept;
+
+        void make_move();
+
+        void go_ship() noexcept;
 
     private:
         status m_status;
