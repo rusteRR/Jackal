@@ -6,15 +6,17 @@
 #include <vector>
 
 namespace jackal {
-  enum class game_type{};
-  class Game {
-  public:
-
-  private:
-    field m_field;
-    std::vector<Player*> players;
-    int current_player;
-  };
+    enum class game_type{};
+    class Game {
+    public:
+        void change_turn() noexcept;
+        
+        
+    private:
+        field m_field;
+        std::vector<Player*> m_players;
+        int m_current_player;
+};
 
 } // namespace jackal
 
