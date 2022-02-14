@@ -4,7 +4,7 @@
 namespace jackal {
     enum class status { DEAD, ALIVE, DROWN, STUCK, BRINGING_COIN };
 
-    class pirate {
+    class Pirate {
     public:
         int get_x_pos() const noexcept;
 

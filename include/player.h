@@ -2,13 +2,19 @@
 #define PLAYER_H_
 
 #include "pirate.h"
+#include "ship.h"
+#include <vector>
+namespace jackal {
 
-namespace jackal{
+    class Player {
+    public:
+        
+    private:
+        std::vector<Pirate*> m_pirates;
+        int m_total_coins;
+        Ship m_ship;
+    };
 
-class Player{
-    
-};
-    
 } // namespace jackal
 
 #endif // PLAYER_H_
