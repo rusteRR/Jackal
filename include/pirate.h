@@ -6,9 +6,13 @@ namespace jackal {
 
     class pirate {
     public:
-        int get_x_pos() const noexcept;
+        int get_row() const noexcept;
 
-        int get_y_pos() const noexcept;
+        int get_col() const noexcept;
+
+        int set_row() const noexcept;
+
+        int set_col() const noexcept;
 
     private:
         status m_status;
