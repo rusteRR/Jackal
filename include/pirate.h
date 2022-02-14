@@ -22,7 +22,7 @@ namespace jackal {
 
         void make_move();
 
-        void go_ship() noexcept;
+        void go_to_ship() noexcept;
 
     private:
         status m_status;
