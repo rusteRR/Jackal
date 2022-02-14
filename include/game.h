@@ -5,7 +5,7 @@
 #include "field.h"
 #include "player.h"
 
-namespace jackal{
+namespace jackal {
   enum class game_type{};
   class Game{
   public:
