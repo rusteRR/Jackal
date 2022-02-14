@@ -1,9 +1,9 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include <vector>
 #include "field.h"
 #include "player.h"
+#include <vector>
 
 namespace jackal {
     enum class game_type{};

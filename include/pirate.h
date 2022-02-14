@@ -2,18 +2,24 @@
 #define PIRATE_H_
 
 namespace jackal {
-    enum class status { DEAD, ALIVE, DROWN, STUCK, BRINGING_COIN };
+    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN };
 
     class Pirate {
     public:
-        int get_x_pos() const noexcept;
+        int get_row() const noexcept;
 
-        int get_y_pos() const noexcept;
+        int get_col() const noexcept;
+
+        int set_row() const noexcept;
+
+        int set_col() const noexcept;
 
     private:
         status m_status;
         int x_pos;
         int y_pos;
+        int m_coins = 0;
+        int m_stucked_for = 0;
     };
 }
 
