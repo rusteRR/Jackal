@@ -16,8 +16,8 @@ namespace jackal {
 
     private:
         status m_status;
-        int x_pos;
-        int y_pos;
+        int row_pos;
+        int col_pos;
         int m_coins = 0;
         int m_stucked_for = 0;
     };
