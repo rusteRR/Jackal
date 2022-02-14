@@ -12,11 +12,11 @@ namespace jackal {
 
         int get_coins() const noexcept;
 
-        int set_row() noexcept;
+        void set_row() noexcept;
 
-        int set_col() noexcept;
+        void set_col() noexcept;
 
-        int set_coins() noexcept;
+        void set_coins() noexcept;
 
         void set_status() const noexcept;
 
