@@ -1,5 +1,6 @@
 empty 		18
-pointer 	21
+simple-pointer 	6
+multi-pointer 15
 horse 		2
 spinner-2 	5
 spinner-3 	4
