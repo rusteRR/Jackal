@@ -4,13 +4,16 @@
 #include "pirate.h"
 #include "ship.h"
 #include <vector>
+#include <memory>
+
 namespace jackal {
 
     class Player {
     public:
+        Pirate& get_pirate(int col, int row);
         
     private:
-        std::vector<Pirate*> m_pirates;
+        std::vector<std::shared_ptr<Pirate>> m_pirates;
         int m_total_coins;
         Ship m_ship;
     };
