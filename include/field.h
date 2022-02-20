@@ -4,14 +4,6 @@
 #include "event.h"
 #include <vector>
 #include <memory>
-#include <iostream>
-#include <string>
-#include <utility>
-#include <algorithm>
-#include <fstream>
-#include <random>
-#include <map>
-#include <functional>
 
 namespace jackal {
 

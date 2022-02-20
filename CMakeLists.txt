@@ -3,4 +3,6 @@ project(Jackal)
 
 set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
+include_directories(data)
+include_directories(include/events)
 add_executable(Jackal src/field.cpp)

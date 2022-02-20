@@ -1,4 +1,10 @@
 #include "field.h"
+#include "allEvents.h"
+#include <algorithm>
+#include <fstream>
+#include <random>
+#include <map>
+#include <functional>
 
 namespace jackal {
     void Field::generate_field() {
@@ -42,6 +48,7 @@ namespace jackal {
                 {"kernels",        []() { return std::make_shared<Kernels>(); }},
                 {"cart",           []() { return std::make_shared<Cart>(); }}
         };
+
         std::ifstream f("../data/events.txt");
         std::string event_name;
         int event_count;
