@@ -1,174 +1,63 @@
 #include "../include/field.h"
-namespace jackal{
+
+namespace jackal {
     void Field::generate_field() {
+        std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory{
+                {"empty",          []() { return std::make_shared<EmptyEvent>(); }},
+                {"simple-pointer", []() { return std::make_shared<SimplePointer>(); }},
+                {"multi-pointer",  []() { return std::make_shared<MultiPointer>(); }},
+                {"horse",          []() { return std::make_shared<Horse>(); }},
+                {"spinner-2",      []() { return std::make_shared<Spinner>(); }},
+                {"spinner-3",      []() { return std::make_shared<Spinner>(); }},
+                {"spinner-4",      []() { return std::make_shared<Spinner>(); }},
+                {"spinner-5",      []() { return std::make_shared<Spinner>(); }},
+                {"ice",            []() { return std::make_shared<Ice>(); }},
+                {"trap",           []() { return std::make_shared<Trap>(); }},
+                {"crocodile",      []() { return std::make_shared<Crocodile>(); }},
+                {"ogre",           []() { return std::make_shared<Ogre>(); }},
+                {"fortress",       []() { return std::make_shared<Fortress>(); }},
+                {"fortress-heal",  []() { return std::make_shared<Fortress>(); }},
+                {"treasure",       []() { return std::make_shared<Treasure>(); }},
+                {"coins-1",        []() { return std::make_shared<Coins>(); }},
+                {"coins-2",        []() { return std::make_shared<Coins>(); }},
+                {"coins-3",        []() { return std::make_shared<Coins>(); }},
+                {"coins-4",        []() { return std::make_shared<Coins>(); }},
+                {"coins-5",        []() { return std::make_shared<Coins>(); }},
+                {"plane",          []() { return std::make_shared<Plane>(); }},
+                {"balloon",        []() { return std::make_shared<Ballon>(); }},
+                {"cannon",         []() { return std::make_shared<Cannon>(); }},
+                {"lighthouse",     []() { return std::make_shared<Lighthouse>(); }},
+                {"ben",            []() { return std::make_shared<Ben>(); }},
+                {"missionary",     []() { return std::make_shared<Missionary>(); }},
+                {"friday",         []() { return std::make_shared<Friday>(); }},
+                {"rum-1",          []() { return std::make_shared<Rum>(); }},
+                {"rum-2",          []() { return std::make_shared<Rum>(); }},
+                {"rum-3",          []() { return std::make_shared<Rum>(); }},
+                {"barrel",         []() { return std::make_shared<Barrel>(); }},
+                {"cave",           []() { return std::make_shared<Cave>(); }},
+                {"earthquake",     []() { return std::make_shared<Earthquake>(); }},
+                {"jungle",         []() { return std::make_shared<Jungle>(); }},
+                {"grass",          []() { return std::make_shared<Grass>(); }},
+                {"boat",           []() { return std::make_shared<Boat>(); }},
+                {"kernels",        []() { return std::make_shared<Kernels>(); }},
+                {"cart",           []() { return std::make_shared<Cart>(); }}
+        };
         std::ifstream f("../data/events.txt");
         std::string event_name;
         int event_count;
-        std::vector<std::pair<int,int>> random_coords(m_rows * m_columns);
-        for (int i = 0; i < m_rows; ++i){
-            for (int j = 0; j < m_columns; ++j){
+        std::vector<std::pair<int, int>> random_coords(m_rows * m_columns);
+        for (int i = 0; i < m_rows; ++ i) {
+            for (int j = 0; j < m_columns; ++ j) {
                 random_coords[i * m_columns + j] = {i, j};
             }
         }
-        std::random_shuffle(random_coords.begin(), random_coords.end());
-        m_field.resize(m_rows, std::vector<std::unique_ptr<Event>>(m_columns));
+        std::shuffle(random_coords.begin(), random_coords.end(), std::mt19937(std::random_device()()));
+        m_field.resize(m_rows, std::vector<std::shared_ptr<Event>>(m_columns));
         int coord_ind = 0;
-        while(f >> event_name >> event_count){
-            // copy-paste this 'if' for other 36 cards
-            if (f == "empty"){
-                for (; event_count > 0; --event_count) {
-                    m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                            std::make_unique<EmptyEvent>();
-                    coord_ind++;
-                }
-            } else if (f == "simple-pointer"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<SimplePointer>();
-                coord_ind++;
-            } else if (f == "multi-pointer"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<MultiPointer>();
-                coord_ind++;
-            } else if (f == "horse"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Horse>();
-                coord_ind++;
-            } else if (f == "spinner-2"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Spinner>();// TODO
-                coord_ind++;
-            } else if (f == "spinner-3"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Spinner>();// TODO
-                coord_ind++;
-            } else if (f == "spinner-4"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Spinner>(); // TODO
-                coord_ind++;
-            } else if (f == "spinner-5"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Spinner>(); // TODO
-                coord_ind++;
-            } else if (f == "ice"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Ice>();
-                coord_ind++;
-            } else if (f == "trap"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Trap>();
-                coord_ind++;
-            } else if (f == "crocodile"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Crocodile>();
-                coord_ind++;
-            } else if (f == "ogre"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Ogre>();
-                coord_ind++;
-            } else if (f == "fortress"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Fortress>();
-                coord_ind++;
-            } else if (f == "fortress-heal"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Fortress>(); //TODO
-                coord_ind++;
-            } else if (f == "treasure"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Treasure>(); // TODO
-                coord_ind++;
-            } else if (f == "coins-1"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Coins>(); // TODO
-                coord_ind++;
-            } else if (f == "coins-2"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Coins>(); // TODO
-                coord_ind++;
-            } else if (f == "coins-3"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Coins>(); // TODO
-                coord_ind++;
-            } else if (f == "coins-4"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Coins>(); // TODO
-                coord_ind++;
-            } else if (f == "coins-5"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Coins>(); // TODO
-                coord_ind++;
-            } else if (f == "plane"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Plane>();
-                coord_ind++;
-            } else if (f == "balloon"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Balloon>();
-                coord_ind++;
-            } else if (f == "cannon"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Cannon>();
-                coord_ind++;
-            } else if (f == "lighthouse"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Lighthouse>();
-                coord_ind++;
-            } else if (f == "ben"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Ben>();
-                coord_ind++;
-            } else if (f == "missionary"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Missionary>();
-                coord_ind++;
-            } else if (f == "friday"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Friday>();
-                coord_ind++;
-            } else if (f == "rum-1"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Rum>(); // TODO
-                coord_ind++;
-            } else if (f == "rum-2"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Rum>(); // TODO
-                coord_ind++;
-            } else if (f == "rum-3"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Rum>(); // TODO
-                coord_ind++;
-            } else if (f == "barrel"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Barrel>();
-                coord_ind++;
-            } else if (f == "cave"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Cave>();
-                coord_ind++;
-            } else if (f == "earthquake"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Earthquake>();
-                coord_ind++;
-            } else if (f == "jungle"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Jungle>();
-                coord_ind++;
-            } else if (f == "grass"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Grass>();
-                coord_ind++;
-            } else if (f == "boat"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Boat>();
-                coord_ind++;
-            } else if (f == "kernels"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Kernels>();
-                coord_ind++;
-            } else if (f == "cart"){
-                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] =
-                        std::make_unique<Cart>();
-                coord_ind++;
+        while (f >> event_name >> event_count) {
+            for (int i = 0; i < event_count; ++ i) {
+                m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] = event_factory[event_name]();
+                coord_ind ++;
             }
         }
     }

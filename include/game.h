@@ -16,7 +16,7 @@ namespace jackal {
         
     private:
         Field m_field;
-        std::vector<Player*> m_players;
+        std::vector<Player> m_players;
         game_type m_game_type;
         int m_current_player;
 };

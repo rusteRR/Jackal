@@ -8,6 +8,10 @@
 #include <string>
 #include <utility>
 #include <algorithm>
+#include <fstream>
+#include <random>
+#include <map>
+#include <functional>
 
 namespace jackal {
 
@@ -18,7 +22,7 @@ namespace jackal {
         Event& get_element() const noexcept;
 
     private:
-        std::vector<std::vector<std::unique_ptr<Event>>> m_field;
+        std::vector<std::vector<std::shared_ptr<Event>>> m_field;
         int m_rows = 11;
         int m_columns = 11;
 };
