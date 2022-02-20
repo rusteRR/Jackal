@@ -1,4 +1,4 @@
-#include "../include/field.h"
+#include "field.h"
 
 namespace jackal {
     void Field::generate_field() {
@@ -46,8 +46,8 @@ namespace jackal {
         std::string event_name;
         int event_count;
         std::vector<std::pair<int, int>> random_coords(m_rows * m_columns);
-        for (int i = 0; i < m_rows; ++ i) {
-            for (int j = 0; j < m_columns; ++ j) {
+        for (int i = 0; i < m_rows; ++i) {
+            for (int j = 0; j < m_columns; ++j) {
                 random_coords[i * m_columns + j] = {i, j};
             }
         }
@@ -55,9 +55,9 @@ namespace jackal {
         m_field.resize(m_rows, std::vector<std::shared_ptr<Event>>(m_columns));
         int coord_ind = 0;
         while (f >> event_name >> event_count) {
-            for (int i = 0; i < event_count; ++ i) {
+            for (int i = 0; i < event_count; ++i) {
                 m_field[random_coords[coord_ind].first][random_coords[coord_ind].second] = event_factory[event_name]();
-                coord_ind ++;
+                coord_ind++;
             }
         }
     }
