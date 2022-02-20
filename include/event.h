@@ -23,7 +23,6 @@ namespace jackal {
     public:
         void invoke(Pirate &pirate) override {
             //TODO
-
         }
 
     private:

@@ -12,13 +12,17 @@ namespace jackal {
     public:
         Game(game_type type_);
 
+        void process_move(int col_pirate, int row_pirate, int col_to, int row_to);
+
         void change_turn() noexcept;
         
     private:
         Field m_field;
-        std::vector<Player> m_players;
+        std::vector<std::shared_ptr<Player>> m_players;
         game_type m_game_type;
         int m_current_player;
+
+        void check_move_correctness(int col_from, int row_from, int col_to, int row_to);
 };
 
 } // namespace jackal
