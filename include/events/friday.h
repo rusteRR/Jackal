@@ -1,11 +1,15 @@
 #ifndef FRIDAY_H_
 #define FRIDAY_H_
 
+#include "event.h"
+
 namespace jackal {
 
     class Friday : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "Friday" << std::endl;
+        }
     };
 
 } // namespace jackal

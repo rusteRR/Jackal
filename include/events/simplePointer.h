@@ -7,7 +7,9 @@ namespace jackal {
 
     class SimplePointer : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "SimplePointer" << std::endl;
+        }
 
     private:
         int m_direction;

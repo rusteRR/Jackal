@@ -1,11 +1,15 @@
 #ifndef PLANE_H_
 #define PLANE_H_
 
+#include "event.h"
+
 namespace jackal {
 
     class Plane : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "Plane" << std::endl;
+        }
     };
 
 } // namespace jackal

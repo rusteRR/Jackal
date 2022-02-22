@@ -1,11 +1,15 @@
 #ifndef JUNGLE_H_
 #define JUNGLE_H_
 
+#include "event.h"
+
 namespace jackal {
 
     class Jungle : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "Jungle" << std::endl;
+        }
     };
 
 } // namespace jackal

@@ -8,7 +8,7 @@
 
 namespace jackal {
     void Field::generate_field() {
-        std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory{
+        std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory {
                 {"empty",          []() { return std::make_shared<EmptyEvent>(); }},
                 {"simple-pointer", []() { return std::make_shared<SimplePointer>(); }},
                 {"multi-pointer",  []() { return std::make_shared<MultiPointer>(); }},
@@ -67,5 +67,9 @@ namespace jackal {
                 coord_ind++;
             }
         }
+    }
+
+    Event &Field::get_element(int col_, int row_) const noexcept {
+        return *m_field[col_][row_];
     }
 }

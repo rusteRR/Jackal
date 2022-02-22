@@ -1,22 +1,23 @@
 #ifndef PIRATE_H_
 #define PIRATE_H_
 
+#include <utility>
+
 namespace jackal {
     enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN };
 
     class Pirate {
     public:
-        int get_row() const noexcept;
+        Pirate(int col_, int row_) : m_col(col_), m_row(row_), m_status(status::ALIVE) {
+        }
 
-        int get_col() const noexcept;
+        [[nodiscard]] std::pair<int, int> get_coords() const;
 
         int get_coins() const noexcept;
 
-        void set_coins() noexcept;
-
         void set_status() const noexcept;
 
-        void move(int d_row, int d_col);
+        void move(int d_col, int d_row);
 
         void go_to_ship() noexcept;
 

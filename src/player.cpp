@@ -1,12 +1,14 @@
 #include "player.h"
+#include <optional>
 
 namespace jackal {
 
-    Pirate &Player::get_pirate(int col, int row) {
-        for (const auto& pirate_ptr : m_pirates) {
-            if (pirate_ptr->get_col() == col && pirate_ptr->get_row() == row) {
-                return *pirate_ptr;
+     Pirate* Player::get_pirate(int col, int row) {
+        for (auto& pirate : m_pirates) {
+            if (pirate.get_coords() == std::pair(col, row)) {
+                return &pirate;
             }
         }
+        return nullptr;
     }
 }

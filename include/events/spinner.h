@@ -1,11 +1,15 @@
 #ifndef SPINNER_H_
 #define SPINNER_H_
 
+#include "event.h"
+
 namespace jackal {
 
     class Spinner : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "Spinner" << std::endl;
+        };
 
     private:
         int cnt;

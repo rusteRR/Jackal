@@ -1,16 +1,17 @@
 #ifndef EMPTY_EVENT_H_
 #define EMPTY_EVENT_H_
 
+#include "event.h"
+
 namespace jackal {
+    class EmptyEvent : public Event {
+    public:
+        void invoke(Pirate &pirate) override {
+            std::cout << "EmptyEvent" << std::endl;
+        }
+    };
 
 } // namespace jackal
-
-class EmptyEvent : public Event {
-public:
-    void invoke(Pirate &pirate) override {
-
-    }
-};
 
 
 #endif // EMPTY_EVENT_H_

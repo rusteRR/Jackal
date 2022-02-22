@@ -1,11 +1,15 @@
 #ifndef BEN_H_
 #define BEN_H_
 
+#include "event.h"
+
 namespace jackal {
 
     class Ben : public Event {
     public:
-        void invoke(Pirate &pirate) override;
+        void invoke(Pirate &pirate) override {
+            std::cout << "Ben" << std::endl;
+        }
     };
 
 } // namespace jackal
