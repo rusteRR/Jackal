@@ -1,11 +1,12 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTextEdit>
-//#include "FieldWidget.h"
+#include <iostream>
+#include "FieldWidget.h"
 #include "EventWidget.h"
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    EventWidget event;
-    event.show();
+    jackalui::FieldWidget fieldWidget;
+    fieldWidget.show();
     return QApplication::exec();
 }

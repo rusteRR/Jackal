@@ -4,18 +4,22 @@
 #include <QDebug>
 #include <QGridLayout>
 #include "EventWidget.h"
-class FieldWidget : public QWidget{
+namespace jackalui {
+    class FieldWidget : public QWidget {
     Q_OBJECT
-public:
-    FieldWidget(){
-        auto grid = new QGridLayout(this);
-        for (auto &event : events){
-            grid->addWidget(event);
+    public:
+        FieldWidget() {
+            auto grid = new QGridLayout(this);
+            for (int i = 0; i < 13; ++i){
+                for (int j = 0; j < 13; ++j){
+                    grid->addWidget(new EventWidget(), i, j);
+                }
+            }
         }
-    }
-private:
-    QList<EventWidget*> events;
-};
 
+    private:
+        //QList<EventWidget*> events;
+    };
+}
 
 #endif //JACKALUI_FIELDWIDGET_H

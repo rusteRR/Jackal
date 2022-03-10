@@ -3,26 +3,31 @@
 #include <QLabel>
 #include <QDebug>
 #include <QGridLayout>
-class EventWidget : public QWidget {
+namespace jackalui {
+    class EventWidget : public QWidget {
     Q_OBJECT
-public:
-    EventWidget() {
-        auto lbl = new QLabel(this);
-        lbl->setPixmap(QPixmap("..//pics//test.png"));
-        auto layout = new QVBoxLayout(this);
-        layout->addWidget(lbl);
-    }
-    int kek = 0;
-private:
+    public:
+        EventWidget() {
+            auto lbl = new QLabel(this);
+            QPixmap pixmap("../pics/test.png");
+            lbl->setScaledContents(true);
+            lbl->setPixmap(pixmap.scaled(150, 150, Qt::KeepAspectRatio));
+            auto layout = new QVBoxLayout(this);
+            layout->addWidget(lbl);
+        }
 
-signals:
-    void onPressed(EventWidget*);
+        int kek = 0;
+    private:
 
-protected:
-    void mousePressEvent(QMouseEvent *event) override {
-        qDebug() << "Pressed";
-        emit onPressed(this);
-    }
-};
+    signals:
 
+        void onPressed(EventWidget *);
+
+    protected:
+        void mousePressEvent(QMouseEvent *event) override {
+            qDebug() << "Pressed";
+            emit onPressed(this);
+        }
+    };
+}
 #endif //JACKALUI_EVENTWIDGET_H_
