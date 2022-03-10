@@ -6,9 +6,11 @@
 
 namespace jackal {
 
+    enum class EventType {SIMPLE, NEW_EVENT};
+
     class Event {
     public:
-        virtual void invoke(Pirate &pirate) = 0;
+        virtual EventType invoke(Pirate &pirate) = 0;
         virtual ~Event() = default;
     };
     

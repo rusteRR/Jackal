@@ -24,11 +24,12 @@ namespace jackal {
             pirate_to_go->move(col_to - col_from, row_to - row_from);
             pirate_to_go->attack_pirate(*this);
             current_event.invoke(*pirate_to_go);
-
-            // TODO : 1. some events require an answer from player - is not processed.
-            // TODO : 2. some events(ex: pointer) move pirate, then have to invoke one
-            // TODO : more event. Now this case is not processed. (Solution(?): each event
-            // TODO : contains a status and returns it.)
+            EventType event_type = current_event.invoke(*pirate_to_go);
+            while (event_type != EventType::SIMPLE) {
+                current_event = m_field.get_element(col_to, row_to);
+                pirate_to_go->attack_pirate(*this);
+                event_type = current_event.invoke(*pirate_to_go);
+            }
 
             change_turn();
         }

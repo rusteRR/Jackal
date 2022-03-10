@@ -7,7 +7,7 @@ namespace jackal {
 
     class Boat : public Event {
     public:
-        void invoke(Pirate &pirate) override {
+        EventType invoke(Pirate &pirate) override {
             std::cout << "Boat" << std::endl;
         }
     };
