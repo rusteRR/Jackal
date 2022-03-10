@@ -2,6 +2,7 @@
 #define PIRATE_H_
 
 #include <utility>
+#include "fwd.h"
 
 namespace jackal {
     enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN };
@@ -13,13 +14,15 @@ namespace jackal {
 
         [[nodiscard]] std::pair<int, int> get_coords() const;
 
-        int get_coins() const noexcept;
+        int get_coins() const;
 
-        void set_status() const noexcept;
+        void set_status(status new_status);
 
         void move(int d_col, int d_row);
 
-        void go_to_ship() noexcept;
+        void attack_pirate(Game& game);
+
+        void go_to_ship();
 
     private:
         status m_status;

@@ -10,9 +10,11 @@ namespace jackal {
 
     class Game {
     public:
-        Game(game_type type_);
+        explicit Game(game_type type_);
 
         void process_move(int col_pirate, int row_pirate, int col_to, int row_to);
+
+        [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_pirates() const;
 
         void change_turn() noexcept;
         

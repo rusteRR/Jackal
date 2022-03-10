@@ -4,8 +4,7 @@
 #include "pirate.h"
 #include "ship.h"
 #include <vector>
-#include <optional>
-#include <iostream>
+#include <memory>
 
 namespace jackal {
 
@@ -13,20 +12,16 @@ namespace jackal {
     public:
         Player(int total_pirates, int col_, int row_) : m_total_coins(0) {
             for (int i = 0; i < total_pirates; i++) {
-                m_pirates.emplace_back(col_, row_);
+                m_pirates.emplace_back(std::make_shared<Pirate>(col_, row_));
             }
         }
 
-        Pirate* get_pirate(int col, int row);
+        std::shared_ptr<Pirate> get_pirate(int col, int row);
 
-        void print_pirates() {
-            for (auto elem : m_pirates) {
-                std::cout << elem.get_coords().first << " " << elem.get_coords().second << std::endl;
-            }
-        }
+        [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_all_pirates() const;
         
     private:
-        std::vector<Pirate> m_pirates;
+        std::vector<std::shared_ptr<Pirate>> m_pirates;
         int m_total_coins;
         Ship m_ship;
     };

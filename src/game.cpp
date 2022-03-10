@@ -19,9 +19,10 @@ namespace jackal {
         // TODO : next line don't process the case when pirates of different types
         // TODO : stay in the same cell.
 
-        Pirate* pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
+        std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
         if (pirate_to_go) {
             pirate_to_go->move(col_to - col_from, row_to - row_from);
+            pirate_to_go->attack_pirate(*this);
             current_event.invoke(*pirate_to_go);
 
             // TODO : 1. some events require an answer from player - is not processed.
@@ -55,6 +56,18 @@ namespace jackal {
 
     void Game::change_turn() noexcept {
         m_current_player = (m_current_player + 1) % 4;
+    }
+
+    std::vector<std::shared_ptr<Pirate>> Game::get_pirates() const {
+        std::vector<std::shared_ptr<Pirate>> result;
+        for (int i = 0; i < 4; i++) {
+            if (i == m_current_player) {
+                continue;
+            }
+            std::vector<std::shared_ptr<Pirate>> cur_pirate = m_players[i].get_all_pirates();
+            result.insert(result.end(), cur_pirate.begin(), cur_pirate.end());
+        }
+        return result;
     }
 }
 
