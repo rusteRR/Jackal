@@ -52,14 +52,24 @@ namespace jackal {
         std::ifstream f("../data/events.txt");
         std::string event_name;
         int event_count;
-        std::vector<std::pair<int, int>> random_coords(m_rows * m_columns);
-        for (int i = 0; i < m_rows; ++i) {
-            for (int j = 0; j < m_columns; ++j) {
-                random_coords[i * m_columns + j] = {i, j};
+        int rows_no_water = m_rows - 2;
+        int columns_no_water = m_columns - 2;
+        std::vector<std::pair<int, int>> random_coords(rows_no_water  * columns_no_water);
+        for (int i = 0; i < rows_no_water; ++i) {
+            for (int j = 0; j < columns_no_water; ++j) {
+                random_coords[i * columns_no_water + j] = {i + 1, j + 1};
             }
         }
         std::shuffle(random_coords.begin(), random_coords.end(), std::mt19937(std::random_device()()));
         m_field.resize(m_rows, std::vector<std::shared_ptr<Event>>(m_columns));
+        for (int i = 0; i < m_columns; ++i){
+            m_field[0][i] = std::make_shared<Water>();
+            m_field[m_rows - 1][i] = std::make_shared<Water>();
+        }
+        for (int i = 0; i < m_rows; ++i){
+            m_field[i][0] = std::make_shared<Water>();
+            m_field[i][m_columns - 1] = std::make_shared<Water>();
+        }
         int coord_ind = 0;
         while (f >> event_name >> event_count) {
             for (int i = 0; i < event_count; ++i) {

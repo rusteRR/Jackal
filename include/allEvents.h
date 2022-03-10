@@ -29,6 +29,7 @@
 #include "spinner.h"
 #include "trap.h"
 #include "treasure.h"
+#include "water.h"
 
 
 #endif // ALL_EVENTS_H_

@@ -15,8 +15,8 @@ namespace jackal {
 
     private:
         std::vector<std::vector<std::shared_ptr<Event>>> m_field;
-        int m_rows = 11;
-        int m_columns = 11;
+        int m_rows = 13;
+        int m_columns = 13;
     };
 
 } // namespace jackal
