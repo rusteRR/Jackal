@@ -1,22 +1,21 @@
 #ifndef SHIP_H_
 #define SHIP_H_
 
+#include <utility>
+
 namespace jackal {
 
     class Ship {
     public:
-        int get_row_pos() const noexcept;
+        Ship(int col, int row);
 
-        int get_col_pos() const noexcept;
+        std::pair<int, int> get_coords();
 
-        int set_row_pos() noexcept;
-
-        int set_col_pos() noexcept;
 
     private:
-        int row_pos;
-        int col_pos;
+        int m_col;
+        int m_row;
     };
 
 }
-#endif //SHIP_H_
+#endif // SHIP_H_

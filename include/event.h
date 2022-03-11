@@ -2,7 +2,6 @@
 #define EVENT_H_
 
 #include "pirate.h"
-#include "iostream"
 
 namespace jackal {
 

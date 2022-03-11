@@ -1,9 +1,14 @@
 #include "pirate.h"
 #include "game.h"
 #include <vector>
+#include <iostream>
 #include <memory>
 
 namespace jackal {
+
+    Pirate::Pirate(int col, int row) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(col, row) {
+    }
+
     void Pirate::move(int d_col, int d_row) {
         m_col += d_col;
         m_row += d_row;
@@ -32,6 +37,8 @@ namespace jackal {
     }
 
     void Pirate::go_to_ship() {
-        // TODO : need sheep coord
+        std::pair<int, int> ship_coords = m_ship.get_coords();
+        m_col = ship_coords.first;
+        m_row = ship_coords.second;
     }
 }

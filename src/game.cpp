@@ -1,5 +1,6 @@
 #include "game.h"
 #include <stdexcept>
+#include <iostream>
 
 struct invalid_turn : std::runtime_error {
     invalid_turn() : std::runtime_error("Incorrect move"){
