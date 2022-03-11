@@ -11,7 +11,7 @@ namespace jackal {
     public:
         void generate_field();
 
-        Event &get_element(int col_, int row_) const noexcept;
+        [[nodiscard]] Event& get_element(int col, int row) const;
 
     private:
         std::vector<std::vector<std::shared_ptr<Event>>> m_field;

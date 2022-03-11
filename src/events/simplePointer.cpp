@@ -1,6 +1,5 @@
 #include "simplePointer.h"
 #include <iostream>
-#include <vector>
 #include <random>
 
 namespace jackal {

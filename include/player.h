@@ -10,11 +10,7 @@ namespace jackal {
 
     class Player {
     public:
-        Player(int total_pirates, int col_, int row_) : m_total_coins(0) {
-            for (int i = 0; i < total_pirates; i++) {
-                m_pirates.emplace_back(std::make_shared<Pirate>(col_, row_));
-            }
-        }
+        Player(int total_pirates, int col, int row);
 
         std::shared_ptr<Pirate> get_pirate(int col, int row);
 

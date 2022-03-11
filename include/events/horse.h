@@ -7,7 +7,7 @@ namespace jackal {
 
     class Horse : public Event {
     public:
-        EventType invoke(Pirate &pirate) override;
+        EventType invoke(Pirate& pirate) override;
 
     private:
         EventType m_type = EventType::NEW_EVENT;

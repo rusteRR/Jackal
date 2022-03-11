@@ -10,7 +10,7 @@ namespace jackal {
 
     class Pirate {
     public:
-        Pirate(int col, int row);
+        Pirate(int col, int row, const Ship& ship);
 
         [[nodiscard]] std::pair<int, int> get_coords() const;
 

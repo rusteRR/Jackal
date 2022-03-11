@@ -9,7 +9,7 @@ namespace jackal {
     public:
         SimplePointer();
 
-        EventType invoke(Pirate &pirate) override;
+        EventType invoke(Pirate& pirate) override;
 
     private:
         EventType m_type = EventType::NEW_EVENT;

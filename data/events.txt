@@ -1,4 +1,4 @@
-empty 		18
+empty 		21
 simple-pointer 	6
 multi-pointer  15
 horse 		2

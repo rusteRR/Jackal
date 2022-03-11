@@ -79,7 +79,7 @@ namespace jackal {
         }
     }
 
-    Event &Field::get_element(int col_, int row_) const noexcept {
-        return *m_field[col_][row_];
+    Event& Field::get_element(int col, int row) const {
+        return *m_field[col][row];
     }
 }

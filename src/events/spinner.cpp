@@ -2,7 +2,7 @@
 
 namespace jackal {
 
-    EventType Spinner::invoke(Pirate &pirate) {
+    EventType Spinner::invoke(Pirate& pirate) {
         pirate.stuck(m_cnt);
         return m_type;
     }

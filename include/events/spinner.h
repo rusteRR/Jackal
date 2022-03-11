@@ -9,7 +9,7 @@ namespace jackal {
     public:
         Spinner(int n);
 
-        EventType invoke(Pirate &pirate) override;
+        EventType invoke(Pirate& pirate) override;
 
     private:
         int m_cnt;

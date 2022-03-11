@@ -11,27 +11,20 @@ namespace jackal {
 
     void Game::process_move(int col_from, int row_from, int col_to, int row_to) {
 
-        // TODO : for unusual events(plane, balloon, etc...) checking move correctness
-        // TODO : has difference. Have to process this cases soon.
-
         check_move_correctness(col_from, row_from, col_to, row_to);
         Event &current_event = m_field.get_element(col_to, row_to);
-
-        // TODO : next line don't process the case when pirates of different types
-        // TODO : stay in the same cell.
 
         std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
         if (pirate_to_go) {
             pirate_to_go->move(col_to - col_from, row_to - row_from);
             pirate_to_go->attack_pirate(*this);
-            current_event.invoke(*pirate_to_go);
             EventType event_type = current_event.invoke(*pirate_to_go);
             while (event_type != EventType::SIMPLE) {
-                current_event = m_field.get_element(col_to, row_to);
+                std::pair<int, int> cur_coords = pirate_to_go->get_coords();
+                current_event = m_field.get_element(cur_coords.first, cur_coords.second);
                 pirate_to_go->attack_pirate(*this);
                 event_type = current_event.invoke(*pirate_to_go);
             }
-
             change_turn();
         }
         else {
@@ -46,7 +39,7 @@ namespace jackal {
         }
     }
 
-    Game::Game(game_type type_) {
+    Game::Game(game_type type) : m_current_player(0), m_game_type(type) {
         m_field.generate_field();
         // TODO : maybe this part will be changed. It's hard to make a correct implementation
         // TODO : because field generates without borders.

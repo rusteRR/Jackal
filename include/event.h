@@ -2,6 +2,7 @@
 #define EVENT_H_
 
 #include "pirate.h"
+#include <iostream>
 
 namespace jackal {
 
@@ -9,7 +10,7 @@ namespace jackal {
 
     class Event {
     public:
-        virtual EventType invoke(Pirate &pirate) = 0;
+        virtual EventType invoke(Pirate& pirate) = 0;
         virtual ~Event() = default;
     };
     

@@ -6,7 +6,7 @@
 
 namespace jackal {
 
-    Pirate::Pirate(int col, int row) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(col, row) {
+    Pirate::Pirate(int col, int row, const Ship& ship) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(ship) {
     }
 
     void Pirate::move(int d_col, int d_row) {
