@@ -7,6 +7,8 @@ namespace jackal {
 
     class SimplePointer : public Event {
     public:
+        SimplePointer();
+
         EventType invoke(Pirate &pirate) override;
 
     private:

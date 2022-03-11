@@ -16,7 +16,9 @@ namespace jackal {
 
         int get_coins() const;
 
-        void set_status(status new_status);
+        void die();
+
+        void stuck(int steps);
 
         void move(int d_col, int d_row);
 

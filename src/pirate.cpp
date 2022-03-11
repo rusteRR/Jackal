@@ -23,16 +23,8 @@ namespace jackal {
         std::pair<int, int> coords = {m_col, m_row};
         for (const auto& pirate_ptr : pirates_to_attack) {
             if (pirate_ptr->get_coords() == coords) {
-                pirate_ptr->set_status(status::DEAD);
+                pirate_ptr->die();
             }
-        }
-    }
-
-    void Pirate::set_status(status new_status) {
-        m_status = new_status;
-        if (m_status == status::DEAD) {
-            std::cout << "DEAD" << std::endl;
-            go_to_ship();
         }
     }
 
@@ -40,5 +32,17 @@ namespace jackal {
         std::pair<int, int> ship_coords = m_ship.get_coords();
         m_col = ship_coords.first;
         m_row = ship_coords.second;
+    }
+
+    void Pirate::stuck(int steps) {
+        std::cout << "STUCKED FOR " << steps << " STEPS" << std::endl;
+        m_stucked_for = steps;
+        m_status = status::STUCK;
+    }
+
+    void Pirate::die() {
+        std::cout << "DEAD" << std::endl;
+        m_status = status::DEAD;
+        go_to_ship();
     }
 }

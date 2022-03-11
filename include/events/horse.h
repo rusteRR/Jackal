@@ -7,9 +7,14 @@ namespace jackal {
 
     class Horse : public Event {
     public:
-        EventType invoke(Pirate &pirate) override {
-            std::cout << "Horse" << std::endl;
-        }
+        EventType invoke(Pirate &pirate) override;
+
+    private:
+        EventType m_type = EventType::NEW_EVENT;
+
+        std::pair<int, int> get_response();
+
+        bool check_correctness(int col, int row);
     };
 
 } // namespace jackal

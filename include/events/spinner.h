@@ -7,12 +7,13 @@ namespace jackal {
 
     class Spinner : public Event {
     public:
-        EventType invoke(Pirate &pirate) override {
-            std::cout << "Spinner" << std::endl;
-        };
+        Spinner(int n);
+
+        EventType invoke(Pirate &pirate) override;
 
     private:
-        int cnt;
+        int m_cnt;
+        EventType m_type = EventType::SIMPLE;
     };
 
 } // namespace jackal
