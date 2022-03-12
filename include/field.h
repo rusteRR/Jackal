@@ -2,6 +2,7 @@
 #define FIELD_H_
 
 #include "event.h"
+#include "settings.h"
 #include <vector>
 #include <memory>
 
@@ -9,7 +10,7 @@ namespace jackal {
 
     class Field {
     public:
-        void generate_field();
+        void generate_field(Settings& settings);
 
         [[nodiscard]] Event& get_element(int col, int row) const;
 

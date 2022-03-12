@@ -7,10 +7,10 @@
 #include <functional>
 
 namespace jackal {
-    void Field::generate_field() {
+    void Field::generate_field(Settings& settings) {
         std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory {
                 {"empty",          []() { return std::make_shared<EmptyEvent>(); }},
-                {"simple-pointer", []() { return std::make_shared<SimplePointer>(); }},
+                {"simple-pointer", [&]() { return std::make_shared<SimplePointer>(settings); }},
                 {"multi-pointer",  []() { return std::make_shared<MultiPointer>(); }},
                 {"horse",          []() { return std::make_shared<Horse>(); }},
                 {"spinner-2",      []() { return std::make_shared<Spinner>(2); }},

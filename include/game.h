@@ -3,6 +3,7 @@
 
 #include "field.h"
 #include "player.h"
+#include "settings.h"
 #include <vector>
 
 namespace jackal {
@@ -19,6 +20,7 @@ namespace jackal {
         void change_turn() noexcept;
         
     private:
+        Settings m_settings{};
         Field m_field{};
         std::vector<Player> m_players;
         game_type m_game_type;

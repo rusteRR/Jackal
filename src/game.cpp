@@ -40,7 +40,7 @@ namespace jackal {
     }
 
     Game::Game(game_type type) : m_current_player(0), m_game_type(type) {
-        m_field.generate_field();
+        m_field.generate_field(m_settings);
         // TODO : maybe this part will be changed. It's hard to make a correct implementation
         // TODO : because field generates without borders.
         m_players.emplace_back(total_pirates, m_total_cols / 2, 0);

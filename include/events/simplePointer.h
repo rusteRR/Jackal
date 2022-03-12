@@ -1,13 +1,14 @@
 #ifndef SIMPLE_POINTER_H_
 #define SIMPLE_POINTER_H_
 
+#include "settings.h"
 #include "event.h"
 
 namespace jackal {
 
     class SimplePointer : public Event {
     public:
-        SimplePointer();
+        explicit SimplePointer(Settings& settings);
 
         EventType invoke(Pirate& pirate) override;
 
