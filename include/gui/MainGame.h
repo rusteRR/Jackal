@@ -13,7 +13,7 @@ namespace jackalui {
                                                        fieldWidget(new FieldWidget()) {
             connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &MainGame::showField);
             connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &MainGame::exitGame);
-            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);
+            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);;
         }
 
         void startGame() {

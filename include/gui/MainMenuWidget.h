@@ -3,15 +3,17 @@
 #include <QWidget>
 #include <QBoxLayout>
 #include <QPushButton>
-#include "FieldWidget.h"
 #include "ExitLabel.h"
 #include "GameStartLabel.h"
+#include "PirateWidget.h"
 namespace jackalui {
     class MainMenuWidget : public QWidget {
         Q_OBJECT
     public:
         explicit MainMenuWidget(QWidget* parent = nullptr) : QWidget(parent){
             auto layout = new QVBoxLayout(this);
+            auto pirate = new PirateWidget(this);
+            pirate->show();
             layout->setSpacing(10);
             auto header = new QLabel(this);
             QPixmap headerPixmap("../pics/jackallabel.png");

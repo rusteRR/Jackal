@@ -15,7 +15,6 @@ namespace jackalui{
         void onPressed();
     protected:
         void mousePressEvent(QMouseEvent *ev) override {
-            qDebug() << "Pressed";
             emit onPressed();
         }
     };
