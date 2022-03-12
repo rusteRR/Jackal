@@ -6,11 +6,11 @@
 #include "FieldWidget.h"
 
 namespace jackalui {
-    class MainGame : public QWidget {
+    class MainGame : public QObject {
     Q_OBJECT
     public:
-        explicit MainGame(QWidget *parent = nullptr) : QWidget(parent), mainMenuWidget(new MainMenuWidget(this)),
-                                                       fieldWidget(new FieldWidget(this)) {
+        MainGame() : mainMenuWidget(new MainMenuWidget()),
+                                                       fieldWidget(new FieldWidget()) {
             connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &MainGame::showField);
             connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &MainGame::exitGame);
             connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);
