@@ -1,40 +1,49 @@
 #ifndef JACKALUI_MAINGAME_H
 #define JACKALUI_MAINGAME_H
+
 #include <QTime>
 #include "MainMenuWidget.h"
 #include "FieldWidget.h"
+
 namespace jackalui {
-    class MainGame : QObject {
-        Q_OBJECT
+    class MainGame : public QWidget {
+    Q_OBJECT
     public:
-        MainGame() : mainMenuWidget(new MainMenuWidget()), fieldWidget(new FieldWidget()){
-            connect(mainMenuWidget, SIGNAL(startButtonPressed()), this, SLOT(showField()));
-            connect(mainMenuWidget, SIGNAL(exitButtonPressed()), this, SLOT(exitGame()));
-            connect(fieldWidget, SIGNAL(menuButtonPressed()), this, SLOT(backToMenu()));
+        explicit MainGame(QWidget *parent = nullptr) : QWidget(parent), mainMenuWidget(new MainMenuWidget(this)),
+                                                       fieldWidget(new FieldWidget(this)) {
+            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &MainGame::showField);
+            connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &MainGame::exitGame);
+            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);
         }
-    void startGame() {
-        mainMenuWidget->showFullScreen();
-    }
+
+        void startGame() {
+            mainMenuWidget->showFullScreen();
+        }
+
     public slots:
-        void showField(){
+
+        void showField() {
             fieldWidget->showFullScreen();
             QTime microPause = QTime::currentTime().addMSecs(100);
-            while (QTime::currentTime() < microPause){}
+            while (QTime::currentTime() < microPause) {}
             mainMenuWidget->hide();
         };
-        void exitGame(){
+
+        void exitGame() {
             mainMenuWidget->close();
             fieldWidget->close();
         }
-        void backToMenu(){
+
+        void backToMenu() {
             mainMenuWidget->showFullScreen();
             QTime microPause = QTime::currentTime().addMSecs(100);
-            while (QTime::currentTime() < microPause){}
+            while (QTime::currentTime() < microPause) {}
             fieldWidget->hide();
         }
+
     private:
-        MainMenuWidget* mainMenuWidget;
-        FieldWidget* fieldWidget;
+        MainMenuWidget *mainMenuWidget;
+        FieldWidget *fieldWidget;
     };
 }
 

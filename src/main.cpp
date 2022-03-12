@@ -7,7 +7,9 @@
 #include "MainGame.h"
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    jackalui::MainGame mainGame;
-    mainGame.startGame();
+    auto mainGame = new jackalui::MainGame;
+    mainGame->startGame();
+    //auto kek = new jackalui::FieldWidget();
+    //kek->show();
     return QApplication::exec();
 }

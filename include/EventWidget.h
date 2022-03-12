@@ -30,13 +30,13 @@ namespace jackalui {
     
     signals:
 
-        void onPressed(EventWidget *);
+        void onPressed();
 
     protected:
         void mousePressEvent(QMouseEvent *event) override {
             qDebug() << "Pressed";
             flip();
-            emit onPressed(this);
+            emit onPressed();
         }
     };
 }
