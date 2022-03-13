@@ -19,7 +19,7 @@ namespace jackal {
     private:
         std::vector<std::shared_ptr<Pirate>> m_pirates;
         int m_total_coins;
-        Ship m_ship;
+        Ship* m_ship;
     };
 
 } // namespace jackal

@@ -6,6 +6,8 @@
 #include <QGridLayout>
 #include <QPushButton>  
 #include "EventWidget.h"
+#include "ShipWidget.h"
+#include "ship.h"
 
 namespace jackalui {
     class FieldWidget : public QWidget {
@@ -13,7 +15,10 @@ namespace jackalui {
     public:
         explicit FieldWidget(QWidget* parent = nullptr) : QWidget(parent) {
             auto menuButton = new QPushButton("Menu", this);
+            auto ship = new ShipWidget(this);
+            jackal::Ship ship_logic{1, 1};
             connect(menuButton, SIGNAL(pressed()), this, SIGNAL(menuButtonPressed()));
+            connect(ship, &ShipWidget::onPressed, ship, &ShipWidget::MoveShip);
             menuButton->setMaximumSize(300, 500);
             menuButton->show();
             auto grid = new QGridLayout(this);
@@ -23,6 +28,7 @@ namespace jackalui {
                     grid->addWidget(new EventWidget(), i, j);
                 }
             }
+            ship->raise();
         }
     signals:
         void menuButtonPressed();

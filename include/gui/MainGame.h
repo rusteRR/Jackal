@@ -27,7 +27,7 @@ namespace jackalui {
             QTime microPause = QTime::currentTime().addMSecs(100);
             while (QTime::currentTime() < microPause) {}
             mainMenuWidget->hide();
-        };
+        }
 
         void exitGame() {
             mainMenuWidget->close();

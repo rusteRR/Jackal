@@ -6,7 +6,7 @@
 
 namespace jackal {
 
-    Pirate::Pirate(int col, int row, const Ship& ship) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(ship) {
+    Pirate::Pirate(int col, int row, Ship **ship) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(*ship) {
     }
 
     void Pirate::move(int d_col, int d_row) {
@@ -23,13 +23,13 @@ namespace jackal {
         std::pair<int, int> coords = {m_col, m_row};
         for (const auto& pirate_ptr : pirates_to_attack) {
             if (pirate_ptr->get_coords() == coords) {
-                pirate_ptr->die();
+                pirate_ptr->go_to_ship();
             }
         }
     }
 
     void Pirate::go_to_ship() {
-        std::pair<int, int> ship_coords = m_ship.get_coords();
+        std::pair<int, int> ship_coords = m_ship->get_coords();
         m_col = ship_coords.first;
         m_row = ship_coords.second;
     }
@@ -43,6 +43,6 @@ namespace jackal {
     void Pirate::die() {
         std::cout << "DEAD" << std::endl;
         m_status = status::DEAD;
-        go_to_ship();
+        //emit PirateIsDead();
     }
 }

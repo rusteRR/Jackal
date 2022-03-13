@@ -3,9 +3,10 @@
 
 namespace jackal {
 
-    Player::Player(int total_pirates, int col, int row) : m_total_coins(0), m_ship(col, row) {
+    Player::Player(int total_pirates, int col, int row) : m_total_coins(0) {
+        m_ship = std::make_shared<Ship>(col, row).get();
         for (int i = 0; i < total_pirates; i++) {
-            m_pirates.push_back(std::make_shared<Pirate>(col, row, m_ship));
+            m_pirates.push_back(std::make_shared<Pirate>(col, row, &m_ship));
         }
     }
 

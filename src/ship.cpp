@@ -9,5 +9,6 @@ namespace jackal {
         return {m_col, m_row};
     }
 
+    //void Ship::shipMove() {}
 
 }
