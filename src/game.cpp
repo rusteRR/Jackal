@@ -21,9 +21,9 @@ namespace jackal {
             EventType event_type = current_event.invoke(*pirate_to_go);
             while (event_type != EventType::SIMPLE) {
                 std::pair<int, int> cur_coords = pirate_to_go->get_coords();
-                current_event = m_field.get_element(cur_coords.first, cur_coords.second);
+                Event& new_type = m_field.get_element(cur_coords.first, cur_coords.second);
                 pirate_to_go->attack_pirate(*this);
-                event_type = current_event.invoke(*pirate_to_go);
+                event_type = new_type.invoke(*pirate_to_go);
             }
             change_turn();
         }

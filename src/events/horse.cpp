@@ -3,6 +3,7 @@
 namespace jackal {
 
     EventType Horse::invoke(Pirate& pirate) {
+        std::cout << "Horse" << std::endl;
         std::pair<int, int> response = get_response();
         return m_type;
     }
@@ -14,7 +15,7 @@ namespace jackal {
     }
 
 
-    /*bool Horse::check_correctness(int col, int row) {
+    bool Horse::check_correctness(int col, int row) {
         return true;
-    }*/
+    }
 }
