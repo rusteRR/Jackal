@@ -8,7 +8,7 @@ namespace jackalui{
     public:
         explicit GameStartLabel(QWidget* parent = nullptr) : QLabel(parent){
             this->setScaledContents(true);
-            QPixmap pixmap("../pics/startGame.png");
+            QPixmap pixmap("../pics/startButton.png");
             this->setPixmap(pixmap.scaled(1000,200, Qt::KeepAspectRatio));
         }
     signals:

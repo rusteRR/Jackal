@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QDebug>
 #include <iostream>
 #include "MainGame.h"
 int main(int argc, char *argv[]) {

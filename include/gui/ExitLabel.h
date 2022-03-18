@@ -8,7 +8,7 @@ namespace jackalui{
     public:
         explicit ExitLabel(QWidget* parent = nullptr) : QLabel(parent) {
             this->setScaledContents(true);
-            QPixmap pixmap("../pics/exit.png");
+            QPixmap pixmap("../pics/exitButton.png");
             this->setPixmap(pixmap.scaled(1000, 200, Qt::KeepAspectRatio));
         }
     signals:
