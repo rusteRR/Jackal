@@ -8,6 +8,7 @@
 #include "EventWidget.h"
 #include "ShipWidget.h"
 #include "ship.h"
+#include "PirateWidget.h"
 
 namespace jackalui {
     class FieldWidget : public QWidget {
@@ -17,15 +18,17 @@ namespace jackalui {
             auto menuButton = new QPushButton("Menu", this);
             auto ship = new ShipWidget(this);
             jackal::Ship ship_logic{1, 1};
-            connect(menuButton, SIGNAL(pressed()), this, SIGNAL(menuButtonPressed()));
             connect(ship, &ShipWidget::onPressed, ship, &ShipWidget::MoveShip);
+            auto pirate = new PirateWidget(this);
+            connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
             menuButton->setMaximumSize(300, 500);
-            menuButton->show();
             auto grid = new QGridLayout(this);
             grid->setContentsMargins(410, 10, 410, 10);
             for (int i = 0; i < 13; ++i) {
                 for (int j = 0; j < 13; ++j) {
-                    grid->addWidget(new EventWidget(), i, j);
+                    auto event = new EventWidget(this);
+                    grid->addWidget(event, i, j);
+                    connect(event, &EventWidget::onPressed,  pirate, [event,pirate]{event->addPirate(pirate); });
                 }
             }
             ship->raise();
