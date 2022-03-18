@@ -24,8 +24,6 @@ namespace jackalui {
 
         void showField() {
             fieldWidget->showFullScreen();
-            QTime microPause = QTime::currentTime().addMSecs(100);
-            while (QTime::currentTime() < microPause) {}
             mainMenuWidget->hide();
         }
 
@@ -36,8 +34,6 @@ namespace jackalui {
 
         void backToMenu() {
             mainMenuWidget->showFullScreen();
-            QTime microPause = QTime::currentTime().addMSecs(100);
-            while (QTime::currentTime() < microPause) {}
             fieldWidget->hide();
         }
 
