@@ -15,9 +15,8 @@ namespace jackalui {
         explicit FieldWidget(QWidget* parent = nullptr) : QWidget(parent) {
             auto menuButton = new QPushButton("Menu", this);
             auto pirate = new PirateWidget(this);
-            connect(menuButton, SIGNAL(pressed()), this, SIGNAL(menuButtonPressed()));
+            connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
             menuButton->setMaximumSize(300, 500);
-            menuButton->show();
             auto grid = new QGridLayout(this);
             grid->setContentsMargins(410, 10, 410, 10);
             for (int i = 0; i < 13; ++i) {
