@@ -35,7 +35,7 @@ namespace jackalui {
             QPixmap pixmap("../pics/open.png");
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
         }
-
+        
         QLabel *m_label;
         bool m_is_flipped = false;
         PirateContainer *m_pirateContainer;
