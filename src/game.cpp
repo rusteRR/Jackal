@@ -17,6 +17,7 @@ namespace jackal {
         std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
         if (pirate_to_go) {
             pirate_to_go->move(col_to - col_from, row_to - row_from);
+            pirate_to_go->set_last_move(eventType::SIMPLE, col_to - col_from, row_to - row_from);
             pirate_to_go->attack_pirate(*this);
             EventType event_type = current_event.invoke(*pirate_to_go);
             while (event_type != EventType::SIMPLE) {

@@ -20,9 +20,8 @@ namespace jackal {
 
     EventType SimplePointer::invoke(Pirate &pirate) {
         std::cout << "simplePointer " << std::endl;
-        std::cout << pirate.get_coords().first << " " << pirate.get_coords().second << "\n";
         pirate.move(m_dcol, m_drow);
-        std::cout << pirate.get_coords().first << " " << pirate.get_coords().second << "\n";
+        pirate.set_last_move(eventType::SIMPLE, m_dcol, m_drow);
         return m_type;
     }
 

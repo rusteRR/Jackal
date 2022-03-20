@@ -6,7 +6,7 @@
 
 namespace jackal {
 
-    Pirate::Pirate(int col, int row, Ship **ship) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(*ship) {
+    Pirate::Pirate(int col, int row, Ship *ship) : m_col(col), m_row(row), m_status(status::ALIVE), m_ship(ship) {
     }
 
     void Pirate::move(int d_col, int d_row) {
@@ -44,5 +44,25 @@ namespace jackal {
         std::cout << "DEAD" << std::endl;
         m_status = status::DEAD;
         //emit PirateIsDead();
+    }
+
+    void Pirate::set_last_move(eventType type, int col, int row) {
+        m_last_move = std::make_pair(type, std::make_pair(col, row));
+    }
+
+    void Pirate::ice() {
+        if (m_last_move.first == eventType::HORSE) {
+            // TODO
+        }
+        else if (m_last_move.first == eventType::PLANE) {
+            // TODO
+        }
+        else if (m_last_move.first == eventType::MULTIPOINTER) {
+            // TODO
+        }
+        else {
+            std::pair<int, int> diff_coords = m_last_move.second;
+            move(diff_coords.first, diff_coords.second);
+        }
     }
 }

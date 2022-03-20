@@ -7,13 +7,10 @@ namespace jackal {
 
     class Ice : public Event {
     public:
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Ice" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
     private:
-        EventType m_type = EventType::SIMPLE;
+        EventType m_type = EventType::NEW_EVENT;
     };
 
 } // namespace jackal

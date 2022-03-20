@@ -8,13 +8,18 @@
 
 namespace jackal {
     enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN};
+    enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
 
     class Pirate : public QObject {
     Q_OBJECT
     public:
-        Pirate(int col, int row, Ship **ship);
+        Pirate(int col, int row, Ship* ship);
 
         [[nodiscard]] std::pair<int, int> get_coords() const;
+
+        void ice();
+
+        void set_last_move(eventType type, int col, int row);
 
         void die();
 
@@ -30,6 +35,7 @@ namespace jackal {
         int m_row;
         int m_col;
         int m_stucked_for = 0;
+        std::pair<eventType, std::pair<int, int>> m_last_move;
 
         void go_to_ship();
     };
