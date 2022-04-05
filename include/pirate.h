@@ -7,7 +7,7 @@
 #include <utility>
 
 namespace jackal {
-    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN};
+    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED};
     enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
 
     class Pirate : public QObject {
@@ -20,6 +20,10 @@ namespace jackal {
         void ice();
 
         void set_last_move(eventType type, int col, int row);
+
+        status get_status() const;
+
+        void set_status(status cur_status);
 
         void die();
 

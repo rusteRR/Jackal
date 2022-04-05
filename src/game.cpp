@@ -15,6 +15,7 @@ namespace jackal {
         Event &current_event = m_field.get_element(col_to, row_to);
 
         std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
+        // TODO : need to change pirate's status after leaving fortress. Is not implemented now.
         if (pirate_to_go) {
             pirate_to_go->move(col_to - col_from, row_to - row_from);
             pirate_to_go->set_last_move(eventType::SIMPLE, col_to - col_from, row_to - row_from);
@@ -42,8 +43,7 @@ namespace jackal {
 
     Game::Game(game_type type) : m_current_player(0), m_game_type(type) {
         m_field.generate_field(m_settings);
-        // TODO : maybe this part will be changed. It's hard to make a correct implementation
-        // TODO : because field generates without borders.
+
         m_players.emplace_back(total_pirates, m_total_cols / 2, 0);
         m_players.emplace_back(total_pirates, m_total_cols - 1, m_total_rows / 2);
         m_players.emplace_back(total_pirates, m_total_cols / 2, m_total_rows - 1);

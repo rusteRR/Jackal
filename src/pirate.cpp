@@ -22,6 +22,10 @@ namespace jackal {
         std::vector<std::shared_ptr<Pirate>> pirates_to_attack = game.get_pirates();
         std::pair<int, int> coords = {m_col, m_row};
         for (const auto& pirate_ptr : pirates_to_attack) {
+            if (pirate_ptr->get_coords() == coords && pirate_ptr->get_status() == status::PROTECTED) {
+                this->go_to_ship();
+                return;
+            }
             if (pirate_ptr->get_coords() == coords) {
                 pirate_ptr->go_to_ship();
             }
@@ -64,5 +68,13 @@ namespace jackal {
             std::pair<int, int> diff_coords = m_last_move.second;
             move(diff_coords.first, diff_coords.second);
         }
+    }
+
+    status Pirate::get_status() const {
+        return m_status;
+    }
+
+    void Pirate::set_status(status cur_status) {
+        m_status = cur_status;
     }
 }

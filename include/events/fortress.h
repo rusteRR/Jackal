@@ -7,14 +7,10 @@ namespace jackal {
 
     class Fortress : public Event {
     public:
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Fortress" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
     private:
         EventType m_type = EventType::SIMPLE;
-        bool heal;
     };
 
 } // namespace jackal
