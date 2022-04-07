@@ -12,6 +12,7 @@ namespace jackal {
     class Event {
     public:
         virtual EventType invoke(Pirate& pirate) = 0;
+        virtual std::string get_filename() = 0;
         virtual ~Event() = default;
     };
     

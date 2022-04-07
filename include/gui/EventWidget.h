@@ -4,8 +4,10 @@
 #include <QLabel>
 #include <QDebug>
 #include <QGridLayout>
+#include <QString>
 #include "PirateContainer.h"
 #include "event.h"
+#include <string>
 
 namespace jackalui {
     class EventWidget : public QWidget {
@@ -16,9 +18,10 @@ namespace jackalui {
                                                                               m_pirateContainer(
                                                                                       new PirateContainer(this)),
                                                                               m_col(col_), m_row(row_) {
-            jackal::Pirate bebra(0,0,nullptr);
-            event.invoke(bebra);
-            QPixmap pixmap("../pics/closed.png");
+            std::string bebra = "../pics/" + event.get_filename();
+            std::cout << bebra << '\n';
+            //QPixmap pixmap("../pics/closed.png");
+            QPixmap pixmap(bebra.data());
             m_label->setScaledContents(true);
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
             auto layout = new QVBoxLayout(this);
