@@ -25,7 +25,7 @@ namespace jackal {
         return m_type;
     }
 
-    SimplePointer::SimplePointer(Settings& settings) {
+    SimplePointer::SimplePointer(Settings& settings) : filename("simplePointer.png") {
         std::random_device rd;
         std::default_random_engine eng(rd());
         std::uniform_int_distribution<int> distr(0, 3);

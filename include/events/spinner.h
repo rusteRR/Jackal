@@ -7,13 +7,18 @@ namespace jackal {
 
     class Spinner : public Event {
     public:
-        Spinner(int n);
+        explicit Spinner(int n);
 
         EventType invoke(Pirate& pirate) override;
+
+        std::string get_filename() {
+            return filename;
+        }
 
     private:
         int m_cnt;
         EventType m_type = EventType::SIMPLE;
+        std::string filename;
     };
 
 } // namespace jackal

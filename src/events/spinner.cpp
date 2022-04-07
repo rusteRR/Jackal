@@ -7,6 +7,6 @@ namespace jackal {
         return m_type;
     }
 
-    Spinner::Spinner(int n) : m_cnt(n) {
+    Spinner::Spinner(int n) : m_cnt(n), filename("spinner.png") {
     }
 }

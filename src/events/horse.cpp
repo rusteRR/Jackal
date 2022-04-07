@@ -5,6 +5,9 @@ namespace jackal {
     EventType Horse::invoke(Pirate& pirate) {
         std::cout << "Horse" << std::endl;
         std::pair<int, int> response = get_response();
+        while (!check_correctness(response.first, response.second)) {
+            response = get_response();
+        }
         pirate.move(response.first, response.second);
         pirate.set_last_move(eventType::HORSE, response.first, response.second);
         return m_type;

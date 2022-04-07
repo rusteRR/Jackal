@@ -3,6 +3,7 @@
 
 #include "pirate.h"
 #include <iostream>
+#include <string>
 
 namespace jackal {
 

@@ -7,12 +7,20 @@ namespace jackal {
 
     class EmptyEvent : public Event {
     public:
+        EmptyEvent() : filename("emptyEvent.png") {
+        }
+
         EventType invoke(Pirate& pirate) override {
             std::cout << "EmptyEvent" << std::endl;
             return m_type;
         }
 
+        std::string get_filename() {
+            return filename;
+        }
+
     private:
+        std::string filename;
         EventType m_type = EventType::SIMPLE;
     };
 
