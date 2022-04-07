@@ -19,6 +19,10 @@ namespace jackal {
 
         void change_turn() noexcept;
         
+        [[nodiscard]] const Field& get_field() const {
+            return m_field;
+        }
+        
     private:
         Settings m_settings{};
         Field m_field{};

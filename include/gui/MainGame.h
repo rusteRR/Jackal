@@ -10,19 +10,20 @@ namespace jackalui {
     Q_OBJECT
     public:
         MainGame() : mainMenuWidget(new MainMenuWidget()),
-                                                       fieldWidget(new FieldWidget()) {
-            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &MainGame::showField);
+                                                       fieldWidget(nullptr) {
+            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &MainGame::startGame);
             connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &MainGame::exitGame);
-            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);;
         }
 
-        void startGame() {
+        void init() {
             mainMenuWidget->showFullScreen();
         }
 
     public slots:
 
-        void showField() {
+        void startGame() {
+            fieldWidget = new FieldWidget();
+            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &MainGame::backToMenu);;
             fieldWidget->showFullScreen();
             mainMenuWidget->hide();
         }
@@ -30,6 +31,7 @@ namespace jackalui {
         void exitGame() {
             mainMenuWidget->close();
             fieldWidget->close();
+            fieldWidget->deleteLater();
         }
 
         void backToMenu() {

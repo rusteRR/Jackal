@@ -5,13 +5,19 @@
 #include <QDebug>
 #include <QGridLayout>
 #include "PirateContainer.h"
+#include "event.h"
 
 namespace jackalui {
     class EventWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit EventWidget(QWidget *parent = nullptr) : QWidget(parent), m_label(new QLabel(this)),
-                                                          m_pirateContainer(new PirateContainer(this)) {
+        explicit EventWidget(int col_, int row_, jackal::Event& event, QWidget *parent = nullptr) : QWidget(parent),
+                                                                              m_label(new QLabel(this)),
+                                                                              m_pirateContainer(
+                                                                                      new PirateContainer(this)),
+                                                                              m_col(col_), m_row(row_) {
+            jackal::Pirate bebra(0,0,nullptr);
+            event.invoke(bebra);
             QPixmap pixmap("../pics/closed.png");
             m_label->setScaledContents(true);
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
@@ -27,7 +33,15 @@ namespace jackalui {
         void removePirate(PirateWidget *pirateWidget) {
             m_pirateContainer->removePirate(pirateWidget);
         }
-
+        
+        [[nodiscard]] int row() const{
+            return m_row;
+        }
+        
+        [[nodiscard]] int col() const{
+            return m_col;
+        }
+        
     private:
         void flip() {
             if (m_is_flipped) return;
@@ -35,10 +49,11 @@ namespace jackalui {
             QPixmap pixmap("../pics/open.png");
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
         }
-        
+
         QLabel *m_label;
         bool m_is_flipped = false;
         PirateContainer *m_pirateContainer;
+        int m_col, m_row;
     signals:
 
         void onPressed();
@@ -49,6 +64,7 @@ namespace jackalui {
             flip();
             emit onPressed();
         }
+
     };
 }
 #endif //JACKALUI_EVENTWIDGET_H_
