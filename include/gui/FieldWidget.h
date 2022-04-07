@@ -30,10 +30,11 @@ namespace jackalui {
                 for (int j = 0; j < 13; ++j) {
                     auto event = new EventWidget(j, i, main_game.get_field().get_element(j,i), this);
                     grid->addWidget(event, i, j);
-                    
                     connect(event, &EventWidget::onPressed, pirate, [event, pirate] { event->addPirate(pirate); });
                 }
             }
+            grid->setHorizontalSpacing(0);
+            grid->setVerticalSpacing(0);
             ship->raise();
         }
 

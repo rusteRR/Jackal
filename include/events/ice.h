@@ -12,7 +12,7 @@ namespace jackal {
 
         EventType invoke(Pirate& pirate) override;
 
-        std::string get_filename() {
+        std::string get_filename() override {
             return filename;
         }
 

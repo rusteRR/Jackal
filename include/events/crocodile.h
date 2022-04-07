@@ -15,7 +15,7 @@ namespace jackal {
             return m_type;
         }
 
-        std::string get_filename() {
+        std::string get_filename() override {
             return filename;
         }
 

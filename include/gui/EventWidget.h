@@ -18,12 +18,16 @@ namespace jackalui {
                                                                               m_pirateContainer(
                                                                                       new PirateContainer(this)),
                                                                               m_col(col_), m_row(row_) {
-            std::string bebra = "../pics/" + event.get_filename();
-            std::cout << bebra << '\n';
-            //QPixmap pixmap("../pics/closed.png");
-            QPixmap pixmap(bebra.data());
             m_label->setScaledContents(true);
-            m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+            filename = event.get_filename();
+            if (event.get_filename() == "water.png") {
+                QPixmap pixmap("water.png");
+                m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+            }
+            else {
+                QPixmap pixmap("closed.png");
+                m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+            }
             auto layout = new QVBoxLayout(this);
             layout->addWidget(m_label);
             layout->setContentsMargins(0, 0, 0, 0);
@@ -49,11 +53,12 @@ namespace jackalui {
         void flip() {
             if (m_is_flipped) return;
             m_is_flipped = true;
-            QPixmap pixmap("../pics/open.png");
+            QPixmap pixmap(filename.c_str());
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
         }
 
         QLabel *m_label;
+        std::string filename;
         bool m_is_flipped = false;
         PirateContainer *m_pirateContainer;
         int m_col, m_row;

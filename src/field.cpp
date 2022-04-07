@@ -44,9 +44,6 @@ namespace jackal {
                 {"earthquake",     []() { return std::make_shared<Earthquake>(); }},
                 {"jungle",         []() { return std::make_shared<Jungle>(); }},
                 {"grass",          []() { return std::make_shared<Grass>(); }},
-                {"boat",           []() { return std::make_shared<Boat>(); }},
-                {"kernels",        []() { return std::make_shared<Kernels>(); }},
-                {"cart",           []() { return std::make_shared<Cart>(); }}
         };
 
         std::ifstream f("../data/events.txt");

@@ -1,4 +1,4 @@
-empty 		21
+empty 		25
 simple-pointer 	6
 multi-pointer  15
 horse 		2
@@ -33,9 +33,6 @@ cave 		4
 earthquake 	1
 jungle 		1
 grass 		2
-boat 		1
-kernels 	2
-cart     	1
 
 
 
