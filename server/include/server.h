@@ -6,6 +6,8 @@
 #include <QTcpSocket>
 #include <memory>
 #include <QVector>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include "game.h"
 
 namespace jackal {
@@ -22,6 +24,7 @@ namespace jackal {
         QTcpServer * m_TcpServer;
         QVector<QTcpSocket*> m_TcpSockets{};
         std::shared_ptr<Game> m_game{nullptr};
+        void produce_json(QJsonObject &jsonObject);
     };
     
 }
