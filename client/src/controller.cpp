@@ -20,6 +20,10 @@ void Controller::end_game() {
     std::cout << "end game!" << std::endl;
 }
 
+void Controller::get_coords(int col, int row) {
+    std::cout << col << " " << row << std::endl;
+}
+
 void Controller::on_ready_read() {
     return;
 }

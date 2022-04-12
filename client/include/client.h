@@ -7,11 +7,12 @@
 #include "contoller.h"
 
 namespace jackalui {
-    class Client : public QObject {
+    class Client : public QWidget {
     Q_OBJECT
     public:
         Client() : mainMenuWidget(new MainMenuWidget()), fieldWidget(nullptr), controller(new Controller(this))  {
             connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, controller, &Controller::start_game);
+            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::startGame);
             connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, controller, &Controller::end_game);
         }
 
@@ -22,8 +23,8 @@ namespace jackalui {
     public slots:
 
         void startGame() {
-            fieldWidget = new FieldWidget();
-            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &Client::backToMenu);;
+            fieldWidget = new FieldWidget(controller);
+            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &Client::backToMenu);
             fieldWidget->showFullScreen();
             mainMenuWidget->hide();
         }

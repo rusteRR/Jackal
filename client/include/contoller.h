@@ -14,6 +14,8 @@ public slots:
 
     void end_game();
 
+    void get_coords(int col, int row);
+
 private:
     QTcpSocket m_socket;
 

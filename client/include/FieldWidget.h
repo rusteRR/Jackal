@@ -10,23 +10,22 @@
 #include "ship.h"
 #include "PirateWidget.h"
 #include "game.h"
+#include "contoller.h"
 
 namespace jackalui {
     class FieldWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit FieldWidget(QWidget *parent = nullptr) : QWidget(parent) {
+        FieldWidget(Controller* controller_, QWidget *parent = nullptr) : QWidget(parent), controller(controller_) {
             auto menuButton = new QPushButton("Menu", this);
-            auto pirate = new PirateWidget(this);
             connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
             menuButton->setMaximumSize(300, 500);
             auto grid = new QGridLayout(this);
             grid->setContentsMargins(410, 10, 410, 10);
             for (int i = 0; i < 13; ++i) {
                 for (int j = 0; j < 13; ++j) {
-                    auto event = new EventWidget(j, i, this);
+                    auto event = new EventWidget(j, i, this, controller);
                     grid->addWidget(event, i, j);
-                    connect(event, &EventWidget::onPressed, pirate, [event, pirate] { event->addPirate(pirate); });
                 }
             }
             grid->setHorizontalSpacing(0);
@@ -36,6 +35,9 @@ namespace jackalui {
     signals:
 
         void menuButtonPressed();
+
+    private:
+        Controller* controller;
     };
 }
 
