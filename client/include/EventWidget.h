@@ -7,21 +7,26 @@
 #include <QString>
 #include "PirateContainer.h"
 #include "event.h"
+#include "contoller.h"
 #include <string>
 
 namespace jackalui {
     class EventWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit EventWidget(int col_, int row_, QWidget *parent = nullptr) : QWidget(parent),
+         EventWidget(int col_, int row_, QWidget *parent = nullptr, Controller* controller_ = nullptr) : QWidget(parent),
                                                                               m_label(new QLabel(this)),
                                                                               m_pirateContainer(
                                                                                       new PirateContainer(this)),
-                                                                              m_col(col_), m_row(row_) {
+                                                                              m_col(col_), m_row(row_),
+                                                                              controller(controller_) {
             m_label->setScaledContents(true);
             filename = "emptyEvent.png";
             QPixmap pixmap("closed.png");
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+            connect(this, &EventWidget::onPressed, controller, [&]() {
+                controller->get_coords(m_col, m_row);
+            });
             auto layout = new QVBoxLayout(this);
             layout->addWidget(m_label);
             layout->setContentsMargins(0, 0, 0, 0);
@@ -51,11 +56,14 @@ namespace jackalui {
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
         }
 
-        QLabel *m_label;
+        QLabel* m_label;
+        Controller* controller;
         std::string filename;
         bool m_is_flipped = false;
-        PirateContainer *m_pirateContainer;
+        PirateContainer* m_pirateContainer;
         int m_col, m_row;
+
+
     signals:
 
         void onPressed();
