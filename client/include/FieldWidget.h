@@ -44,6 +44,7 @@ namespace jackalui {
 
     private slots:
         void set_pics(const QJsonDocument& json) {
+            qDebug() << json;
             for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 13; j++) {
                     QString indexes = QString::fromStdString(std::to_string(i) + " " + std::to_string(j));

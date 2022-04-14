@@ -46,12 +46,12 @@ namespace jackal {
                 {"grass",          []() { return std::make_shared<Grass>(); }},
         };
 
-        std::ifstream f("../data/events.txt");
+        std::ifstream f("events.txt");
         std::string event_name;
         int event_count;
         int rows_no_water = m_rows - 2;
         int columns_no_water = m_columns - 2;
-        std::vector<std::pair<int, int>> random_coords(rows_no_water  * columns_no_water);
+        std::vector<std::pair<int, int>> random_coords(rows_no_water * columns_no_water);
         for (int i = 0; i < rows_no_water; ++i) {
             for (int j = 0; j < columns_no_water; ++j) {
                 random_coords[i * columns_no_water + j] = {i + 1, j + 1};
