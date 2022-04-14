@@ -14,9 +14,9 @@
 
 namespace jackalui {
     class FieldWidget : public QWidget {
-    Q_OBJECT
+    Q_OBJECT    
     public:
-        FieldWidget(Controller* controller_, QWidget *parent = nullptr) : QWidget(parent), controller(controller_) {
+        explicit FieldWidget(Controller* controller_, QWidget *parent = nullptr) : QWidget(parent), controller(controller_) {
             auto menuButton = new QPushButton("Menu", this);
             connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
             menuButton->setMaximumSize(300, 500);
