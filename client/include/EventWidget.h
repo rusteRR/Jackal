@@ -21,11 +21,10 @@ namespace jackalui {
                                                                               m_col(col_), m_row(row_),
                                                                               controller(controller_) {
             m_label->setScaledContents(true);
-            filename = "emptyEvent.png";
             QPixmap pixmap("closed.png");
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
             connect(this, &EventWidget::onPressed, controller, [&]() {
-                controller->get_coords(m_col, m_row);
+                controller->pass_coords(m_col, m_row);
             });
             auto layout = new QVBoxLayout(this);
             layout->addWidget(m_label);
@@ -40,25 +39,21 @@ namespace jackalui {
             m_pirateContainer->removePirate(pirateWidget);
         }
         
-        [[nodiscard]] int row() const{
-            return m_row;
-        }
-        
-        [[nodiscard]] int col() const{
-            return m_col;
+        void set_pic(QString file) {
+            filename = file;
         }
         
     private:
         void flip() {
             if (m_is_flipped) return;
             m_is_flipped = true;
-            QPixmap pixmap(filename.c_str());
+            QPixmap pixmap(filename);
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
         }
 
         QLabel* m_label;
         Controller* controller;
-        std::string filename;
+        QString filename;
         bool m_is_flipped = false;
         PirateContainer* m_pirateContainer;
         int m_col, m_row;
