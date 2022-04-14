@@ -17,7 +17,7 @@
 
 namespace jackalui {
     class FieldWidget : public QWidget {
-    Q_OBJECT
+    Q_OBJECT    
     public:
         explicit FieldWidget(Controller* controller_, QWidget *parent = nullptr) : QWidget(parent), controller(controller_),
                                                                                    field(13) {

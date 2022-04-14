@@ -14,7 +14,7 @@ namespace jackalui {
     class EventWidget : public QWidget {
     Q_OBJECT
     public:
-         EventWidget(int col_, int row_, QWidget *parent = nullptr, Controller* controller_ = nullptr) : QWidget(parent),
+         explicit EventWidget(int col_, int row_, QWidget *parent = nullptr, Controller* controller_ = nullptr) : QWidget(parent),
                                                                               m_label(new QLabel(this)),
                                                                               m_col(col_), m_row(row_),
                                                                               controller(controller_) {
