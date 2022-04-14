@@ -16,12 +16,17 @@ namespace jackalui {
     public:
          EventWidget(int col_, int row_, QWidget *parent = nullptr, Controller* controller_ = nullptr) : QWidget(parent),
                                                                               m_label(new QLabel(this)),
-                                                                              m_pirateContainer(
-                                                                                      new PirateContainer(this)),
                                                                               m_col(col_), m_row(row_),
                                                                               controller(controller_) {
             m_label->setScaledContents(true);
-            QPixmap pixmap("closed.png");
+            QString picture_to_set;
+            if (m_col == 0 || m_row == 0 || m_col == 12 || m_row == 12) {
+                picture_to_set = "water.png";
+            }
+            else {
+                picture_to_set = "closed.png";
+            }
+            QPixmap pixmap(picture_to_set);
             m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
             connect(this, &EventWidget::onPressed, controller, [&]() {
                 controller->pass_coords(m_col, m_row);
@@ -30,17 +35,9 @@ namespace jackalui {
             layout->addWidget(m_label);
             layout->setContentsMargins(0, 0, 0, 0);
         }
-
-        void addPirate(PirateWidget *pirateWidget) {
-            m_pirateContainer->addPirate(pirateWidget);
-        }
-
-        void removePirate(PirateWidget *pirateWidget) {
-            m_pirateContainer->removePirate(pirateWidget);
-        }
         
-        void set_pic(QString file) {
-            filename = file;
+        void set_pic(const QString& file_to_set) {
+            filename = file_to_set;
         }
         
     private:
@@ -55,7 +52,6 @@ namespace jackalui {
         Controller* controller;
         QString filename;
         bool m_is_flipped = false;
-        PirateContainer* m_pirateContainer;
         int m_col, m_row;
 
 
@@ -72,4 +68,4 @@ namespace jackalui {
 
     };
 }
-#endif //JACKALUI_EVENTWIDGET_H_
+#endif // JACKALUI_EVENTWIDGET_H_

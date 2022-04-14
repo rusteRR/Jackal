@@ -21,11 +21,11 @@ public slots:
     void pass_coords(int col, int row);
 
 signals:
-    void field_response(const QString& str);
+    void field_response(const QJsonDocument& str);
 
 private:
     QTcpSocket* m_socket;
-    QDataStream data_in;
+    QDataStream in;
 
 private slots:
     void read_response();

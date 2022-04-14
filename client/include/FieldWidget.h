@@ -43,10 +43,11 @@ namespace jackalui {
         void menuButtonPressed();
 
     private slots:
-        void set_pics(const QString& filename) {
+        void set_pics(const QJsonDocument& json) {
             for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 13; j++) {
-                    field[i][j]->set_pic(filename);
+                    QString indexes = QString::fromStdString(std::to_string(i) + " " + std::to_string(j));
+                    field[i][j]->set_pic(json.object().value(indexes).toString());
                 }
             }
         }

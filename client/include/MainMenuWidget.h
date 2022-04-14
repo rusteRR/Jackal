@@ -22,8 +22,8 @@ namespace jackalui {
             background->move(this->width() / 2 + background->width(), 0);
             auto startLabel = new GameStartLabel(this);
             auto exitLabel = new ExitLabel(this);
-            startLabel->move(background->pos().x() + 270, 500);
-            exitLabel->move(background->pos().x() + 270, 750);
+            startLabel->move(background->pos().x() + 380, 680);
+            exitLabel->move(background->pos().x() + 380, 800);
             connect(startLabel, &GameStartLabel::onPressed, this, &MainMenuWidget::startButtonPressed);
             connect(exitLabel, &ExitLabel::onPressed, this, &MainMenuWidget::exitButtonPressed);
         }
