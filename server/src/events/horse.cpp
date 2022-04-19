@@ -2,6 +2,7 @@
 
 jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
     std::cout << "Horse" << std::endl;
+    is_opened = true;
     std::pair<int, int> response = get_response();
     while (!check_correctness(response.first, response.second)) {
         response = get_response();

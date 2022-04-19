@@ -7,7 +7,7 @@ namespace jackal {
 
     class Lighthouse : public Event {
     public:
-        Lighthouse() : Event("lighthouse.png") {
+        Lighthouse() : Event("lighthouse.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override {

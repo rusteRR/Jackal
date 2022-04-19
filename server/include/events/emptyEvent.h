@@ -7,7 +7,7 @@ namespace jackal {
 
     class EmptyEvent : public Event {
     public:
-        EmptyEvent() : Event("emptyEvent.png") {
+        EmptyEvent() : Event("emptyEvent.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override {

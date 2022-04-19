@@ -7,7 +7,7 @@ namespace jackal {
 
     class Coins : public Event {
     public:
-        explicit Coins(int n);
+        explicit Coins(int n, true);
 
         EventType invoke(Pirate& pirate) override;
 

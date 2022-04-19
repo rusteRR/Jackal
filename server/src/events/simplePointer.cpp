@@ -19,12 +19,13 @@ const std::vector<std::pair<int, int>> diagonal_directions = {
 
 jackal::EventType jackal::SimplePointer::invoke(Pirate &pirate) {
     std::cout << "simplePointer " << std::endl;
+    is_opened = true;
     pirate.move(m_dcol, m_drow);
     pirate.set_last_move(eventType::SIMPLE, m_dcol, m_drow);
     return m_type;
 }
 
-jackal::SimplePointer::SimplePointer(Settings& settings) : Event("simplePointer.png") {
+jackal::SimplePointer::SimplePointer(Settings& settings) : Event("simplePointer.png", true) {
     std::random_device rd;
     std::default_random_engine eng(rd());
     std::uniform_int_distribution<int> distr(0, 3);

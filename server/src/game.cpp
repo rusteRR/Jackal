@@ -8,35 +8,59 @@ struct invalid_turn : std::runtime_error {
 };
 
 
-void jackal::Game::process_move(int col_from, int row_from, int col_to, int row_to) {
+void jackal::Game::process_move(const std::string& request_type, int col_from, int row_from, int col_to, int row_to) {
 
-    check_move_correctness(col_from, row_from, col_to, row_to);
-    Event &current_event = m_field.get_element(col_to, row_to);
+    if (request_type == "take_coin") {
+        take_coin(col_from, row_from);
+        return;
+    }
 
-    std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
-    // TODO : need to change pirate's status after leaving fortress. Is not implemented now.
-    if (pirate_to_go) {
-        pirate_to_go->move(col_to - col_from, row_to - row_from);
-        pirate_to_go->set_last_move(eventType::SIMPLE, col_to - col_from, row_to - row_from);
-        pirate_to_go->attack_pirate(*this);
-        EventType event_type = current_event.invoke(*pirate_to_go);
-        while (event_type != EventType::SIMPLE) {
-            std::pair<int, int> cur_coords = pirate_to_go->get_coords();
-            Event& new_type = m_field.get_element(cur_coords.first, cur_coords.second);
+    else if (request_type == "move") {
+        check_move_correctness(col_from, row_from, col_to, row_to);
+        Event &current_event = m_field.get_element(col_to, row_to);
+
+        std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col_from, row_from);
+        // TODO : need to change pirate's status after leaving fortress. Is not implemented now.
+        if (pirate_to_go) {
+            pirate_to_go->move(col_to - col_from, row_to - row_from);
+            pirate_to_go->set_last_move(eventType::SIMPLE, col_to - col_from, row_to - row_from);
             pirate_to_go->attack_pirate(*this);
-            event_type = new_type.invoke(*pirate_to_go);
+            auto n = current_event.get_filename();
+            EventType event_type = current_event.invoke(*pirate_to_go);
+            while (event_type != EventType::SIMPLE) {
+                std::pair<int, int> cur_coords = pirate_to_go->get_coords();
+                Event& new_type = m_field.get_element(cur_coords.first, cur_coords.second);
+                pirate_to_go->attack_pirate(*this);
+                event_type = new_type.invoke(*pirate_to_go);
+            }
+            change_turn();
         }
-        change_turn();
+        else {
+            std::cout << "Incorrect move!" << std::endl;
+        }
     }
     else {
-        std::cout << "Incorrect move!" << std::endl;
+        std::cout << "Incorrect command" << std::endl;
     }
+
+
 }
 
-void jackal::Game::check_move_correctness(int col_from, int row_from, int col_to, int row_to) {
-    // TODO : some cases were not processed.
+void jackal::Game::check_move_correctness(std::shared_ptr<Pirate> pirate_to_go, int col_from, int row_from, int col_to, int row_to) {
+    // TODO : can't go to not opened cells
+
+    Event &current_event = m_field.get_element(col_to, row_to);
+    if (pirate_to_go->get_status() == status::CARRYING_COIN && !current_event.opened_status()) {
+        throw invalid_turn();
+    }
+    if (pirate_to_go->get_status() == status::CARRYING_COIN && !current_event.is_available_with_coin()) {
+        throw invalid_turn();
+    }
     if (abs(col_from - col_to) > 1 || abs(row_from - row_to) > 1) {
         throw invalid_turn();
+    }
+    if (pirate_to_go->get_status() == status::DROWN) {
+        // TODO : need to check that we don't leave water
     }
 }
 
@@ -63,5 +87,13 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
         result.insert(result.end(), cur_pirate.begin(), cur_pirate.end());
     }
     return result;
+}
+
+void jackal::Game::take_coin(int col, int row) {
+    Event &current_event = m_field.get_element(col, row);
+    std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(col, row);
+    if (pirate_to_go) {
+        current_event.take_coin(*pirate_to_go);
+    }
 }
 

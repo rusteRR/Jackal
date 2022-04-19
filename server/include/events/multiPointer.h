@@ -7,7 +7,7 @@ namespace jackal {
 
     class MultiPointer : public Event {
     public:
-        MultiPointer() : Event("multiPointer.png") {
+        MultiPointer() : Event("multiPointer.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override {

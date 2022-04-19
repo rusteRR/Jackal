@@ -7,7 +7,7 @@ namespace jackal {
 
     class Fortress : public Event {
     public:
-        Fortress() : Event("fortress.png") {
+        Fortress() : Event("fortress.png", false) {
         }
 
         EventType invoke(Pirate& pirate) override;

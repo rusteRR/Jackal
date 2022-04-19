@@ -7,7 +7,7 @@ namespace jackal {
 
     class Ice : public Event {
     public:
-        Ice() : Event("ice.png") {
+        Ice() : Event("ice.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override;

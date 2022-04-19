@@ -7,7 +7,7 @@ namespace jackal {
 
     class Ogre : public Event {
     public:
-        Ogre() : Event("ogre.png") {
+        Ogre() : Event("ogre.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override;

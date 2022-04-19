@@ -9,14 +9,16 @@
 #include <sstream>
 #include <vector>
 
-std::vector<int> parse_input(const std::string& input) {
+std::pair<std::string, std::vector<int>> parse_input(const std::string& input) {
+    std::string command;
     std::stringstream ss(input);
+    ss >> command;
     std::vector<int> tokens;
     std::string current_token;
     while (ss >> current_token) {
         tokens.push_back(std::stoi(current_token));
     }
-    return tokens;
+    return {command, tokens};
 }
 
 int main() {
@@ -27,7 +29,7 @@ int main() {
     // Input format : col_coord row_coord      col_coord row_coord
     std::string command;
     while (std::getline(std::cin, command)) {
-        std::vector<int> tokens = parse_input(command);
-        current_game.process_move(tokens[0], tokens[1], tokens[2], tokens[3]);
+        auto tokens = parse_input(command);
+        current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2], tokens.second[3]);
     }
 }

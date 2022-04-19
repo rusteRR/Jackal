@@ -7,7 +7,7 @@ namespace jackal {
 
     class Earthquake : public Event {
     public:
-        Earthquake() : Event("earthquake.png") {
+        Earthquake() : Event("earthquake.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override {

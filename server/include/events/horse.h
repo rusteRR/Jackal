@@ -7,7 +7,7 @@ namespace jackal {
 
     class Horse : public Event {
     public:
-        Horse() : Event("horse.png") {
+        Horse() : Event("horse.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override;

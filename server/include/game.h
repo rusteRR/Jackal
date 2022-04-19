@@ -13,7 +13,7 @@ namespace jackal {
     public:
         explicit Game(game_type type);
 
-        void process_move(int col_pirate, int row_pirate, int col_to, int row_to);
+        void process_move(const std::string& request_type, int col_pirate, int row_pirate, int col_to, int row_to);
 
         [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_pirates() const;
 
@@ -33,7 +33,9 @@ namespace jackal {
         int m_total_rows = 13;
         int total_pirates = 3;
 
-        void check_move_correctness(int col_from, int row_from, int col_to, int row_to);
+        void check_move_correctness(std::shared_ptr<Pirate> pirate_to_go, int col_from, int row_from, int col_to, int row_to);
+
+        void take_coin(int col, int row);
 };
 
 } // namespace jackal

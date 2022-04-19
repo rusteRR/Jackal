@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QDataStream>
 #include <memory>
 #include <QVector>
 #include <QJsonObject>

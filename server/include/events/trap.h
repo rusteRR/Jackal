@@ -7,7 +7,7 @@ namespace jackal {
 
     class Trap : public Event {
     public:
-        Trap() : Event("trap.png") {
+        Trap() : Event("trap.png", true) {
         }
 
         EventType invoke(Pirate& pirate) override {

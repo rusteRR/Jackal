@@ -7,7 +7,7 @@
 
 
 jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
-                    m_col(col), m_row(row),
+                    m_col(col), m_row(row), m_coins(0),
                     m_status(status::ALIVE), m_ship(ship), m_owner(owner) {
 }
 
@@ -79,6 +79,15 @@ void jackal::Pirate::set_status(status cur_status) {
     m_status = cur_status;
 }
 
+void jackal::Pirate::take_coin(int n) {
+
+}
+
 void jackal::Pirate::get_rum(int n) {
     m_owner->get_rum_bottles(n);
+}
+
+void jackal::Pirate::drown() {
+    set_status(status::DROWN);
+    m_coins = 0;
 }
