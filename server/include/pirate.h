@@ -1,7 +1,6 @@
 #ifndef PIRATE_H_
 #define PIRATE_H_
 
-#include <QLabel>
 #include "fwd.h"
 #include "ship.h"
 #include <utility>
@@ -10,10 +9,9 @@ namespace jackal {
     enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED};
     enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
 
-    class Pirate : public QObject {
-    Q_OBJECT
+    class Pirate {
     public:
-        Pirate(int col, int row, Ship* ship);
+        Pirate(int col, int row, Ship* ship, Player* m_owner);
 
         [[nodiscard]] std::pair<int, int> get_coords() const;
 
@@ -33,12 +31,15 @@ namespace jackal {
 
         void attack_pirate(Game& game);
 
+        void get_rum(int n);
+
     private:
         status m_status;
         Ship* m_ship;
         int m_row;
         int m_col;
         int m_stucked_for = 0;
+        Player* m_owner;
         std::pair<eventType, std::pair<int, int>> m_last_move;
 
         void go_to_ship();

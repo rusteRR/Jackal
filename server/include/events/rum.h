@@ -7,22 +7,14 @@ namespace jackal {
 
     class Rum : public Event {
     public:
-        Rum() : filename("rum-1.png") {
-        }
+        Rum();
 
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Rum" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
-        std::string get_filename() override {
-            return filename;
-        }
 
     private:
         EventType m_type = EventType::SIMPLE;
-        std::string filename;
-        int count = 0;
+        int bottles = 0;
     };
 
 } // namespace jackal

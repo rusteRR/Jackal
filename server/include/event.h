@@ -11,9 +11,16 @@ namespace jackal {
 
     class Event {
     public:
+        explicit Event(const std::string& file);
         virtual EventType invoke(Pirate& pirate) = 0;
-        virtual std::string get_filename() = 0;
+        std::string get_filename();
+        bool take_coin(Pirate& pirate);
         virtual ~Event() = default;
+
+    protected:
+        std::string m_filename;
+        int m_coins;
+        bool is_opened;
     };
     
 }

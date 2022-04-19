@@ -12,15 +12,11 @@ namespace jackal {
 
         EventType invoke(Pirate& pirate) override;
 
-        std::string get_filename() override {
-            return filename;
-        }
 
     private:
         EventType m_type = EventType::NEW_EVENT;
         int m_dcol;
         int m_drow;
-        std::string filename;
     };
 
 } // namespace jackal

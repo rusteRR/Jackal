@@ -21,7 +21,7 @@ set(HEADERS_CLIENT client/include/EventWidget.h client/include/FieldWidget.h cli
 #set(HEADERS_LOGIC include/pirate.h include/ship.h include/events/simplePointer.h)
 set(SOURCE_CLIENT client/src/main.cpp client/src/FieldWidget.cpp client/src/MainMenuWidget.cpp client/src/MainGame.cpp client/src/controller.cpp)
 set(HEADERS_SERVER server/include/pirate.h server/include/ship.h)
-set(SOURCE_SERVER server/src/events/fortress.cpp server/src/events/horse.cpp server/src/events/ice.cpp server/src/events/ogre.cpp server/src/events/simplePointer.cpp server/src/events/spinner.cpp server/src/event.cpp server/src/field.cpp server/src/game.cpp server/src/pirate.cpp server/src/player.cpp server/src/server.cpp server/src/settings.cpp server/src/ship.cpp)
+set(SOURCE_SERVER server/src/events/fortress.cpp server/src/events/horse.cpp server/src/events/ice.cpp server/src/events/ogre.cpp server/src/events/simplePointer.cpp server/src/events/spinner.cpp server/src/event.cpp server/src/field.cpp server/src/game.cpp server/src/pirate.cpp server/src/player.cpp server/src/server.cpp server/src/settings.cpp server/src/ship.cpp server/src/events/coins.cpp server/src/events/rum.cpp)
 add_executable(JackalClient ${HEADERS_CLIENT} ${SOURCE_CLIENT})
 add_executable(JackalServer  server/include/server.h server/src/server.cpp server/src/main.cpp ${HEADERS_SERVER} ${SOURCE_SERVER})
 #add_executable(JackalUI ${HEADERS_LOGIC} ${HEADERS_GUI} ${SOURCE_LOGIC} ${SOURCE_GUI})

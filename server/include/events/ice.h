@@ -7,17 +7,13 @@ namespace jackal {
 
     class Ice : public Event {
     public:
-        Ice() : filename("ice.png") {
+        Ice() : Event("ice.png") {
         }
 
         EventType invoke(Pirate& pirate) override;
 
-        std::string get_filename() override {
-            return filename;
-        }
 
     private:
-        std::string filename;
         EventType m_type = EventType::NEW_EVENT;
     };
 

@@ -7,17 +7,12 @@ namespace jackal {
 
     class Fortress : public Event {
     public:
-        Fortress() : filename("fortress.png") {
+        Fortress() : Event("fortress.png") {
         }
 
         EventType invoke(Pirate& pirate) override;
 
-        std::string get_filename() override {
-            return filename;
-        }
-
     private:
-        std::string filename;
         EventType m_type = EventType::SIMPLE;
     };
 

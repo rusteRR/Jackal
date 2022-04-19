@@ -4,6 +4,7 @@
 namespace jackal {
     class Pirate;
     class Game;
+    class Player;
 }
 
 #endif
