@@ -17,4 +17,4 @@ namespace jackal {
 }
 
 
-#endif //JACKAL_WATER_H
+#endif // JACKAL_WATER_H

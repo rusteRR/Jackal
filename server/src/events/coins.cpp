@@ -1,7 +1,7 @@
 #include "coins.h"
 
 
-jackal::Coins::Coins(int n) : Event("coins.png") {
+jackal::Coins::Coins(int n) : Event("coins.png", true) {
     m_coins = n;
 }
 

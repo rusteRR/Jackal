@@ -30,6 +30,11 @@ int main() {
     std::string command;
     while (std::getline(std::cin, command)) {
         auto tokens = parse_input(command);
-        current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2], tokens.second[3]);
+        if (tokens.second.size() == 1) {
+            current_game.process_move(tokens.first, tokens.second[0]);
+        }
+        else {
+            current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2]);
+        }
     }
 }

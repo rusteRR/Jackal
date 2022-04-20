@@ -1,21 +1,17 @@
 #include "player.h"
-#include <optional>
 
-
-jackal::Player::Player(int total_pirates, int col, int row) : m_total_coins(0), m_rum_bottles(0) {
-    m_ship = std::make_shared<Ship>(col, row).get();
+jackal::Player::Player(int total_pirates, int col, int row) : m_total_coins(0), m_rum_bottles(0), m_ship(col, row) {
     for (int i = 0; i < total_pirates; i++) {
-        m_pirates.push_back(std::make_shared<Pirate>(col, row, m_ship, this));
+        m_pirates.push_back(std::make_shared<Pirate>(col, row, &m_ship, this));
+    }
+    for (const auto& pirate : m_pirates) {
+        m_ship.add_pirate(pirate);
     }
 }
 
-std::shared_ptr<jackal::Pirate> jackal::Player::get_pirate(int col, int row) {
-    for (auto& pirate : m_pirates) {
-        if (pirate->get_coords() == std::pair(col, row)) {
-            return pirate;
-        }
-    }
-    return nullptr;
+std::shared_ptr<jackal::Pirate> jackal::Player::get_pirate(int pirate_id) {
+    if (pirate_id >= m_pirates.size()) return nullptr;
+    return m_pirates[pirate_id];
 }
 
 std::vector<std::shared_ptr<jackal::Pirate>> jackal::Player::get_all_pirates() const {
@@ -24,4 +20,8 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Player::get_all_pirates() c
 
 void jackal::Player::get_rum_bottles(int n) {
     m_rum_bottles += n;
+}
+
+void jackal::Player::move_ship(int col, int row) {
+    m_ship.move(col, row);
 }

@@ -12,6 +12,7 @@ jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
 }
 
 void jackal::Pirate::move(int d_col, int d_row) {
+    // TODO : Pirate should leave his ship. Not implemented now.
     m_col += d_col;
     m_row += d_row;
 }
