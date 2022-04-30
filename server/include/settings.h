@@ -12,9 +12,7 @@ namespace jackal {
     class Settings {
     public:
         Settings() = default;
-
         SimplePointerType get_simple_pointer();
-
         MultiPointerType get_multi_pointer();
 
     private:

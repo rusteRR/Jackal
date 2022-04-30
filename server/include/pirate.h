@@ -6,35 +6,24 @@
 #include <utility>
 
 namespace jackal {
-    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED};
+
+    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED, ON_BOARD, JUNGLE };
     enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
 
     class Pirate {
     public:
         Pirate(int col, int row, Ship* ship, Player* m_owner);
-
         [[nodiscard]] std::pair<int, int> get_coords() const;
-
-        void ice();
-
         void set_last_move(eventType type, int col, int row);
-
         status get_status() const;
-
+        std::pair<eventType, std::pair<int, int>> get_last_move() const;
         void set_status(status cur_status);
-
         void die();
-
         void stuck(int steps);
-
-        void move(int d_col, int d_row);
-
+        void move(int col, int row);
         void take_coin(int n);
-
         void attack_pirate(Game& game);
-
         void get_rum(int n);
-
         void drown();
 
     private:

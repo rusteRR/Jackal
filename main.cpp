@@ -33,6 +33,9 @@ int main() {
         if (tokens.second.size() == 1) {
             current_game.process_move(tokens.first, tokens.second[0]);
         }
+        else if (tokens.first == "ship_move"){
+            current_game.process_move(tokens.first, -1, tokens.second[0], tokens.second[1]);
+        }
         else {
             current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2]);
         }

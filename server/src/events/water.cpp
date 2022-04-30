@@ -8,5 +8,3 @@ jackal::EventType jackal::Water::invoke(jackal::Pirate &pirate) {
     pirate.drown();
     return m_type;
 }
-
-

@@ -1,5 +1,6 @@
 #include "ship.h"
 #include <iostream>
+#include <algorithm>
 
 
 jackal::Ship::Ship(int col, int row) : m_col(col), m_row(row) {
@@ -19,7 +20,7 @@ void jackal::Ship::move(int col, int row) {
         return;
     }
     for (const auto& pirate : pirates_on_board) {
-        pirate->move(col - m_col, row - m_row);
+        pirate->move(col, row);
     }
     m_row = row;
     m_col = col;
@@ -34,4 +35,12 @@ bool jackal::Ship::check_move_correctness(int col, int row) const {
         return false;
     }
     return true;
+}
+
+void jackal::Ship::leave_ship(Pirate* pirate) {
+    for (const auto& elem : pirates_on_board) {
+        if (elem.get() == pirate) {
+            pirates_on_board.erase(std::find(pirates_on_board.begin(), pirates_on_board.end(), elem));
+        }
+    }
 }

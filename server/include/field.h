@@ -11,7 +11,6 @@ namespace jackal {
     class Field {
     public:
         void generate_field(Settings& settings);
-
         [[nodiscard]] Event& get_element(int col, int row) const;
 
     private:

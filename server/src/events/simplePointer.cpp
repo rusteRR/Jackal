@@ -20,8 +20,9 @@ const std::vector<std::pair<int, int>> diagonal_directions = {
 jackal::EventType jackal::SimplePointer::invoke(Pirate &pirate) {
     std::cout << "simplePointer " << std::endl;
     is_opened = true;
-    pirate.move(m_dcol, m_drow);
-    pirate.set_last_move(eventType::SIMPLE, m_dcol, m_drow);
+    auto cur_coords = pirate.get_coords();
+    pirate.move(cur_coords.first + m_dcol, cur_coords.second + m_drow);
+    pirate.set_last_move(eventType::SIMPLE, cur_coords.first, cur_coords.second);
     return m_type;
 }
 

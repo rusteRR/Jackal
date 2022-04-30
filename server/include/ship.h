@@ -11,12 +11,10 @@ namespace jackal {
     class Ship {
     public:
         Ship(int col, int row);
-
         std::pair<int, int> get_coords();
-
         void move(int col, int row);
-
         void add_pirate(const std::shared_ptr<Pirate>& pirate);
+        void leave_ship(Pirate* pirate);
 
     private:
         std::vector<std::shared_ptr<Pirate>> pirates_on_board;

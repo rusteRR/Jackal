@@ -25,3 +25,7 @@ void jackal::Player::get_rum_bottles(int n) {
 void jackal::Player::move_ship(int col, int row) {
     m_ship.move(col, row);
 }
+
+void jackal::Player::increase_coins(int n) {
+    m_total_coins += n;
+}

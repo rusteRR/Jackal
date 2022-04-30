@@ -9,13 +9,13 @@ jackal::Event::Event(const std::string &file, bool is_av) : m_filename(file), m_
                                             is_opened(false), m_is_available_with_coin(is_av) {
 }
 
-bool jackal::Event::take_coin(Pirate& pirate) {
+std::string jackal::Event::take_coin(Pirate& pirate) {
     if (m_coins && pirate.get_status() != status::CARRYING_COIN) {
         pirate.take_coin(1);
         m_coins--;
-        return true;
+        return "You have taken a coin!";
     }
-    return false;
+    return "There are no coins there!";
 }
 
 bool jackal::Event::opened_status() const {

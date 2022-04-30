@@ -7,14 +7,8 @@ namespace jackal {
 
     class Jungle : public Event {
     public:
-        Jungle() : Event("jungle.png", false) {
-        }
-
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Jungle" << std::endl;
-            return m_type;
-        }
-
+        Jungle();
+        EventType invoke(Pirate& pirate) override;
 
     private:
         EventType m_type = EventType::SIMPLE;
