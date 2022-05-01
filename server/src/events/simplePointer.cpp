@@ -1,5 +1,6 @@
 #include "simplePointer.h"
 #include <iostream>
+#include <string>
 #include <random>
 
 
@@ -26,7 +27,7 @@ jackal::EventType jackal::SimplePointer::invoke(Pirate &pirate) {
     return m_type;
 }
 
-jackal::SimplePointer::SimplePointer(Settings& settings) : Event("simplePointer.png", true) {
+jackal::SimplePointer::SimplePointer(Settings& settings) : Event("", true) {
     std::random_device rd;
     std::default_random_engine eng(rd());
     std::uniform_int_distribution<int> distr(0, 3);
@@ -39,4 +40,5 @@ jackal::SimplePointer::SimplePointer(Settings& settings) : Event("simplePointer.
         m_dcol = diagonal_directions[ind].first;
         m_drow = diagonal_directions[ind].second;
     }
+    m_filename = "simplePointer_" + std::to_string(m_dcol) + "_" + std::to_string(m_drow) + ".png";
 }
