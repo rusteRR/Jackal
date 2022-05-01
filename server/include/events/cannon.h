@@ -7,15 +7,13 @@ namespace jackal {
 
     class Cannon : public Event {
     public:
-        Cannon() : Event("cannon.png", true) {
-        }
+        Cannon();
 
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Cannon" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
     private:
+        int m_dcol;
+        int m_drow;
         EventType m_type = EventType::SIMPLE;
     };
 
