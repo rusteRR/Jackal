@@ -7,23 +7,22 @@
 
 
 jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
-                    m_col(col), m_row(row), m_coins(0),
+                    m_coords({col, row}), m_coins(0),
                     m_status(status::ALIVE), m_ship(ship), m_owner(owner) {
 }
 
 
 // Make move from cuurent position to position (col, row)
-void jackal::Pirate::move(int col, int row) {
+void jackal::Pirate::move(Coords coords) {
     if (m_status == status::ON_BOARD) {
         m_ship->leave_ship(this);
         m_status = status::ALIVE;
     }
-    if (col > COORD_UPPER_BOUND) col = COORD_UPPER_BOUND;
-    else if (col < COORD_LOWER_BOUND) col = COORD_LOWER_BOUND;
-    if (row > COORD_UPPER_BOUND) row = COORD_UPPER_BOUND;
-    else if (row < COORD_LOWER_BOUND) row = COORD_LOWER_BOUND;
-    m_col = col;
-    m_row = row;
+    if (coords.x > COORD_UPPER_BOUND) coords.x = COORD_UPPER_BOUND;
+    else if (coords.x < COORD_LOWER_BOUND) coords.x = COORD_LOWER_BOUND;
+    if (coords.y > COORD_UPPER_BOUND) coords.y = COORD_UPPER_BOUND;
+    else if (coords.y < COORD_LOWER_BOUND) coords.y = COORD_LOWER_BOUND;
+    m_coords = coords;
     if (get_coords() == m_ship->get_coords()) {
         m_owner->increase_coins(m_coins);
         m_status = status::ON_BOARD;
@@ -31,46 +30,44 @@ void jackal::Pirate::move(int col, int row) {
     }
 }
 
-std::pair<int, int> jackal::Pirate::get_coords() const {
-    return {m_col, m_row};
+jackal::Coords jackal::Pirate::get_coords() const {
+    return m_coords;
 }
 
 void jackal::Pirate::attack_pirate(Game &game) {
     // TODO : wrong pirate coords - should fix
     // TODO : fix killing pirate in jungle
     std::vector<std::shared_ptr<Pirate>> pirates_to_attack = game.get_pirates();
-    std::pair<int, int> coords = {m_col, m_row};
     for (const auto& pirate_ptr : pirates_to_attack) {
-        if (pirate_ptr->get_coords() == coords && pirate_ptr->get_status() == status::PROTECTED) {
+        if (pirate_ptr->get_coords() == m_coords && pirate_ptr->get_status() == status::PROTECTED) {
             this->go_to_ship();
             return;
         }
-        if (pirate_ptr->get_coords() == coords) {
+        if (pirate_ptr->get_coords() == m_coords) {
             pirate_ptr->go_to_ship();
         }
     }
 }
 
 void jackal::Pirate::go_to_ship() {
-    std::pair<int, int> ship_coords = m_ship->get_coords();
-    m_col = ship_coords.first;
-    m_row = ship_coords.second;
+    Coords ship_coords = m_ship->get_coords();
+    m_coords = ship_coords;
 }
 
 void jackal::Pirate::stuck(int steps) {
-    std::cout << "STUCKED FOR " << steps << " STEPS" << std::endl;
+    std::cout << "Stucked for " << steps << " steps" << std::endl;
     m_stucked_for = steps;
     m_status = status::STUCK;
 }
 
 void jackal::Pirate::die() {
-    std::cout << "DEAD" << std::endl;
+    std::cout << "Pirate is dead" << std::endl;
     m_status = status::DEAD;
 }
 
 // Store the position last move was done
-void jackal::Pirate::set_last_move(eventType type, int col, int row) {
-    m_last_move = std::make_pair(type, std::make_pair(col, row));
+void jackal::Pirate::set_last_move(eventType type, Coords coords) {
+    m_last_move = std::make_pair(type, coords);
 }
 
 jackal::status jackal::Pirate::get_status() const {
@@ -82,7 +79,8 @@ void jackal::Pirate::set_status(status cur_status) {
 }
 
 void jackal::Pirate::take_coin(int n) {
-
+    set_status(status::CARRYING_COIN);
+    m_coins = n;
 }
 
 void jackal::Pirate::get_rum(int n) {
@@ -94,10 +92,10 @@ void jackal::Pirate::drown() {
     m_coins = 0;
 }
 
-std::pair<jackal::eventType, std::pair<int, int>> jackal::Pirate::get_last_move() const {
+std::pair<jackal::eventType, jackal::Coords> jackal::Pirate::get_last_move() const {
     return m_last_move;
 }
 
-std::pair<int, int> jackal::Pirate::get_ship_coords() const {
+jackal::Coords jackal::Pirate::get_ship_coords() const {
     return m_ship->get_coords();
 }

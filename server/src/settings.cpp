@@ -1,7 +1,6 @@
 #include "settings.h"
 #include <random>
 
-
 jackal::SimplePointerType jackal::Settings::get_simple_pointer() {
     std::random_device rd;
     std::default_random_engine eng(rd());
@@ -24,4 +23,8 @@ jackal::MultiPointerType jackal::Settings::get_multi_pointer() {
         m_multi_pointer.erase(m_multi_pointer.begin() + index);
     }
     return type;
+}
+
+bool jackal::Coords::operator==(const jackal::Coords &rhs) const {
+    return (x == rhs.x && y == rhs.y);
 }

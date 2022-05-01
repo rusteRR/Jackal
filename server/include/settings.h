@@ -5,9 +5,33 @@
 
 namespace jackal {
 
+    const std::vector<std::pair<int, int>> direct_directions = {
+            {1, 0},
+            {-1, 0},
+            {0, 1},
+            {0, -1}
+    };
+
+    const std::vector<std::pair<int, int>> diagonal_directions = {
+            {1, 1},
+            {-1, -1},
+            {1, -1},
+            {-1, 1}
+    };
+
+    const int COORD_LOWER_BOUND = 0;
+    const int COORD_UPPER_BOUND = 12;
+
     enum class SimplePointerType {DIRECT, DIAGONAL};
 
     enum class MultiPointerType {DOUBLE_DIRECT, DOUBLE_DIAGONAL, TRIPLE, QUAD_DIRECT, QUAD_DIAGONAL};
+
+    struct Coords {
+        int x;
+        int y;
+
+        bool operator==(const Coords& rhs) const;
+    };
 
     class Settings {
     public:

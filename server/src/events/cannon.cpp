@@ -1,12 +1,6 @@
 #include "cannon.h"
+#include "settings.h"
 #include <random>
-
-const std::vector<std::pair<int, int>> direct_directions = {
-        {1, 0},
-        {-1, 0},
-        {0, 1},
-        {0, -1}
-};
 
 jackal::Cannon::Cannon() : Event("", true) {
     std::random_device rd;
@@ -20,9 +14,9 @@ jackal::Cannon::Cannon() : Event("", true) {
 
 jackal::EventType jackal::Cannon::invoke(jackal::Pirate &pirate) {
     std::cout << "Cannon" << std::endl;
-    auto current_coords = pirate.get_coords();
-    int new_col = current_coords.first + m_dcol * 12;
-    int new_row = current_coords.second + m_drow * 12;
-    pirate.move(new_col, new_row);
+    Coords current_coords = pirate.get_coords();
+    int new_col = current_coords.x + m_dcol * 12;
+    int new_row = current_coords.y + m_drow * 12;
+    pirate.move({new_col, new_row});
     return m_type;
 }

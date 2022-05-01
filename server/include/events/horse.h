@@ -16,9 +16,9 @@ namespace jackal {
     private:
         EventType m_type = EventType::NEW_EVENT;
 
-        std::pair<int, int> get_response();
+        Coords get_response();
 
-        bool check_correctness(int col, int row);
+        bool check_correctness(Coords coords);
     };
 
 } // namespace jackal

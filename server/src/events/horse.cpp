@@ -3,22 +3,22 @@
 jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
     std::cout << "Horse" << std::endl;
     is_opened = true;
-    std::pair<int, int> response = get_response();
-    while (!check_correctness(response.first, response.second)) {
+    pirate.set_last_move(eventType::HORSE, pirate.get_coords());
+    Coords response = get_response();
+    while (!check_correctness(response)) {
         response = get_response();
     }
-    pirate.move(response.first, response.second);
-    pirate.set_last_move(eventType::HORSE, response.first, response.second);
+    pirate.move(response);
     return m_type;
 }
 
-std::pair<int, int> jackal::Horse::get_response() {
+jackal::Coords jackal::Horse::get_response() {
     int col, row;
     std::cin >> col >> row;
     return {col, row};
 }
 
 
-bool jackal::Horse::check_correctness(int col, int row) {
+bool jackal::Horse::check_correctness(Coords coords) {
     return true;
 }

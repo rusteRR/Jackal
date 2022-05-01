@@ -3,27 +3,14 @@
 #include <string>
 #include <random>
 
-
-const std::vector<std::pair<int, int>> direct_directions = {
-        {1, 0},
-        {-1, 0},
-        {0, 1},
-        {0, -1}
-};
-
-const std::vector<std::pair<int, int>> diagonal_directions = {
-        {1, 1},
-        {-1, -1},
-        {1, -1},
-        {-1, 1}
-};
-
 jackal::EventType jackal::SimplePointer::invoke(Pirate &pirate) {
     std::cout << "simplePointer " << std::endl;
     is_opened = true;
-    auto cur_coords = pirate.get_coords();
-    pirate.move(cur_coords.first + m_dcol, cur_coords.second + m_drow);
-    pirate.set_last_move(eventType::SIMPLE, cur_coords.first, cur_coords.second);
+    Coords cur_coords = pirate.get_coords();
+    pirate.set_last_move(eventType::SIMPLE, cur_coords);
+    cur_coords.x += m_dcol;
+    cur_coords.y += m_drow;
+    pirate.move(cur_coords);
     return m_type;
 }
 

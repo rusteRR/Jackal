@@ -3,35 +3,34 @@
 #include <algorithm>
 
 
-jackal::Ship::Ship(int col, int row) : m_col(col), m_row(row) {
+jackal::Ship::Ship(int col, int row) : m_coords({col, row}) {
 }
 
-std::pair<int, int> jackal::Ship::get_coords() {
-    return {m_col, m_row};
+jackal::Coords jackal::Ship::get_coords() {
+    return m_coords;
 }
 
 void jackal::Ship::add_pirate(const std::shared_ptr<jackal::Pirate>& pirate) {
     pirates_on_board.push_back(pirate);
 }
 
-void jackal::Ship::move(int col, int row) {
-    if (!check_move_correctness(col, row)) {
+void jackal::Ship::move(Coords coords) {
+    if (!check_move_correctness(coords)) {
         std::cout << "Incorrect ship move!" << std::endl;
         return;
     }
     for (const auto& pirate : pirates_on_board) {
-        pirate->move(col, row);
+        pirate->move(coords);
     }
-    m_row = row;
-    m_col = col;
+    m_coords = coords;
 }
 
-bool jackal::Ship::check_move_correctness(int col, int row) const {
+bool jackal::Ship::check_move_correctness(Coords coords) const {
     // TODO : 4 cells with coords (1, 1) ... are not water now (will be fixed(?))
-    if (!(col == 0 || col == 12) && !(row == 0 || row == 12)) {
+    if (!(coords.x == 0 || coords.x == 12) && !(coords.y == 0 || coords.y == 12)) {
         return false;
     }
-    if (abs(m_col - col) + abs(m_row - row) > 1) {
+    if (abs(m_coords.x - coords.x) + abs(m_coords.y - coords.y) > 1) {
         return false;
     }
     return true;
