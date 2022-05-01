@@ -7,13 +7,9 @@ namespace jackal {
 
     class Ballon : public Event {
     public:
-        Ballon() : Event("balloon.png", true) {
-        };
+        Ballon();
 
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Balloon" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
     private:
         EventType m_type = EventType::SIMPLE;

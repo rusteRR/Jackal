@@ -24,6 +24,7 @@ namespace jackal {
         void take_coin(int n);
         void attack_pirate(Game& game);
         void get_rum(int n);
+        std::pair<int, int> get_ship_coords() const;
         void drown();
 
     private:

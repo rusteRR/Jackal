@@ -26,6 +26,7 @@ void jackal::Pirate::move(int col, int row) {
     m_row = row;
     if (get_coords() == m_ship->get_coords()) {
         m_owner->increase_coins(m_coins);
+        m_status = status::ON_BOARD;
         m_coins = 0;
     }
 }
@@ -95,4 +96,8 @@ void jackal::Pirate::drown() {
 
 std::pair<jackal::eventType, std::pair<int, int>> jackal::Pirate::get_last_move() const {
     return m_last_move;
+}
+
+std::pair<int, int> jackal::Pirate::get_ship_coords() const {
+    return m_ship->get_coords();
 }
