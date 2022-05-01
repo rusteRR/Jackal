@@ -29,3 +29,7 @@ void jackal::Player::move_ship(Coords coords) {
 void jackal::Player::increase_coins(int n) {
     m_total_coins += n;
 }
+
+int jackal::Player::get_coins_earned() const {
+    return m_total_coins;
+}

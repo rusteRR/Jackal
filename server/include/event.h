@@ -17,6 +17,7 @@ namespace jackal {
         std::string take_coin(Pirate& pirate);
         [[nodiscard]] bool opened_status() const;
         [[nodiscard]] bool is_available_with_coin() const;
+        void increase_coins(int n);
         virtual ~Event() = default;
 
     protected:

@@ -99,3 +99,11 @@ std::pair<jackal::eventType, jackal::Coords> jackal::Pirate::get_last_move() con
 jackal::Coords jackal::Pirate::get_ship_coords() const {
     return m_ship->get_coords();
 }
+
+int jackal::Pirate::drop_coin() {
+    return std::exchange(m_coins, 0);
+}
+
+int jackal::Pirate::get_coins_amount() const {
+    return m_coins;
+}

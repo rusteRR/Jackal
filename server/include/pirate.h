@@ -23,6 +23,8 @@ namespace jackal {
         void stuck(int steps);
         void move(Coords coords);
         void take_coin(int n);
+        int drop_coin();
+        int get_coins_amount() const;
         void attack_pirate(Game& game);
         void get_rum(int n);
         Coords get_ship_coords() const;

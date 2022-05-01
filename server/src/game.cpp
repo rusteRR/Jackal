@@ -1,5 +1,5 @@
 #include "game.h"
-#include <stdexcept>
+#include <algorithm>
 #include <iostream>
 
 
@@ -8,6 +8,10 @@ void jackal::Game::process_move(const std::string& request_type, int pirate_id, 
 
     if (request_type == "take_coin") {
         take_coin(pirate_id);
+    }
+
+    else if (request_type == "drop_coin") {
+        drop_coin(pirate_id);
     }
 
     else if (request_type == "ship_move") {
@@ -97,8 +101,8 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
 }
 
 void jackal::Game::take_coin(int pirate_id) {
-    std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
-    auto coords = pirate_to_go->get_coords();
+    auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
+    Coords coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(coords.x, coords.y);
     if (pirate_to_go) {
         std::string result = current_event.take_coin(*pirate_to_go);
@@ -107,4 +111,39 @@ void jackal::Game::take_coin(int pirate_id) {
 
 const jackal::Field &jackal::Game::get_field() const {
     return m_field;
+}
+
+bool jackal::Game::check_win() const {
+    int coins_in_game = coins_remaining;
+    auto all_pirates = get_pirates();
+    for (const auto& pirate : all_pirates) {
+        coins_in_game += pirate->get_coins_amount();
+    }
+
+    // REM: std::pair<X, Y>, X - coins earned, Y - player id.
+    std::vector<std::pair<int, int>> coins_earned(m_players.size());
+
+    for (int i = 0; i < m_players.size(); i++) {
+        coins_earned[i] = {m_players[i].get_coins_earned(), i};
+    }
+    std::sort(coins_earned.rbegin(), coins_earned.rend());
+    if (coins_earned[0].first > coins_earned[1].first + coins_in_game) {
+        std::cout << "Player " + std::to_string(coins_earned[0].second) + " is winner!" << std::endl;
+        return true;
+    }
+    return false;
+}
+
+void jackal::Game::drop_coin(int pirate_id) {
+    auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
+    Coords coords = pirate_to_go->get_coords();
+    Event &current_event = m_field.get_element(coords.x, coords.y);
+    if (pirate_to_go->get_status() == status::CARRYING_COIN) {
+        int dropped_coins = pirate_to_go->drop_coin();
+        coins_remaining += dropped_coins;
+        current_event.increase_coins(dropped_coins);
+    }
+    else {
+        std::cout << "This pirate doesn't have a coin!" << std::endl;
+    }
 }

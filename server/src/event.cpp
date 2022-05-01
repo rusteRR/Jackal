@@ -25,3 +25,7 @@ bool jackal::Event::opened_status() const {
 bool jackal::Event::is_available_with_coin() const {
     return m_is_available_with_coin;
 }
+
+void jackal::Event::increase_coins(int n) {
+    m_coins += n;
+}

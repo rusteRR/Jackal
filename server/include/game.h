@@ -31,6 +31,7 @@ namespace jackal {
         void change_turn() noexcept;
         bool check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords);
         void take_coin(int pirate_id);
+        void drop_coin(int pirate_id);
         bool check_win() const;
 };
 
