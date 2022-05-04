@@ -2,6 +2,7 @@
 #define SETTINGS_H_
 
 #include <vector>
+#include <chrono>
 
 namespace jackal {
 

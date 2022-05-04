@@ -3,6 +3,7 @@
 
 #include "settings.h"
 #include "event.h"
+#include <chrono>
 
 namespace jackal {
 

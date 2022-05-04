@@ -7,6 +7,7 @@
 #include <QString>
 #include "PirateContainer.h"
 #include "event.h"
+#include "game.h"
 #include "contoller.h"
 #include <string>
 
@@ -19,11 +20,17 @@ namespace jackalui {
                                                                               m_col(col_), m_row(row_),
                                                                               controller(controller_) {
             m_label->setScaledContents(true);
-            QString picture_to_set;
-            if (m_col == 0 || m_row == 0 || m_col == 12 || m_row == 12) {
+            if (m_row == 0 && m_col == 6) {
+                set_ship(0);
+            } else if (m_row == 6 && m_col == 12) {
+                set_ship(1);
+            } else if (m_row == 12 && m_col == 6) {
+                set_ship(2);
+            } else if (m_row == 6 && m_col == 0) {
+                set_ship(3);
+            } else if (m_col == 0 || m_row == 0 || m_col == 12 || m_row == 12) {
                 picture_to_set = "water.png";
-            }
-            else {
+            } else {
                 picture_to_set = "closed.png";
             }
             QPixmap pixmap(picture_to_set);
@@ -39,6 +46,11 @@ namespace jackalui {
         void set_pic(const QString& file_to_set) {
             filename = file_to_set;
         }
+
+        void set_ship(int player_number) {
+            ship_num = player_number;
+            picture_to_set = QString::fromStdString(std::string("ship" + std::to_string(player_number) + ".png"));
+        }
         
     private:
         void flip() {
@@ -51,8 +63,10 @@ namespace jackalui {
         QLabel* m_label;
         Controller* controller;
         QString filename;
+        QString picture_to_set;
         bool m_is_flipped = false;
         int m_col, m_row;
+        int ship_num = -1;
 
 
     signals:
@@ -62,7 +76,7 @@ namespace jackalui {
     protected:
         void mousePressEvent(QMouseEvent *event) override {
             qDebug() << "Pressed";
-            flip();
+            if (ship_num == -1) flip();
             emit onPressed();
         }
 

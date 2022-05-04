@@ -14,6 +14,7 @@ namespace jackalui {
             connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, controller, &Controller::start_game);
             connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::startGame);
             connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, controller, &Controller::end_game);
+            connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &Client::exitGame);
         }
 
         void show() {

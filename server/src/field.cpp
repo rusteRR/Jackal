@@ -4,6 +4,7 @@
 #include <fstream>
 #include <random>
 #include <map>
+#include <chrono>
 #include <functional>
 
 namespace jackal {
@@ -57,13 +58,14 @@ namespace jackal {
                 random_coords[i * columns_no_water + j] = {i + 1, j + 1};
             }
         }
-        std::shuffle(random_coords.begin(), random_coords.end(), std::mt19937(std::random_device()()));
+        //std::mt19937 gen{std::random_device()()};
+        std::shuffle(random_coords.begin(), random_coords.end(), std::mt19937(std::mersenne_twister_engine<uint_fast32_t, 32,624,397,31,0x9908b0df,11,0xffffffff,7,0x9d2c5680,15,0xefc60000,18,1812433253>((uint32_t)std::chrono::steady_clock::now().time_since_epoch().count())));
         m_field.resize(m_rows, std::vector<std::shared_ptr<Event>>(m_columns));
-        for (int i = 0; i < m_columns; ++i){
+        for (int i = 0; i < m_columns; ++i) {
             m_field[0][i] = std::make_shared<Water>();
             m_field[m_rows - 1][i] = std::make_shared<Water>();
         }
-        for (int i = 0; i < m_rows; ++i){
+        for (int i = 0; i < m_rows; ++i) {
             m_field[i][0] = std::make_shared<Water>();
             m_field[i][m_columns - 1] = std::make_shared<Water>();
         }

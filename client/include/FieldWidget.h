@@ -36,6 +36,11 @@ namespace jackalui {
             }
             grid->setHorizontalSpacing(0);
             grid->setVerticalSpacing(0);
+
+            /*auto play_grid = new QGridLayout(this);
+            play_grid->setContentsMargins(410, 10, 410, 10);
+            auto ship = new ShipWidget(this);
+            play_grid->addWidget(ship, 6, 0);*/
             controller->wait_filename();
         }
 

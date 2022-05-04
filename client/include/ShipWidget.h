@@ -5,22 +5,30 @@
 #include <QDebug>
 
 namespace jackalui {
-    class ShipWidget : public QLabel {
+    class ShipWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit ShipWidget(QWidget* parent = nullptr) : QLabel(parent) {
-            this->setScaledContents(true);
-            this->setPixmap(QPixmap("ship.png"));
-            this->setGeometry(51,51,101,101);
+        explicit ShipWidget(QWidget* parent = nullptr) : QWidget(parent) {
+            m_label->setScaledContents(true);
+            QString picture_to_set = "ship1.png";
+            QPixmap pixmap(picture_to_set);
+            m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+            auto layout = new QVBoxLayout(this);
+            layout->addWidget(m_label);
+            layout->setContentsMargins(0, 0, 0, 0);
         }
 
     public slots:
         void MoveShip() {
-            this->move(this->pos().x() + 50, this->pos().y() + 50);
+
         }
 
     signals:
         void onPressed();
+
+    private:
+        QLabel* m_label;
+
 
     protected:
         void mousePressEvent(QMouseEvent *ev) override {
