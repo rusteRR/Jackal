@@ -15,7 +15,7 @@ namespace jackal {
         [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_all_pirates() const;
         int get_coins_earned() const;
         void get_rum_bottles(int n);
-        void move_ship(Coords coords);
+        bool move_ship(Coords coords);
         void increase_coins(int n);
         
     private:

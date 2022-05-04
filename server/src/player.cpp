@@ -22,8 +22,8 @@ void jackal::Player::get_rum_bottles(int n) {
     m_rum_bottles += n;
 }
 
-void jackal::Player::move_ship(Coords coords) {
-    m_ship.move(coords);
+bool jackal::Player::move_ship(Coords coords) {
+    return m_ship.move(coords);
 }
 
 void jackal::Player::increase_coins(int n) {

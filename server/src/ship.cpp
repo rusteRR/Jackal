@@ -14,15 +14,15 @@ void jackal::Ship::add_pirate(const std::shared_ptr<jackal::Pirate>& pirate) {
     pirates_on_board.push_back(pirate);
 }
 
-void jackal::Ship::move(Coords coords) {
+bool jackal::Ship::move(Coords coords) {
     if (!check_move_correctness(coords)) {
-        std::cout << "Incorrect ship move!" << std::endl;
-        return;
+        return false;
     }
     for (const auto& pirate : pirates_on_board) {
         pirate->move(coords);
     }
     m_coords = coords;
+    return true;
 }
 
 bool jackal::Ship::check_move_correctness(Coords coords) const {

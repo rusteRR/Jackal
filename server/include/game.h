@@ -5,6 +5,7 @@
 #include "player.h"
 #include "settings.h"
 #include <vector>
+#include <QJsonObject>
 
 namespace jackal {
 
@@ -13,7 +14,7 @@ namespace jackal {
     class Game {
     public:
         explicit Game(game_type type);
-        void process_move(const std::string& request_type, int pirate_id, int col_to = -1, int row_to = -1);
+        QJsonObject process_move(const std::string& request_type, int pirate_id, int col_to = -1, int row_to = -1);
         [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_pirates() const;
         [[nodiscard]] const Field& get_field() const;
         
@@ -30,9 +31,9 @@ namespace jackal {
 
         void change_turn() noexcept;
         bool check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords);
-        void take_coin(int pirate_id);
-        void drop_coin(int pirate_id);
-        bool check_win() const;
+        bool take_coin(int pirate_id);
+        bool drop_coin(int pirate_id);
+        [[nodiscard]] bool check_win() const;
 };
 
 } // namespace jackal
