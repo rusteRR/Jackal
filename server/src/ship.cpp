@@ -6,7 +6,7 @@
 jackal::Ship::Ship(int col, int row) : m_coords({col, row}) {
 }
 
-jackal::Coords jackal::Ship::get_coords() {
+jackal::Coords jackal::Ship::get_coords() const {
     return m_coords;
 }
 
@@ -15,7 +15,7 @@ void jackal::Ship::add_pirate(const std::shared_ptr<jackal::Pirate>& pirate) {
 }
 
 bool jackal::Ship::move(Coords coords) {
-    if (!check_move_correctness(coords)) {
+    if (!check_move_correctness(coords) || pirates_on_board.empty()) {
         return false;
     }
     for (const auto& pirate : pirates_on_board) {

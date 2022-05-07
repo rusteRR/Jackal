@@ -33,3 +33,7 @@ void jackal::Player::increase_coins(int n) {
 int jackal::Player::get_coins_earned() const {
     return m_total_coins;
 }
+
+jackal::Coords jackal::Player::get_ship_coords() const {
+    return m_ship.get_coords();
+}

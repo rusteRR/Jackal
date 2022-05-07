@@ -35,13 +35,14 @@ jackal::Coords jackal::Pirate::get_coords() const {
 }
 
 void jackal::Pirate::attack_pirate(Game &game) {
-    // TODO : wrong pirate coords - should fix
-    // TODO : fix killing pirate in jungle
     std::vector<std::shared_ptr<Pirate>> pirates_to_attack = game.get_pirates();
     for (const auto& pirate_ptr : pirates_to_attack) {
         if (pirate_ptr->get_coords() == m_coords && pirate_ptr->get_status() == status::PROTECTED) {
             this->go_to_ship();
             return;
+        }
+        if (pirate_ptr->get_status() == status::JUNGLE) {
+            continue;
         }
         if (pirate_ptr->get_coords() == m_coords) {
             pirate_ptr->go_to_ship();

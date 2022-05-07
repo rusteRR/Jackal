@@ -12,7 +12,7 @@ namespace jackal {
     class Ship {
     public:
         Ship(int col, int row);
-        Coords get_coords();
+        Coords get_coords() const;
         bool move(Coords coords);
         void add_pirate(const std::shared_ptr<Pirate>& pirate);
         void leave_ship(Pirate* pirate);
