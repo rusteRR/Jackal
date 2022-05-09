@@ -17,7 +17,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)
 include_directories(server/include server/src client/src client/include server/include/events client/include client/src data)
 
-set(HEADERS_CLIENT client/include/EventWidget.h client/include/FieldWidget.h client/include/MainMenuWidget.h client/include/client.h client/include/GameStartLabel.h client/include/ExitLabel.h client/include/PirateWidget.h client/include/ShipWidget.h client/include/PirateContainer.h client/include/contoller.h)
+set(HEADERS_CLIENT client/include/EventWidget.h client/include/FieldWidget.h client/include/MainMenuWidget.h client/include/client.h client/include/GameStartLabel.h client/include/ExitLabel.h client/include/PirateWidget.h client/include/ShipWidget.h client/include/PirateContainer.h client/include/controller.h)
 #set(HEADERS_LOGIC include/pirate.h include/ship.h include/events/simplePointer.h)
 set(SOURCE_CLIENT client/src/main.cpp client/src/FieldWidget.cpp client/src/EventWidget.cpp client/src/MainMenuWidget.cpp client/src/MainGame.cpp client/src/controller.cpp client/src/client.cpp client/src/ShipWidget.cpp)
 set(HEADERS_SERVER server/include/pirate.h server/include/ship.h)

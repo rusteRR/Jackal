@@ -1,24 +1,29 @@
 #ifndef JACKALUI_SHIPWIDGET_H
 #define JACKALUI_SHIPWIDGET_H
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QDebug>
+#include "controller.h"
 
 namespace jackalui {
     class ShipWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit ShipWidget(QWidget* parent = nullptr);
+        explicit ShipWidget(int id, QWidget *parent = nullptr, Controller *controller_ = nullptr);
 
     public slots:
+
         void MoveShip() {}
 
     signals:
+
         void onPressed();
 
     private:
-        QLabel* m_label;
-
+        QLabel *m_label;
+        int m_id;
+        Controller *controller;
 
     protected:
         void mousePressEvent(QMouseEvent *ev) override;

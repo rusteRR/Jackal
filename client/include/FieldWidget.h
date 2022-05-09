@@ -13,25 +13,29 @@
 #include "ship.h"
 #include "PirateWidget.h"
 #include "game.h"
-#include "contoller.h"
+#include "controller.h"
 
 namespace jackalui {
     class FieldWidget : public QWidget {
-    Q_OBJECT    
+    Q_OBJECT
     public:
-        explicit FieldWidget(Controller* controller_, QWidget *parent = nullptr);
+        explicit FieldWidget(Controller *controller_, QWidget *parent = nullptr);
 
     signals:
+
         void menuButtonPressed();
 
     private slots:
-        void set_pics(const QJsonDocument& json);
 
-        void cellIsOpen(int row, int col);
+        void set_pics(const QJsonDocument &json);
+
+        void cellOpen(int row, int col);
+
+        void shipMove(int row_from, int col_from, int row_to, int col_to, int id);
 
     private:
-        Controller* controller;
-        QVector<QVector<EventWidget*>> field;
+        Controller *controller;
+        QVector<QVector<EventWidget *>> field;
     };
 }
 

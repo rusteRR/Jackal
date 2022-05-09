@@ -4,7 +4,7 @@
 #include <QTime>
 #include "MainMenuWidget.h"
 #include "FieldWidget.h"
-#include "contoller.h"
+#include "controller.h"
 
 namespace jackalui {
     class Client : public QWidget {

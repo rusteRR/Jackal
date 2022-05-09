@@ -6,7 +6,8 @@ namespace jackalui {
         auto menuButton = new QPushButton("Menu", this);
         connect(controller, &Controller::field_response, this, &FieldWidget::set_pics);
         connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
-        connect(controller, &Controller::open_cell, this, &FieldWidget::cellIsOpen);
+        connect(controller, &Controller::open_cell, this, &FieldWidget::cellOpen);
+        connect(controller, &Controller::move_ship, this, &FieldWidget::shipMove);
         menuButton->setMaximumSize(300, 500);
         auto grid = new QGridLayout(this);
         grid->setContentsMargins(410, 10, 410, 10);
@@ -23,7 +24,7 @@ namespace jackalui {
         controller->wait_filename();
     }
 
-    void FieldWidget::set_pics(const QJsonDocument &json)  {
+    void FieldWidget::set_pics(const QJsonDocument &json) {
         qDebug() << json;
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 13; j++) {
@@ -33,7 +34,13 @@ namespace jackalui {
         }
     }
 
-    void FieldWidget::cellIsOpen(int row, int col) {
+    void FieldWidget::cellOpen(int row, int col) {
         field[row][col]->flip();
+    }
+
+    void FieldWidget::shipMove(int row_from, int col_from, int row_to, int col_to, int id) {
+        field[row_from][col_from]->removeShip();
+        field[row_to][col_to]->set_ship(id);
+        qDebug() << "Ship" << id << "moved from" << row_from << col_from << "to" << row_to << col_to;
     }
 }
