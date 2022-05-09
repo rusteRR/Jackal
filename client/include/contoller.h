@@ -23,6 +23,8 @@ public slots:
 signals:
     void field_response(const QJsonDocument& str);
 
+    void open_cell(int row, int col);
+
 private:
     QTcpSocket* m_socket;
     QDataStream in;

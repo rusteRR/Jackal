@@ -25,6 +25,7 @@ void Controller::end_game() {
 
 void Controller::pass_coords(int col, int row) {
     std::cout << col << " " << row << std::endl;
+    emit open_cell(row, col);
 }
 
 void Controller::read_response() {

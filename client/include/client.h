@@ -10,36 +10,17 @@ namespace jackalui {
     class Client : public QWidget {
     Q_OBJECT
     public:
-        Client() : mainMenuWidget(new MainMenuWidget()), fieldWidget(nullptr), controller(new Controller(this))  {
-            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, controller, &Controller::start_game);
-            connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::startGame);
-            connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, controller, &Controller::end_game);
-            connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &Client::exitGame);
-        }
+        Client();
 
-        void show() {
-            mainMenuWidget->showFullScreen();
-        }
+        void show();
 
     public slots:
 
-        void startGame() {
-            fieldWidget = new FieldWidget(controller);
-            connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &Client::backToMenu);
-            fieldWidget->showFullScreen();
-            mainMenuWidget->hide();
-        }
+        void startGame();
 
-        void exitGame() {
-            mainMenuWidget->close();
-            fieldWidget->close();
-            fieldWidget->deleteLater();
-        }
+        void exitGame();
 
-        void backToMenu() {
-            mainMenuWidget->showFullScreen();
-            fieldWidget->hide();
-        }
+        void backToMenu();
 
     private:
         MainMenuWidget* mainMenuWidget;
