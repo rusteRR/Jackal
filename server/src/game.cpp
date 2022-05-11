@@ -4,12 +4,17 @@
 #include <QJsonObject>
 #include <iostream>
 
+namespace {
+    constexpr int TREASURE_AMOUNT = 3;
+    constexpr int COIN_AMOUNT = 1;
+}
 
 QJsonObject jackal::Game::process_move(const std::string& request_type, int pirate_id, int col_to, int row_to) {
     Coords new_coords = {col_to, row_to};
 
-    if (request_type == "take_coin") {
-        bool step_result = take_coin(pirate_id);
+    if (request_type == "take_coin" || request_type == "take_treausure") {
+        int coins_to_take = (request_type == "take_coin" ? COIN_AMOUNT : TREASURE_AMOUNT);
+        bool step_result = take_coin(pirate_id, coins_to_take);
         if (!step_result) {
             return Handler::get_error_json(request_type);
         }
@@ -48,7 +53,6 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         }
         drop_coin(pirate_id);
         change_turn();
-        Coords coords_to_go = pirate_to_go->get_coords();
     }
 
     else {
@@ -111,12 +115,12 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
     return result;
 }
 
-bool jackal::Game::take_coin(int pirate_id) {
+bool jackal::Game::take_coin(int pirate_id, int coins_to_take) {
     auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
     Coords coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(coords.x, coords.y);
     if (pirate_to_go) {
-        bool result = current_event.take_coin(*pirate_to_go);
+        bool result = current_event.take_coin(*pirate_to_go, coins_to_take);
         if (result) {
             return true;
         }

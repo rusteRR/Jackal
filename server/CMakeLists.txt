@@ -44,30 +44,8 @@ set(SOURCE_LOGIC
         src/events/crocodile.cpp
         src/events/jungle.cpp
         src/events/balloon.cpp
-        src/events/cannon.cpp)
-
-set(HEADERS_LOGIC
-        src/event.cpp
-        src/field.cpp
-        src/game.cpp
-        src/pirate.cpp
-        src/player.cpp
-        src/settings.cpp
-        src/ship.cpp
-        src/handler.cpp
-        src/events/fortress.cpp
-        src/events/horse.cpp
-        src/events/ice.cpp
-        src/events/ogre.cpp
-        src/events/simplePointer.cpp
-        src/events/spinner.cpp
-        src/events/coins.cpp
-        src/events/rum.cpp
-        src/events/water.cpp
-        src/events/crocodile.cpp
-        src/events/jungle.cpp
-        src/events/balloon.cpp
-        src/events/cannon.cpp)
+        src/events/cannon.cpp
+        src/events/treasure.cpp)
 
 add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC})
 add_executable(JackalServer src/main.cpp include/server.h src/server.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC})

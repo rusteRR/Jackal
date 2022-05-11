@@ -6,16 +6,21 @@ std::string jackal::Event::get_filename() {
 }
 
 jackal::Event::Event(const std::string &file, bool is_av) : m_filename(file), m_coins(0),
-                                            is_opened(false), m_is_available_with_coin(is_av) {
+                                            is_opened(false), m_is_available_with_coin(is_av),
+                                            has_treasure(false) {
 }
 
-bool jackal::Event::take_coin(Pirate& pirate) {
-    if (m_coins && pirate.get_status() != status::CARRYING_COIN) {
-        pirate.take_coin(1);
-        m_coins--;
-        return true;
+bool jackal::Event::take_coin(Pirate& pirate, int coins_to_take) {
+    if (m_coins < coins_to_take || pirate.get_status() == status::CARRYING_COIN ||
+                    (coins_to_take == 3 && !has_treasure)) {
+        return false;
     }
-    return false;
+    if (coins_to_take == 3) {
+        has_treasure = false;
+    }
+    pirate.take_coin(coins_to_take);
+    m_coins -= coins_to_take;
+    return true;
 }
 
 bool jackal::Event::opened_status() const {
@@ -27,6 +32,9 @@ bool jackal::Event::is_available_with_coin() const {
 }
 
 void jackal::Event::increase_coins(int n) {
+    if (n == 3) {
+        has_treasure = true;
+    }
     m_coins += n;
 }
 

@@ -36,7 +36,7 @@ namespace jackal {
         bool check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords);
         [[nodiscard]] static bool check_is_water_cell(Coords coords) ;
         [[nodiscard]] bool check_if_pirates_on_cell(Coords coords);
-        bool take_coin(int pirate_id);
+        bool take_coin(int pirate_id, int coins_to_take);
         void drop_coin(int pirate_id);
         [[nodiscard]] bool check_win() const;
 };
