@@ -37,7 +37,7 @@ namespace jackal {
         [[nodiscard]] static bool check_is_water_cell(Coords coords) ;
         [[nodiscard]] bool check_if_pirates_on_cell(Coords coords);
         bool take_coin(int pirate_id);
-        bool drop_coin(int pirate_id);
+        void drop_coin(int pirate_id);
         [[nodiscard]] bool check_win() const;
 };
 

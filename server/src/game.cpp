@@ -10,13 +10,9 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
 
     if (request_type == "take_coin") {
         bool step_result = take_coin(pirate_id);
-        return Handler::make_json(pirate_id, "take_coin", step_result);
-
-    }
-
-    else if (request_type == "drop_coin") {
-        bool step_result = drop_coin(pirate_id);
-        return Handler::make_json(pirate_id, "drop_coin", step_result);
+        if (!step_result) {
+            return Handler::get_error_json(request_type);
+        }
     }
 
     else if (request_type == "ship_move") {
@@ -24,14 +20,13 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         if (step_result) {
             change_turn();
         }
-        return Handler::make_json(pirate_id, "ship_move", step_result, new_coords.x, new_coords.y);
     }
 
     else if (request_type == "pirate_move") {
         std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
 
         if (!check_move_correctness(pirate_to_go, new_coords) || !pirate_to_go) {
-            return Handler::make_json(pirate_id, "pirate_move", false, new_coords.x, new_coords.y);
+            return Handler::get_error_json(request_type);
         }
         Event &current_event = m_field.get_element(col_to, row_to);
 
@@ -51,14 +46,16 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
             event_type = new_event.invoke(*pirate_to_go);
             pirate_to_go->attack_pirate(*this);
         }
+        drop_coin(pirate_id);
         change_turn();
         Coords coords_to_go = pirate_to_go->get_coords();
-        return Handler::make_json(pirate_id, "pirate_move", true, coords_to_go.x, coords_to_go.y);
     }
 
     else {
-        return Handler::make_json(-1, "incorrect_command", false, -1, -1);
+        return Handler::get_error_json("incorrect_command");
     }
+
+    return Handler::get_current_game_state(*this);
 }
 
 bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords) {
@@ -152,7 +149,7 @@ bool jackal::Game::check_win() const {
     return false;
 }
 
-bool jackal::Game::drop_coin(int pirate_id) {
+void jackal::Game::drop_coin(int pirate_id) {
     auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
     Coords coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(coords.x, coords.y);
@@ -160,9 +157,7 @@ bool jackal::Game::drop_coin(int pirate_id) {
         int dropped_coins = pirate_to_go->drop_coin();
         coins_remaining += dropped_coins;
         current_event.increase_coins(dropped_coins);
-        return true;
     }
-    return false;
 }
 
 bool jackal::Game::check_is_water_cell(const jackal::Coords coords) {

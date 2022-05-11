@@ -37,12 +37,20 @@ void Controller::ship_click(int id) {
 
 void Controller::read_response() {
     in.startTransaction();
-    QJsonDocument str;
-    in >> str;
+    QJsonDocument json;
+    in >> json;
     if (!in.commitTransaction())
         return;
-    if (in.status() == QDataStream::Ok) {
-        emit field_response(str);
+    if (in.status() != QDataStream::Ok) {
+        return;
+    }
+    if (json["response_type"] == "game_state") {
+        /* emit handle_field(json["field_data"]); */
+        /* emit handle_players(json["players_data"]); */
+        return;
+    }
+    if (json["response_type"] == "requests_error") {
+        /* emit handle_error(json["error"])  */
     }
 }
 

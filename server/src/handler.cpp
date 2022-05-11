@@ -83,3 +83,12 @@ QJsonObject jackal::Handler::get_current_game_state(Game& game) {
     qObj["field_data"] = field_data;
     return qObj;
 }
+
+QJsonObject jackal::Handler::get_error_json(const std::string &error) {
+    QJsonObject qObj;
+
+    qObj["game"] = "Jackal";
+    qObj["response_type"] = "requests_error";
+    qObj["error"] = QString::fromStdString(error);
+    return qObj;
+}
