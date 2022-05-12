@@ -30,4 +30,7 @@ namespace jackal {
         field = m_game->get_field();
     }
 
+    void Server::process_move_slot(const std::string &request_type, int pirate_id, int col_to, int row_to, QJsonObject& result) {
+        result = m_game->process_move(request_type, pirate_id, col_to, row_to, result);
+    }
 }

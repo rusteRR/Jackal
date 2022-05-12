@@ -12,7 +12,7 @@ namespace {
 QJsonObject jackal::Game::process_move(const std::string& request_type, int pirate_id, int col_to, int row_to) {
     Coords new_coords = {col_to, row_to};
 
-    if (request_type == "take_coin" || request_type == "take_treausure") {
+    if (request_type == "take_coin" || request_type == "take_treasure") {
         int coins_to_take = (request_type == "take_coin" ? COIN_AMOUNT : TREASURE_AMOUNT);
         bool step_result = take_coin(pirate_id, coins_to_take);
         if (!step_result) {

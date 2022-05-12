@@ -6,8 +6,6 @@
 #include <QGridLayout>
 #include <QString>
 #include "PirateContainer.h"
-#include "event.h"
-#include "game.h"
 #include "controller.h"
 #include "ShipWidget.h"
 #include <string>

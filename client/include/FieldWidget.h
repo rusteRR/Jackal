@@ -10,9 +10,7 @@
 #include <QJsonDocument>
 #include "EventWidget.h"
 #include "ShipWidget.h"
-#include "ship.h"
 #include "PirateWidget.h"
-#include "game.h"
 #include "controller.h"
 
 namespace jackalui {

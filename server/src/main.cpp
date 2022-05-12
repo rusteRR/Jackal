@@ -4,8 +4,7 @@
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
-    jackal::MyTcpServer server;
-
+    jackal::Server server;
     return a.exec();
 
 }

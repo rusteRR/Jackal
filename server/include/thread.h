@@ -14,7 +14,7 @@ namespace jackal {
     Q_OBJECT
 
     public:
-        ClientThread(int socketDescription, QObject *parent);
+        explicit ClientThread(int socketDescription, QObject *parent = nullptr);
 
         void run() override;
 
@@ -25,6 +25,8 @@ namespace jackal {
         void get_field(jackal::Field &field);
 
         void game_start();
+        
+        void process_move(const std::string& request_type, int pirate_id, int col_to, int row_to, QJsonObject& result);
 
     private slots:
 
@@ -34,12 +36,20 @@ namespace jackal {
 
     private:
         QByteArray m_data;
+        
+        QTcpSocket* m_socket{nullptr};
+        
+        int m_socket_description;
+        
+        //QDataStream in;
+        
+        bool ship_clicked{false};
+        
+        bool pirate_clicked{false};
+        
+        void produce_json(QJsonDocument &json);
 
-        QTcpSocket* m_socket;
-
-        void produce_json(QJsonObject &jsonObject);
-
-        void send_to_client(const QJsonDocument &str, QTcpSocket *socket);
+        void send_to_client(const QJsonDocument &str);
     };
 }
 

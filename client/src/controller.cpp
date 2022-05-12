@@ -55,6 +55,7 @@ void Controller::read_response() {
 }
 
 void Controller::wait_filename() {
+    //
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "get_filename");
