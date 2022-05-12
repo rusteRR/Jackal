@@ -10,28 +10,26 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QString>
+#include "thread.h"
 #include "game.h"
 
 namespace jackal {
-    class MyTcpServer : public QObject
+    class Server : public QTcpServer
     {
-        Q_OBJECT
+    Q_OBJECT
     public:
-        explicit MyTcpServer(QObject *parent = nullptr);
+        explicit Server(QObject *parent = nullptr);
 
+    protected:
+        void incomingConnection(qintptr socketDescription) override;
     private slots:
-        void slotNewConnection();
-        void read_response();
-        void disconnect_response();
+        void get_field_slot(jackal::Field &field);
+        void game_start_slot();
     private:
-        QTcpServer * m_TcpServer;
-        QVector<QTcpSocket*> m_TcpSockets{};
         std::shared_ptr<Game> m_game{nullptr};
-        QByteArray m_data;
-        void produce_json(QJsonObject &jsonObject);
-        void send_to_client(const QJsonDocument& str, QTcpSocket* socket);
+        int m_players_amount{0};
     };
-    
+
 }
 
 #endif //JACKALUI_SERVER_H

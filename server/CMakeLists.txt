@@ -48,7 +48,7 @@ set(SOURCE_LOGIC
         src/events/treasure.cpp)
 
 add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC})
-add_executable(JackalServer src/main.cpp include/server.h src/server.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC})
+add_executable(JackalServer src/main.cpp include/server.h src/server.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC} src/thread.cpp include/thread.h)
 
 target_link_libraries(JackalServer Qt5::Widgets)
 target_link_libraries(JackalServer Qt5::Network)
