@@ -41,11 +41,11 @@ namespace jackal {
         
         int m_socket_description;
         
-        //QDataStream in;
+        QDataStream in;
         
         bool ship_clicked{false};
         
-        bool pirate_clicked{false};
+        int pirate_clicked_id{-1};
         
         void produce_json(QJsonDocument &json);
 

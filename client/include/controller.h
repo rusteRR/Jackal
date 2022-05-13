@@ -32,9 +32,11 @@ signals:
     void move_ship(int row_from, int col_from, int row_to, int col_to, int id);
 
 private:
+    void send_to_client(QJsonDocument& str);
+    void send_to_client(QJsonObject& obj);
     QTcpSocket *m_socket;
     QDataStream in;
-
+    QByteArray m_data;
 private slots:
 
     void read_response();

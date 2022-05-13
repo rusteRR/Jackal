@@ -8,6 +8,7 @@ namespace jackal {
         } else {
             qDebug() << "server is started";
         }
+        m_game = std::make_shared<Game>(game_type::DEFAULT);
     }
 
     void Server::incomingConnection(qintptr socketDescription) {
@@ -22,15 +23,15 @@ namespace jackal {
         qDebug() << "Game start signal from user";
         m_players_amount++;
         if (m_players_amount == 1){
-            m_game = std::make_shared<Game>(game_type::DEFAULT);
+            m_game = std::make_shared<Game>(game_type::DEFAULT); 
         }
     }
 
-    void Server::get_field_slot(Field &field) {
+    void Server::get_field_slot(jackal::Field &field) {
         field = m_game->get_field();
     }
 
     void Server::process_move_slot(const std::string &request_type, int pirate_id, int col_to, int row_to, QJsonObject& result) {
-        result = m_game->process_move(request_type, pirate_id, col_to, row_to, result);
+        result = m_game->process_move(request_type, pirate_id, col_to, row_to);
     }
 }

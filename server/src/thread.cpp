@@ -1,5 +1,5 @@
 #include "thread.h"
-
+#include <QHostAddress>
 namespace jackal {
     ClientThread::ClientThread(int socketDescription, QObject *parent) : QThread(parent),
                                                                          m_socket_description(socketDescription) {
@@ -11,8 +11,6 @@ namespace jackal {
             emit error(m_socket->error());
             return;
         }
-        //in.setDevice(m_socket);
-        //in.setVersion(QDataStream::Qt_4_0);
         connect(m_socket, &QTcpSocket::readyRead, this, &ClientThread::read_response);
         connect(m_socket, &QTcpSocket::disconnected, this, &ClientThread::disconnect_response);
         exec();
@@ -20,6 +18,7 @@ namespace jackal {
 
     void ClientThread::produce_json(QJsonDocument &json) {
         QString request_type = json["request_type"].toString();
+        qDebug() << request_type;
         if (ship_clicked) {
             if (request_type != "cell_click") {
                 //TODO: send error
@@ -29,20 +28,28 @@ namespace jackal {
             emit process_move("ship_move", json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt(),
                               result);
             send_to_client(QJsonDocument(result));
+            ship_clicked = false;
+        }
+        if (pirate_clicked_id != -1){
+            if (request_type != "cell_click" && request_type != "ship_click") {
+                //TODO: send error
+                return;
+            }
+            QJsonObject result;
+            emit process_move(request_type.toStdString(), json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt(), result);
+            send_to_client(QJsonDocument(result));
+            if (result["response_type"] == "requests_error") {
+                qDebug() << result["error"];
+                return;
+            }
+            pirate_clicked_id = -1;
         }
         if (request_type == "game_start") {
             emit game_start();
         } else if (request_type == "ship_click") {
             ship_clicked = true;
         } else if (request_type == "pirate_click") {
-            pirate_clicked = true;
-            QJsonObject result;
-            emit process_move(request_type.toStdString(), json["pirate_id"].toInt(), -1, -1, result);
-            send_to_client(QJsonDocument(result));
-            if (result["response_type"] == "requests_error") {
-                qDebug() << result["error"];
-                return;
-            }
+            pirate_clicked_id = json["pirate_id"].toInt();
         }
     }
 
@@ -52,20 +59,26 @@ namespace jackal {
         QDataStream out(&m_data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_2);
         out << str;
+        qDebug() << 1;
         m_socket->write(m_data);
+        qDebug() << 1;
     }
 
     void ClientThread::read_response() {
-        /*do {
-            in.startTransaction();
-            in >> json;
-            qDebug() << json.toJson();
-        } while (!in.commitTransaction());*/
-        QByteArray Data = m_socket->readAll();
-        QJsonDocument json = QJsonDocument::fromJson(Data);
-        qDebug() << json.toJson();
+        in.setDevice(m_socket);
+        in.setVersion(QDataStream::Qt_4_0);
+        QJsonDocument json;
+        in.startTransaction();
+        in >> json;
+        qDebug() << json;
+        if (!in.commitTransaction())
+            return;
+        if (in.status() != QDataStream::Ok) {
+            return;
+        }
         produce_json(json);
-        /*Field field;
+        /*QJsonObject json;
+        Field field;
         emit get_field(field);
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
@@ -73,7 +86,7 @@ namespace jackal {
                             field.get_element(j, i).get_filename().c_str());
             }
         }
-        send_to_client(QJsonDocument(json), m_socket);*/
+        send_to_client(QJsonDocument(json));*/
     }
 
     void ClientThread::disconnect_response() {
