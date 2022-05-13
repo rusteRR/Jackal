@@ -30,8 +30,9 @@ void Controller::pass_coords(int row, int col) {
 }
 
 void Controller::ship_click(int id) {
+    // TODO: this signal come from click on ship, provides ship's id
     std::cout << "Ship_id: " << id << std::endl;
-    // emit move_ship(6, 0, 7, 0, id);
+    // emit move_ship(6, 0, 7, 0, id, money);
     // TODO: usually waiting for response, that will move ship into other cell
 }
 
@@ -44,6 +45,7 @@ void Controller::read_response() {
     if (in.status() != QDataStream::Ok) {
         return;
     }
+    // emit field_response(json);
     if (json["response_type"] == "game_state") {
         /* emit handle_field(json["field_data"]); */
         /* emit handle_players(json["players_data"]); */

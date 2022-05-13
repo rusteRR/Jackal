@@ -19,13 +19,13 @@ namespace jackalui {
         layout->setContentsMargins(0, 0, 0, 0);
 
         if (m_row == 0 && m_col == 6) {
-            set_ship(0);
+            set_ship(0, 0);
         } else if (m_row == 6 && m_col == 12) {
-            set_ship(1);
+            set_ship(1, 0);
         } else if (m_row == 12 && m_col == 6) {
-            set_ship(2);
+            set_ship(2, 0);
         } else if (m_row == 6 && m_col == 0) {
-            set_ship(3);
+            set_ship(3, 0);
         }
 
         connect(this, &EventWidget::onPressed, controller, [&]() {
@@ -37,9 +37,9 @@ namespace jackalui {
         filename = file_to_set;
     }
 
-    void EventWidget::set_ship(int player_number) {
+    void EventWidget::set_ship(int player_number, int money) {
         layout()->removeWidget(m_label);
-        ship = new ShipWidget(player_number, this, controller);
+        ship = new ShipWidget(player_number, money, this, controller);
         layout()->addWidget(ship);
     }
 

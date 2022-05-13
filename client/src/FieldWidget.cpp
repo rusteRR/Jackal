@@ -38,9 +38,9 @@ namespace jackalui {
         field[row][col]->flip();
     }
 
-    void FieldWidget::shipMove(int row_from, int col_from, int row_to, int col_to, int id) {
+    void FieldWidget::shipMove(int row_from, int col_from, int row_to, int col_to, int id, int money) {
         field[row_from][col_from]->removeShip();
-        field[row_to][col_to]->set_ship(id);
+        field[row_to][col_to]->set_ship(id, money);
         qDebug() << "Ship" << id << "moved from" << row_from << col_from << "to" << row_to << col_to;
     }
 }
