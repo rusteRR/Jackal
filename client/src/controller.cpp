@@ -2,6 +2,7 @@
 #include <QHostAddress>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QString>
 #include <iostream>
 
@@ -41,12 +42,12 @@ void Controller::pass_coords(int row, int col) {
 
 void Controller::ship_click(int id) {
     std::cout << "Ship_id: " << id << std::endl;
-    /*QJsonObject qObj;
+    // emit move_ship(6, 0, 7, 0, id, 1);
+    // TODO: usually waiting for response, that will move ship into other cell
+    QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "ship_click");
-    send_to_server(qObj);*/
-    // emit move_ship(6, 0, 7, 0, id);
-    // TODO: usually waiting for response, that will move ship into other cell
+    send_to_server(qObj);
 }
 
 void Controller::read_response() {
@@ -60,8 +61,8 @@ void Controller::read_response() {
     }
     emit field_response(json);
     if (json["response_type"] == "game_state") {
-        /* emit handle_field(json["field_data"]); */
-        /* emit handle_players(json["players_data"]); */
+        emit handle_field(json["field_data"].toArray());
+        emit handle_players(json["players_data"].toArray());
         return;
     }
     if (json["response_type"] == "requests_error") {

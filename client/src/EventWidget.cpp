@@ -41,6 +41,7 @@ namespace jackalui {
         layout()->removeWidget(m_label);
         ship = new ShipWidget(player_number, money, this, controller);
         layout()->addWidget(ship);
+        m_is_flipped = true;
     }
 
     void EventWidget::flip() {

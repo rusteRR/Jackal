@@ -6,6 +6,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QString>
 #include <QJsonDocument>
 #include "EventWidget.h"
@@ -30,6 +31,10 @@ namespace jackalui {
         void cellOpen(int row, int col);
 
         void shipMove(int row_from, int col_from, int row_to, int col_to, int id, int money);
+
+        void update_players(const QJsonArray &players_data);
+
+        void update_field(const QJsonArray &field_data);
 
     private:
         Controller *controller;
