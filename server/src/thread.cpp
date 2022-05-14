@@ -1,5 +1,6 @@
 #include "thread.h"
 #include <QHostAddress>
+
 namespace jackal {
     ClientThread::ClientThread(int socketDescription, QObject *parent) : QThread(parent),
                                                                          m_socket_description(socketDescription) {
@@ -7,7 +8,6 @@ namespace jackal {
 
     void ClientThread::run() {
         m_socket = new QTcpSocket();
-        m_data = new QByteArray();
         if (!m_socket->setSocketDescriptor(m_socket_description)) {
             emit error(m_socket->error());
             return;
@@ -31,13 +31,14 @@ namespace jackal {
             send_to_client(result);
             ship_clicked = false;
         }
-        if (pirate_clicked_id != -1){
+        if (pirate_clicked_id != -1) {
             if (request_type != "cell_click" && request_type != "ship_click") {
                 send_error("not cell nor ship clicked");
                 return;
             }
             QJsonObject result;
-            emit process_move(request_type.toStdString(), json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt(), result);
+            emit process_move(request_type.toStdString(), json["pirate_id"].toInt(), json["col_to"].toInt(),
+                              json["row_to"].toInt(), result);
             send_to_client(result);
             if (result["response_type"] == "requests_error") {
                 qDebug() << result["error"];
@@ -55,20 +56,21 @@ namespace jackal {
     }
 
     void ClientThread::send_to_client(const QJsonDocument &str) {
-        m_data->clear();
+        QByteArray data;
         qDebug() << str;
-        QDataStream out(m_data, QIODevice::WriteOnly);
+        QDataStream out(&data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_2);
         out << str;
         qDebug() << 1;
-        m_socket->write(m_data->data());
+        m_socket->write(data);
+        qDebug() << data;
         qDebug() << 1;
     }
 
     void ClientThread::send_to_client(const QJsonObject &obj) {
         send_to_client(QJsonDocument(obj));
     }
-    
+
     void ClientThread::send_error(const QString &str) {
         QJsonObject error;
         error.insert("game", "Jackal");
@@ -76,7 +78,7 @@ namespace jackal {
         error.insert("error", str);
         send_to_client(error);
     }
-    
+
     void ClientThread::read_response() {
         in.setDevice(m_socket);
         in.setVersion(QDataStream::Qt_4_0);
@@ -98,7 +100,7 @@ namespace jackal {
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
                 json1.insert((std::to_string(j) + ' ' + std::to_string(i)).c_str(),
-                            field.get_element(j, i).get_filename().c_str());
+                             field.get_element(j, i).get_filename().c_str());
             }
         }
         send_to_client(json1);

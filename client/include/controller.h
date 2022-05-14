@@ -36,7 +36,6 @@ private:
     void send_to_server(const QJsonObject& obj);
     QTcpSocket *m_socket;
     QDataStream in;
-    QByteArray m_data;
 private slots:
 
     void read_response();

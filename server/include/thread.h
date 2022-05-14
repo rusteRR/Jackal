@@ -36,8 +36,6 @@ namespace jackal {
         void disconnect_response();
 
     private:
-        QByteArray* m_data;
-        
         QTcpSocket* m_socket{nullptr};
         
         int m_socket_description;

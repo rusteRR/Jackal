@@ -12,12 +12,12 @@ Controller::Controller(QObject *parent) : QObject(parent), m_socket(new QTcpSock
     in.setVersion(QDataStream::Qt_4_0);
 }
 void Controller::send_to_server(const QJsonDocument &str){
-    m_data.clear();
+    QByteArray data;
     qDebug() << str;
-    QDataStream out(&m_data, QIODevice::WriteOnly);
+    QDataStream out(&data, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_2);
     out << str;
-    m_socket->write(m_data);
+    m_socket->write(data);
 }
 void Controller::send_to_server(const QJsonObject &obj) {
     send_to_server(QJsonDocument(obj));
