@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDataStream>
+#include <QString>
 #include "game.h"
 
 namespace jackal {
@@ -35,7 +36,7 @@ namespace jackal {
         void disconnect_response();
 
     private:
-        QByteArray m_data;
+        QByteArray* m_data;
         
         QTcpSocket* m_socket{nullptr};
         
@@ -50,6 +51,10 @@ namespace jackal {
         void produce_json(QJsonDocument &json);
 
         void send_to_client(const QJsonDocument &str);
+        
+        void send_to_client(const QJsonObject &obj);
+        
+        void send_error(const QString &str);
     };
 }
 

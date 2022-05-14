@@ -11,7 +11,7 @@ Controller::Controller(QObject *parent) : QObject(parent), m_socket(new QTcpSock
     in.setDevice(m_socket);
     in.setVersion(QDataStream::Qt_4_0);
 }
-void Controller::send_to_client(QJsonDocument &str){
+void Controller::send_to_server(const QJsonDocument &str){
     m_data.clear();
     qDebug() << str;
     QDataStream out(&m_data, QIODevice::WriteOnly);
@@ -19,15 +19,14 @@ void Controller::send_to_client(QJsonDocument &str){
     out << str;
     m_socket->write(m_data);
 }
-void Controller::send_to_client(QJsonObject &obj) {
-    QJsonDocument str(obj);
-    send_to_client(str);
+void Controller::send_to_server(const QJsonObject &obj) {
+    send_to_server(QJsonDocument(obj));
 }
 void Controller::start_game() {
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "game_start");
-    send_to_client(qObj);
+    send_to_server(qObj);
 }
 
 void Controller::end_game() {
@@ -71,6 +70,6 @@ void Controller::wait_filename() {
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "get_filename");
-    send_to_client(qObj);
+    send_to_server(qObj);
 }
 
