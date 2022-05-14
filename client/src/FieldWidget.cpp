@@ -23,7 +23,7 @@ namespace jackalui {
         grid->setHorizontalSpacing(0);
         grid->setVerticalSpacing(0);
 
-        controller->wait_filename();
+        //controller->wait_filename();
     }
 
     void FieldWidget::set_pics(const QJsonDocument &json) {

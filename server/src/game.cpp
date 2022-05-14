@@ -62,6 +62,8 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
     return Handler::get_current_game_state(*this);
 }
 
+
+
 bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords) {
     auto coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(new_coords.x, new_coords.y);
@@ -180,4 +182,8 @@ bool jackal::Game::check_if_pirates_on_cell(const jackal::Coords coords) {
         }
     }
     return false;
+}
+
+QJsonObject jackal::Game::get_current_state() {
+    return Handler::get_current_game_state(*this);
 }

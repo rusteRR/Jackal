@@ -28,7 +28,8 @@ namespace jackal {
         m_players_amount++;
         if (m_players_amount == 1){
             qDebug() << "game created";
-            m_game = std::make_shared<Game>(game_type::DEFAULT); 
+            m_game = std::make_shared<Game>(game_type::DEFAULT);
+            //emit send_json(m_game->get_current_state());
         }
     }
 
