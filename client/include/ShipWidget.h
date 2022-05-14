@@ -10,7 +10,7 @@ namespace jackalui {
     class ShipWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit ShipWidget(int id, QWidget *parent = nullptr, Controller *controller_ = nullptr);
+        explicit ShipWidget(int id, int money_, QWidget *parent = nullptr, Controller *controller_ = nullptr);
 
     public slots:
 
@@ -23,6 +23,7 @@ namespace jackalui {
     private:
         QLabel *m_label;
         int m_id;
+        int money;
         Controller *controller;
 
     protected:

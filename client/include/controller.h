@@ -29,7 +29,7 @@ signals:
 
     void open_cell(int row, int col);
 
-    void move_ship(int row_from, int col_from, int row_to, int col_to, int id);
+    void move_ship(int row_from, int col_from, int row_to, int col_to, int id, int money);
 
 private:
     void send_to_server(const QJsonDocument& str);

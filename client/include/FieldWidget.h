@@ -29,7 +29,7 @@ namespace jackalui {
 
         void cellOpen(int row, int col);
 
-        void shipMove(int row_from, int col_from, int row_to, int col_to, int id);
+        void shipMove(int row_from, int col_from, int row_to, int col_to, int id, int money);
 
     private:
         Controller *controller;

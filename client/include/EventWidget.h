@@ -18,7 +18,7 @@ namespace jackalui {
 
         void set_pic(const QString &file_to_set);
 
-        void set_ship(int player_number);
+        void set_ship(int player_number, int money);
 
         void flip();
 
