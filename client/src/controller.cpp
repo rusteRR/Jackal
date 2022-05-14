@@ -41,6 +41,10 @@ void Controller::pass_coords(int row, int col) {
 
 void Controller::ship_click(int id) {
     std::cout << "Ship_id: " << id << std::endl;
+    /*QJsonObject qObj;
+    qObj.insert("game", "Jackal");
+    qObj.insert("request_type", "ship_click");
+    send_to_server(qObj);*/
     // emit move_ship(6, 0, 7, 0, id);
     // TODO: usually waiting for response, that will move ship into other cell
 }

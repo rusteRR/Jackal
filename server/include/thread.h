@@ -10,27 +10,33 @@
 #include "game.h"
 
 namespace jackal {
-    class ClientThread : public QThread {
+    class ClientWorker : public QObject {
 
     Q_OBJECT
 
     public:
-        explicit ClientThread(int socketDescription, QObject *parent = nullptr);
+        explicit ClientWorker(int socketDescription, QObject *parent = nullptr);
 
-        void run() override;
+        //void run();
 
     signals:
 
         void error(QTcpSocket::SocketError socketError);
 
-        void get_field(jackal::Field &field);
+        void send_field();
 
         void game_start();
         
-        void process_move(const std::string& request_type, int pirate_id, int col_to, int row_to, QJsonObject& result);
+        void process_move(const QString& request_type, int pirate_id, int col_to, int row_to);
+        
+        void finish();
 
+    public slots:
+        
+        void json_response(QJsonObject json);
+    
     private slots:
-
+    
         void read_response();
 
         void disconnect_response();

@@ -22,13 +22,17 @@ namespace jackal {
     protected:
         void incomingConnection(qintptr socketDescription) override;
 
+    signals:
+        void send_json(QJsonObject json);
+
     private slots:
 
-        void get_field_slot(jackal::Field &field);
+        void send_field_slot();
 
         void game_start_slot();
 
-        void process_move_slot(const std::string &request_type, int pirate_id, int col_to, int row_to, QJsonObject& result);
+        void process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to);
+        
 
     private:
         std::shared_ptr<Game> m_game{nullptr};
