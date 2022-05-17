@@ -25,6 +25,9 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         if (step_result) {
             change_turn();
         }
+        else {
+            return Handler::get_error_json(request_type);
+        }
     }
 
     else if (request_type == "pirate_move") {
@@ -102,7 +105,7 @@ jackal::Game::Game(game_type type) : m_current_player(0), m_game_type(type), coi
 }
 
 void jackal::Game::change_turn() noexcept {
-    m_current_player = (m_current_player + 1) % 4;
+    m_current_player = (m_current_player + 1) % 2;
 }
 
 std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {

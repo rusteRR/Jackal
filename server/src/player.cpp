@@ -4,9 +4,6 @@ jackal::Player::Player(int total_pirates, int col, int row) : m_total_coins(0), 
     for (int i = 0; i < total_pirates; i++) {
         m_pirates.push_back(std::make_shared<Pirate>(col, row, &m_ship, this));
     }
-    for (const auto& pirate : m_pirates) {
-        m_ship.add_pirate(pirate);
-    }
 }
 
 std::shared_ptr<jackal::Pirate> jackal::Player::get_pirate(int pirate_id) {

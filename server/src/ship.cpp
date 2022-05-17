@@ -10,7 +10,7 @@ jackal::Coords jackal::Ship::get_coords() const {
     return m_coords;
 }
 
-void jackal::Ship::add_pirate(const std::shared_ptr<jackal::Pirate>& pirate) {
+void jackal::Ship::add_pirate(Pirate* pirate) {
     pirates_on_board.push_back(pirate);
 }
 
@@ -37,8 +37,8 @@ bool jackal::Ship::check_move_correctness(Coords coords) const {
 }
 
 void jackal::Ship::leave_ship(Pirate* pirate) {
-    for (const auto& elem : pirates_on_board) {
-        if (elem.get() == pirate) {
+    for (auto elem : pirates_on_board) {
+        if (elem == pirate) {
             pirates_on_board.erase(std::find(pirates_on_board.begin(), pirates_on_board.end(), elem));
         }
     }

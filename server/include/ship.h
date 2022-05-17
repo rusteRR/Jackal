@@ -14,11 +14,11 @@ namespace jackal {
         Ship(int col, int row);
         Coords get_coords() const;
         bool move(Coords coords);
-        void add_pirate(const std::shared_ptr<Pirate>& pirate);
+        void add_pirate(Pirate* pirate);
         void leave_ship(Pirate* pirate);
 
     private:
-        std::vector<std::shared_ptr<Pirate>> pirates_on_board;
+        std::vector<Pirate*> pirates_on_board;
         Coords m_coords;
 
         bool check_move_correctness(Coords coords) const;

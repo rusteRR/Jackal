@@ -4,11 +4,11 @@ jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
     std::cout << "Horse" << std::endl;
     is_opened = true;
     pirate.set_last_move(eventType::HORSE, pirate.get_coords());
-    Coords response = get_response();
+    /*Coords response = get_response();
     while (!check_correctness(response)) {
         response = get_response();
-    }
-    pirate.move(response);
+    }*/
+    //pirate.move(response);
     return m_type;
 }
 
