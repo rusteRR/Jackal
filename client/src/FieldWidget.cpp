@@ -54,7 +54,12 @@ namespace jackalui {
             int ship_col = player["ship_coord_x"].toInt();
             int player_id = player["player_id"].toInt();
             int player_coins = player["total_coins"].toInt();
-            field[ship_row][ship_col]->set_ship(player_id, player_coins);
+            auto cur_pos = cur_ships[i];
+            if (cur_pos.first != ship_row || cur_pos.second != ship_col) {
+                field[cur_pos.first][cur_pos.second]->removeShip();
+                field[ship_row][ship_col]->set_ship(player_id, player_coins);
+                cur_ships[i] = {ship_row, ship_col};
+            }
         }
     }
 
