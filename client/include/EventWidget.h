@@ -32,6 +32,7 @@ namespace jackalui {
         ShipWidget *ship;
         bool m_is_flipped = false;
         int m_col, m_row;
+        bool have_ship = false;
 
     signals:
 

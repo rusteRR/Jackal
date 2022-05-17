@@ -38,8 +38,9 @@ namespace jackalui {
     }
 
     void EventWidget::set_ship(int player_number, int money) {
+        if (have_ship) return;
         layout()->removeWidget(m_label);
-        ship = new ShipWidget(player_number, money, this, controller);
+        ship = new ShipWidget(player_number, money, m_row, m_col, this, controller);
         layout()->addWidget(ship);
         m_is_flipped = true;
     }
@@ -55,6 +56,7 @@ namespace jackalui {
         layout()->removeWidget(ship);
         delete ship;
         layout()->addWidget(m_label);
+        have_ship = false;
     }
 
     void EventWidget::mousePressEvent(QMouseEvent *event) {

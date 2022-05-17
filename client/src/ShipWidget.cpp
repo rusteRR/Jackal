@@ -1,11 +1,11 @@
 #include "ShipWidget.h"
 
 namespace jackalui {
-    ShipWidget::ShipWidget(int id, int money_, QWidget *parent, Controller *controller_) : m_id(id), QWidget(parent),
+    ShipWidget::ShipWidget(int id, int money_, int row, int col, QWidget *parent, Controller *controller_) : m_id(id), QWidget(parent),
                                                                                            m_label(new QLabel(this)),
                                                                                            money_counter(new QLabel(m_label)),
                                                                                            controller(controller_),
-                                                                                           money(money_) {
+                                                                                           money(money_), m_row(row), m_col(col) {
         m_label->setScaledContents(true);
         QString picture_to_set = QString::fromStdString(std::string("ship" + std::to_string(id) + ".png"));
         QPixmap pixmap(picture_to_set);
@@ -20,7 +20,7 @@ namespace jackalui {
         money_counter->setNum(money);
 
         connect(this, &ShipWidget::onPressed, controller, [&]() {
-            controller->ship_click(m_id);
+            controller->ship_click(m_id, m_row, m_col);
         });
     }
 

@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QString>
 #include <QJsonDocument>
+#include <map>
 #include "EventWidget.h"
 #include "ShipWidget.h"
 #include "PirateWidget.h"
@@ -39,6 +40,7 @@ namespace jackalui {
     private:
         Controller *controller;
         QVector<QVector<EventWidget *>> field;
+        std::map<int, std::pair<int,int>> cur_ships = {{0, {0, 6}}, {1, {6, 12}}, {2, {12, 6}}, {3,{6, 0}}};
     };
 }
 

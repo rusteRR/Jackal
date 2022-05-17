@@ -21,7 +21,7 @@ public slots:
 
     void pass_coords(int row, int col);
 
-    void ship_click(int id);
+    void ship_click(int id, int row, int col);
 
 signals:
 
