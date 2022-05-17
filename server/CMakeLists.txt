@@ -15,7 +15,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "C://Qt//5.15.2//mingw81_64//bin")
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)
 
-
 include_directories(
         include
         src
@@ -47,9 +46,11 @@ set(SOURCE_LOGIC
         src/events/cannon.cpp
         src/events/treasure.cpp)
 
-add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC} ${HEADERS_LOGIC})
+add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC})
 add_executable(JackalServer src/main.cpp include/server.h src/server.cpp src/thread.cpp include/thread.h ${SOURCE_LOGIC} ${HEADERS_LOGIC})
+add_executable(LogicTest ../main.cpp ${SOURCE_LOGIC})
 
 target_link_libraries(JackalServer Qt5::Widgets)
 target_link_libraries(JackalServer Qt5::Network)
 target_link_libraries(JackalLogicOnly Qt5::Network)
+target_link_libraries(LogicTest Qt5::Network)

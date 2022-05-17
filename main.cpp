@@ -7,7 +7,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <QJsonDocument>
 #include <vector>
+#include <QJsonArray>
 
 std::pair<std::string, std::vector<int>> parse_input(const std::string& input) {
     std::string command;
@@ -28,16 +30,18 @@ int main() {
     //                Pirate coords            new coords
     // Input format : col_coord row_coord      col_coord row_coord
     std::string command;
+    QJsonObject result;
     while (std::getline(std::cin, command)) {
         auto tokens = parse_input(command);
         if (tokens.second.size() == 1) {
-            current_game.process_move(tokens.first, tokens.second[0]);
+            result = current_game.process_move(tokens.first, tokens.second[0]);
         }
         else if (tokens.first == "ship_move"){
-            current_game.process_move(tokens.first, -1, tokens.second[0], tokens.second[1]);
+            result = current_game.process_move(tokens.first, -1, tokens.second[0], tokens.second[1]);
         }
         else {
-            current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2]);
+            result = current_game.process_move(tokens.first, tokens.second[0], tokens.second[1], tokens.second[2]);
         }
+        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << std::endl;
     }
 }

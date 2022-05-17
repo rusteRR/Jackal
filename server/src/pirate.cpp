@@ -8,7 +8,8 @@
 
 jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
                     m_coords({col, row}), m_coins(0),
-                    m_status(status::ALIVE), m_ship(ship), m_owner(owner) {
+                    m_status(status::ON_BOARD), m_ship(ship), m_owner(owner) {
+    m_ship->add_pirate(this);
 }
 
 
@@ -52,6 +53,7 @@ void jackal::Pirate::attack_pirate(Game &game) {
 
 void jackal::Pirate::go_to_ship() {
     Coords ship_coords = m_ship->get_coords();
+    m_ship->add_pirate(this);
     m_coords = ship_coords;
 }
 
@@ -64,6 +66,7 @@ void jackal::Pirate::stuck(int steps) {
 void jackal::Pirate::die() {
     std::cout << "Pirate is dead" << std::endl;
     m_status = status::DEAD;
+    m_coords = {-2, -2};
 }
 
 // Store the position last move was done
