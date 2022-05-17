@@ -83,7 +83,8 @@ bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_
     if (abs(coords.x - new_coords.x) > 1 || abs(coords.y - new_coords.y) > 1) {
         return false;
     }
-    if (cur_status != status::DROWN && Game::check_is_water_cell(new_coords)) {
+    if (cur_status != status::DROWN && Game::check_is_water_cell(new_coords) &&
+            new_coords != pirate_to_go->get_ship_coords()) {
         return false;
     }
     if (cur_status == status::DROWN && !Game::check_is_water_cell(new_coords)) {

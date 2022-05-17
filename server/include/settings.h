@@ -32,6 +32,7 @@ namespace jackal {
         int y;
 
         bool operator==(const Coords& rhs) const;
+        bool operator!=(const Coords& rhs) const;
     };
 
     class Settings {

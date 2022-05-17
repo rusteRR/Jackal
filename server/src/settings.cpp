@@ -26,3 +26,8 @@ jackal::MultiPointerType jackal::Settings::get_multi_pointer() {
 bool jackal::Coords::operator==(const jackal::Coords &rhs) const {
     return (x == rhs.x && y == rhs.y);
 }
+
+bool jackal::Coords::operator!=(const jackal::Coords &rhs) const {
+    return (x != rhs.x || y != rhs.y);
+}
+

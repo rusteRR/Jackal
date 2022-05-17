@@ -27,6 +27,7 @@ void jackal::Pirate::move(Coords coords) {
     if (get_coords() == m_ship->get_coords()) {
         m_owner->increase_coins(m_coins);
         m_status = status::ON_BOARD;
+        m_ship->add_pirate(this);
         m_coins = 0;
     }
 }
@@ -54,6 +55,7 @@ void jackal::Pirate::attack_pirate(Game &game) {
 void jackal::Pirate::go_to_ship() {
     Coords ship_coords = m_ship->get_coords();
     m_ship->add_pirate(this);
+    set_status(status::ON_BOARD);
     m_coords = ship_coords;
 }
 
