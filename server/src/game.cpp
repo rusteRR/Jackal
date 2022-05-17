@@ -21,7 +21,7 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
     }
 
     else if (request_type == "ship_move") {
-        bool step_result = m_players[m_current_player].move_ship(new_coords);
+        bool step_result = m_players[m_current_player]->move_ship(new_coords);
         if (step_result) {
             change_turn();
         }
@@ -31,7 +31,7 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
     }
 
     else if (request_type == "pirate_move") {
-        std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
+        std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player]->get_pirate(pirate_id);
 
         if (!check_move_correctness(pirate_to_go, new_coords) || !pirate_to_go) {
             return Handler::get_error_json(request_type);
@@ -98,14 +98,14 @@ bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_
 jackal::Game::Game(game_type type) : m_current_player(0), m_game_type(type), coins_remaining(37) {
     m_field.generate_field(m_settings);
 
-    m_players.emplace_back(total_pirates, m_total_cols / 2, 0);
-    m_players.emplace_back(total_pirates, m_total_cols - 1, m_total_rows / 2);
-    m_players.emplace_back(total_pirates, m_total_cols / 2, m_total_rows - 1);
-    m_players.emplace_back(total_pirates, 0, m_total_rows / 2);
+    m_players.emplace_back(std::make_shared<Player>(total_pirates, m_total_cols / 2, 0));
+    m_players.emplace_back(std::make_shared<Player>(total_pirates, m_total_cols - 1, m_total_rows / 2));
+    m_players.emplace_back(std::make_shared<Player>(total_pirates, m_total_cols / 2, m_total_rows - 1));
+    m_players.emplace_back(std::make_shared<Player>(total_pirates, 0, m_total_rows / 2));
 }
 
 void jackal::Game::change_turn() noexcept {
-    m_current_player = (m_current_player + 1) % 2;
+    m_current_player = (m_current_player + 1) % 4;
 }
 
 std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
@@ -114,14 +114,14 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
         if (i == m_current_player) {
             continue;
         }
-        auto cur_pirate = m_players[i].get_all_pirates();
+        auto cur_pirate = m_players[i]->get_all_pirates();
         result.insert(result.end(), cur_pirate.begin(), cur_pirate.end());
     }
     return result;
 }
 
 bool jackal::Game::take_coin(int pirate_id, int coins_to_take) {
-    auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
+    auto pirate_to_go = m_players[m_current_player]->get_pirate(pirate_id);
     Coords coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(coords.x, coords.y);
     if (pirate_to_go) {
@@ -148,7 +148,7 @@ bool jackal::Game::check_win() const {
     std::vector<std::pair<int, int>> coins_earned(m_players.size());
 
     for (int i = 0; i < m_players.size(); i++) {
-        coins_earned[i] = {m_players[i].get_coins_earned(), i};
+        coins_earned[i] = {m_players[i]->get_coins_earned(), i};
     }
     std::sort(coins_earned.rbegin(), coins_earned.rend());
     if (coins_earned[0].first > coins_earned[1].first + coins_in_game) {
@@ -159,7 +159,7 @@ bool jackal::Game::check_win() const {
 }
 
 void jackal::Game::drop_coin(int pirate_id) {
-    auto pirate_to_go = m_players[m_current_player].get_pirate(pirate_id);
+    auto pirate_to_go = m_players[m_current_player]->get_pirate(pirate_id);
     Coords coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(coords.x, coords.y);
     if (pirate_to_go->get_status() == status::CARRYING_COIN) {
@@ -177,7 +177,7 @@ bool jackal::Game::check_is_water_cell(const jackal::Coords coords) {
 bool jackal::Game::check_if_pirates_on_cell(const jackal::Coords coords) {
     for (int i = 0; i < m_players.size(); i++) {
         if (i == m_current_player) continue;
-        auto pirates = m_players[i].get_all_pirates();
+        auto pirates = m_players[i]->get_all_pirates();
         for (const auto& pirate : pirates) {
             if (pirate->get_coords() == coords) {
                 return true;

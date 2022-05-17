@@ -25,7 +25,7 @@ namespace jackal {
     private:
         Settings m_settings{};
         Field m_field{};
-        std::vector<Player> m_players;
+        std::vector<std::shared_ptr<Player>> m_players;
         game_type m_game_type;
         int coins_remaining;
         int m_current_player;

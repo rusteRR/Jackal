@@ -35,9 +35,9 @@ QJsonObject jackal::Handler::get_current_game_state(Game& game) {
         QJsonObject data;
 
         data["player_id"] = player_id++;
-        data["total_coins"] = player.get_coins_earned();
+        data["total_coins"] = player->get_coins_earned();
 
-        auto pirates = player.get_all_pirates();
+        auto pirates = player->get_all_pirates();
         QJsonArray pirates_data;
         int pirate_id = 0;
 
@@ -53,7 +53,7 @@ QJsonObject jackal::Handler::get_current_game_state(Game& game) {
 
             pirates_data.append(p_data);
         }
-        Coords ship_coords = player.get_ship_coords();
+        Coords ship_coords = player->get_ship_coords();
 
         data["pirates"] = pirates_data;
         data["ship_coord_x"] = ship_coords.x;
