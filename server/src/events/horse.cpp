@@ -9,7 +9,7 @@ jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
         response = get_response();
     }*/
     //pirate.move(response);
-    return m_type;
+    return EventType::SIMPLE;
 }
 
 jackal::Coords jackal::Horse::get_response() {

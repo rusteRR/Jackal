@@ -15,7 +15,6 @@ jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
 
 // Make move from cuurent position to position (col, row)
 void jackal::Pirate::move(Coords coords, moveType type) {
-    // TODO : fix bug, when ship moves pirates leave ship.
     if (m_status == status::ON_BOARD && type == moveType::PLAIN) {
         m_ship->leave_ship(this);
         m_status = status::ALIVE;
@@ -25,7 +24,7 @@ void jackal::Pirate::move(Coords coords, moveType type) {
     if (coords.y > COORD_UPPER_BOUND) coords.y = COORD_UPPER_BOUND;
     else if (coords.y < COORD_LOWER_BOUND) coords.y = COORD_LOWER_BOUND;
     m_coords = coords;
-    if (get_coords() == m_ship->get_coords()) {
+    if (m_coords == m_ship->get_coords()) {
         m_owner->increase_coins(m_coins);
         m_status = status::ON_BOARD;
         m_ship->add_pirate(this);
@@ -61,7 +60,6 @@ void jackal::Pirate::go_to_ship() {
 }
 
 void jackal::Pirate::stuck(int steps) {
-    std::cout << "Stucked for " << steps << " steps" << std::endl;
     m_stucked_for = steps;
     m_status = status::STUCK;
 }
@@ -69,10 +67,10 @@ void jackal::Pirate::stuck(int steps) {
 void jackal::Pirate::die() {
     std::cout << "Pirate is dead" << std::endl;
     m_status = status::DEAD;
+    // TODO : unfortunately next line causes error. (Sol: mark pirate dead when make response(?))
     m_coords = {-2, -2};
 }
 
-// Store the position last move was done
 void jackal::Pirate::set_last_move(eventType type, Coords coords) {
     m_last_move = std::make_pair(type, coords);
 }
@@ -90,8 +88,8 @@ void jackal::Pirate::take_coin(int n) {
     m_coins = n;
 }
 
-void jackal::Pirate::get_rum(int n) {
-    m_owner->get_rum_bottles(n);
+void jackal::Pirate::pick_up_rum(int n) {
+    m_owner->set_rum_bottles(n);
 }
 
 void jackal::Pirate::drown() {
@@ -113,4 +111,16 @@ int jackal::Pirate::drop_coin() {
 
 int jackal::Pirate::get_coins_amount() const {
     return m_coins;
+}
+
+void jackal::Pirate::decrease_debuff() {
+    m_drunk_for = std::max(m_drunk_for - 1, 0);
+    if (m_drunk_for == 0) {
+        set_status(status::ALIVE);
+    }
+}
+
+void jackal::Pirate::drunk(int n) {
+    m_drunk_for = n;
+    set_status(status::DRUNK);
 }

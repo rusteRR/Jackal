@@ -15,7 +15,7 @@ std::vector<std::shared_ptr<jackal::Pirate>> jackal::Player::get_all_pirates() c
     return m_pirates;
 }
 
-void jackal::Player::get_rum_bottles(int n) {
+void jackal::Player::set_rum_bottles(int n) {
     m_rum_bottles += n;
 }
 
@@ -33,4 +33,10 @@ int jackal::Player::get_coins_earned() const {
 
 jackal::Coords jackal::Player::get_ship_coords() const {
     return m_ship.get_coords();
+}
+
+void jackal::Player::decrease_debuff() {
+    for (auto &pirate : m_pirates) {
+        pirate->decrease_debuff();
+    }
 }

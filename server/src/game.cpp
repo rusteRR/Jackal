@@ -57,7 +57,6 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         drop_coin(pirate_id);
         change_turn();
     }
-
     else {
         return Handler::get_error_json("incorrect_command");
     }
@@ -71,7 +70,7 @@ bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_
     auto coords = pirate_to_go->get_coords();
     Event &current_event = m_field.get_element(new_coords.x, new_coords.y);
     auto cur_status = pirate_to_go->get_status();
-    if (cur_status == status::DEAD || cur_status == status::STUCK) {
+    if (cur_status == status::DEAD || cur_status == status::STUCK || cur_status == status::DRUNK) {
         return false;
     }
     if (cur_status == status::CARRYING_COIN && !current_event.opened_status()) {
@@ -106,6 +105,7 @@ jackal::Game::Game(game_type type) : m_current_player(0), m_game_type(type), coi
 }
 
 void jackal::Game::change_turn() noexcept {
+    m_players[m_current_player]->decrease_debuff();
     m_current_player = (m_current_player + 1) % 4;
 }
 
