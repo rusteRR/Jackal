@@ -10,6 +10,7 @@ namespace jackal {
 
     enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED, ON_BOARD, JUNGLE };
     enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
+    enum class moveType { SHIP_MOVE, PLAIN };
 
     class Pirate {
     public:
@@ -21,7 +22,7 @@ namespace jackal {
         void set_status(status cur_status);
         void die();
         void stuck(int steps);
-        void move(Coords coords);
+        void move(Coords coords, moveType type = moveType::PLAIN);
         void take_coin(int n);
         int drop_coin();
         int get_coins_amount() const;

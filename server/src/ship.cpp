@@ -19,7 +19,7 @@ bool jackal::Ship::move(Coords coords) {
         return false;
     }
     for (const auto& pirate : pirates_on_board) {
-        pirate->move(coords);
+        pirate->move(coords, moveType::SHIP_MOVE);
     }
     m_coords = coords;
     return true;
@@ -37,9 +37,11 @@ bool jackal::Ship::check_move_correctness(Coords coords) const {
 }
 
 void jackal::Ship::leave_ship(Pirate* pirate) {
+    std::vector<Pirate*> pirates;
     for (auto elem : pirates_on_board) {
-        if (elem == pirate) {
-            pirates_on_board.erase(std::find(pirates_on_board.begin(), pirates_on_board.end(), elem));
+        if (elem != pirate) {
+            pirates.push_back(elem);
         }
     }
+    pirates_on_board = pirates;
 }

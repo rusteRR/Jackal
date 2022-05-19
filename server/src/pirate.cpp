@@ -14,8 +14,9 @@ jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
 
 
 // Make move from cuurent position to position (col, row)
-void jackal::Pirate::move(Coords coords) {
-    if (m_status == status::ON_BOARD) {
+void jackal::Pirate::move(Coords coords, moveType type) {
+    // TODO : fix bug, when ship moves pirates leave ship.
+    if (m_status == status::ON_BOARD && type == moveType::PLAIN) {
         m_ship->leave_ship(this);
         m_status = status::ALIVE;
     }

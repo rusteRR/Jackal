@@ -191,3 +191,7 @@ bool jackal::Game::check_if_pirates_on_cell(const jackal::Coords coords) {
 QJsonObject jackal::Game::get_current_state() {
     return Handler::get_current_game_state(*this);
 }
+
+int jackal::Game::current_player_id() const {
+    return m_current_player;
+}

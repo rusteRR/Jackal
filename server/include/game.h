@@ -19,6 +19,7 @@ namespace jackal {
         explicit Game(game_type type);
         QJsonObject process_move(const std::string& request_type, int pirate_id, int col_to = -1, int row_to = -1);
         [[nodiscard]] std::vector<std::shared_ptr<Pirate>> get_pirates() const;
+        [[nodiscard]] int current_player_id() const;
         [[nodiscard]] const Field& get_field() const;
         [[nodiscard]] QJsonObject get_current_state();
         
