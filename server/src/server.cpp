@@ -27,7 +27,7 @@ namespace jackal {
 
     void Server::game_start_slot() {
         qDebug() << "Game start signal from user";
-        if (m_players_amount == 4){
+        if (m_players_amount == MAX_PLAYERS_AMOUNT){
             qDebug() << "game created";
             m_game = std::make_shared<Game>(game_type::DEFAULT);
             //emit send_json(m_game->get_current_state());
@@ -60,6 +60,6 @@ namespace jackal {
     }
     
     void Server::update_my_turn_slot(int id) {
-        emit send_my_turn_flag(m_players_amount == 4 && m_game->current_player_id() == id);
+        emit send_my_turn_flag(m_players_amount == MAX_PLAYERS_AMOUNT && m_game->current_player_id() == id);
     }
 }

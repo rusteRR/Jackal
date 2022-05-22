@@ -43,6 +43,7 @@ namespace jackal {
 
         std::shared_ptr<Game> m_game{nullptr};
         int m_players_amount{0};
+        const int MAX_PLAYERS_AMOUNT = 1;
     };
 
 }

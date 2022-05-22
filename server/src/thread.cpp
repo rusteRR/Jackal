@@ -23,12 +23,11 @@ namespace jackal {
             emit game_start();
             return;
         }
-        qDebug() << 1;
-        emit update_my_turn(player_id);
-        qDebug() << 1;
+        /*emit update_my_turn(player_id);
         if (!my_turn){
+            qDebug() << "Not my turn";
             return;
-        }
+        }*/
         if (ship_clicked) {
             if (request_type != "cell_click") {
                 send_error("not cell clicked");
