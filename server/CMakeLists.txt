@@ -48,8 +48,8 @@ set(SOURCE_LOGIC
         src/events/barrel.cpp)
 
 add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC})
-add_executable(JackalServer src/main.cpp include/server.h src/server.cpp src/thread.cpp include/thread.h ${SOURCE_LOGIC} ${HEADERS_LOGIC})
-add_executable(LogicTest ../main.cpp ${SOURCE_LOGIC})
+add_executable(JackalServer src/main.cpp include/server.h src/server.cpp src/thread.cpp include/thread.h ${SOURCE_LOGIC})
+add_executable(LogicTest test/logic_test.cpp ${SOURCE_LOGIC})
 
 target_link_libraries(JackalServer Qt5::Widgets)
 target_link_libraries(JackalServer Qt5::Network)
