@@ -23,7 +23,10 @@ namespace jackal {
         void incomingConnection(qintptr socketDescription) override;
 
     signals:
+
         void send_json(QJsonObject json);
+
+        void send_my_turn_flag(bool f);
 
     private slots:
 
@@ -31,10 +34,13 @@ namespace jackal {
 
         void game_start_slot();
 
+        void update_my_turn_slot(int id);
+
         void process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to);
         
-
     private:
+        void send_error(const QString &str);
+
         std::shared_ptr<Game> m_game{nullptr};
         int m_players_amount{0};
     };

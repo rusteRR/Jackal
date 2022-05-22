@@ -15,7 +15,7 @@ namespace jackal {
     Q_OBJECT
 
     public:
-        explicit ClientWorker(int socketDescription, QObject *parent = nullptr);
+        explicit ClientWorker(int socketDescription, int player, QObject *parent = nullptr);
 
         //void run();
 
@@ -29,11 +29,17 @@ namespace jackal {
         
         void process_move(const QString& request_type, int pirate_id, int col_to, int row_to);
         
+        void authentication();
+        
         void finish();
+
+        void update_my_turn(int id);
 
     public slots:
         
         void json_response(QJsonObject json);
+        
+        void update_turn_response(bool is_my_turn);
     
     private slots:
     
@@ -50,7 +56,12 @@ namespace jackal {
         
         bool ship_clicked{false};
         
+        bool my_turn{false};
+        
         int pirate_clicked_id{-1};
+        
+        int player_id;
+        
         
         void produce_json(QJsonDocument &json);
 

@@ -1,8 +1,10 @@
 #include "thread.h"
 
 namespace jackal {
-    ClientWorker::ClientWorker(int socketDescription, QObject *parent) : QObject(parent),
-                                                                         m_socket_description(socketDescription) {
+    ClientWorker::ClientWorker(int socketDescription, int player, QObject *parent) : QObject(parent),
+                                                                                     m_socket_description(
+                                                                                             socketDescription),
+                                                                                     player_id(player) {
         m_socket = new QTcpSocket(this);
         if (!m_socket->setSocketDescriptor(m_socket_description)) {
             emit error(m_socket->error());
@@ -16,8 +18,15 @@ namespace jackal {
         qDebug() << "produce_json";
         QString request_type = json["request_type"].toString();
         qDebug() << request_type;
-        if (request_type == "get_filename"){
-            emit send_field();
+        if (request_type == "game_start") {
+            emit authentication();
+            emit game_start();
+            return;
+        }
+        qDebug() << 1;
+        emit update_my_turn(player_id);
+        qDebug() << 1;
+        if (!my_turn){
             return;
         }
         if (ship_clicked) {
@@ -38,13 +47,12 @@ namespace jackal {
                               json["row_to"].toInt());
             pirate_clicked_id = -1;
         }
-        if (request_type == "game_start") {
-            emit game_start();
-        } else if (request_type == "ship_click") {
+        if (request_type == "ship_click") {
             ship_clicked = true;
         } else if (request_type == "pirate_click") {
             pirate_clicked_id = json["pirate_id"].toInt();
         }
+        qDebug() << 1;
     }
 
     void ClientWorker::send_to_client(const QJsonDocument &str) {
@@ -72,23 +80,26 @@ namespace jackal {
         in.setDevice(m_socket);
         in.setVersion(QDataStream::Qt_4_0);
         QJsonDocument json;
-        in.startTransaction();
-        in >> json;
-        qDebug() << json;
-        if (!in.commitTransaction())
-            return;
-        if (in.status() != QDataStream::Ok) {
-            return;
+        while (!in.atEnd()) {
+            qDebug() << 1;
+            in.startTransaction();
+            in >> json;
+            qDebug() << json;
+            if (!in.commitTransaction())
+                return;
+            if (in.status() != QDataStream::Ok) {
+                return;
+            }
+            produce_json(json);
         }
-        produce_json(json);
     }
 
     void ClientWorker::json_response(QJsonObject json) {
         send_to_client(json);
-        if (json["response_type"] == "requests_error") {
-            qDebug() << json["error"];
-            return;
-        }
+    }
+    
+    void ClientWorker::update_turn_response(bool is_my_turn) {
+        my_turn = is_my_turn;
     }
 
     void ClientWorker::disconnect_response() {
