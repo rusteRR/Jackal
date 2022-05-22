@@ -8,7 +8,7 @@
 
 namespace jackal {
 
-    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED, ON_BOARD, JUNGLE };
+    enum class status { DEAD, ALIVE, DROWN, STUCK, CARRYING_COIN, PROTECTED, ON_BOARD, JUNGLE, DRUNK };
     enum class eventType {PLANE, HORSE, MULTIPOINTER, SIMPLE};
     enum class moveType { SHIP_MOVE, PLAIN };
 
@@ -25,9 +25,11 @@ namespace jackal {
         void move(Coords coords, moveType type = moveType::PLAIN);
         void take_coin(int n);
         int drop_coin();
+        void drunk(int n);
         int get_coins_amount() const;
+        void decrease_debuff();
         void attack_pirate(Game& game);
-        void get_rum(int n);
+        void pick_up_rum(int n);
         Coords get_ship_coords() const;
         void drown();
 
@@ -37,6 +39,7 @@ namespace jackal {
         Coords m_coords;
         int m_coins;
         int m_stucked_for = 0;
+        int m_drunk_for = 0;
         Player* m_owner;
         std::pair<eventType, Coords> m_last_move;
 

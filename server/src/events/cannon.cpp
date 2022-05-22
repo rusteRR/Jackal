@@ -13,6 +13,7 @@ jackal::Cannon::Cannon() : Event("", true) {
 
 jackal::EventType jackal::Cannon::invoke(jackal::Pirate &pirate) {
     std::cout << "Cannon" << std::endl;
+    is_opened = true;
     Coords current_coords = pirate.get_coords();
     int new_col = current_coords.x + m_dcol * 12;
     int new_row = current_coords.y + m_drow * 12;

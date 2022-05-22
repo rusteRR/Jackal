@@ -2,6 +2,7 @@
 
 jackal::EventType jackal::Ballon::invoke(Pirate &pirate) {
    std::cout << "Balloon" << std::endl;
+   is_opened = true;
    Coords ship_coords = pirate.get_ship_coords();
    pirate.move(ship_coords);
    return m_type;
