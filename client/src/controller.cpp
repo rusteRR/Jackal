@@ -47,7 +47,7 @@ void Controller::pass_coords(int row, int col) {
     send_to_server(qObj);
 }
 
-void Controller::enter_name(QString name) {
+void Controller::enter_name(const QString &name) {
     std::cout << "Name entered: " << name.toStdString() << std::endl;
 
     QJsonObject qObj;
@@ -82,6 +82,10 @@ void Controller::read_response() {
     if (json["response_type"] == "game_state") {
         emit handle_field(json["field_data"].toArray());
         emit handle_players(json["players_data"].toArray());
+        return;
+    }
+    if (json["response_type"] == "confirm_registration") {
+        emit authCorrect();
         return;
     }
     if (json["response_type"] == "requests_error") {

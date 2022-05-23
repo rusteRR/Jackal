@@ -117,7 +117,7 @@ namespace jackal {
         m_player_id = id;
         QJsonObject confirm_registration;
         confirm_registration.insert("game", "jackal");
-        confirm_registration.insert("request_type", "confirm_registration");
+        confirm_registration.insert("response_type", "confirm_registration");
         send_to_client(confirm_registration);
     }
 }

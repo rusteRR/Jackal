@@ -2,13 +2,12 @@
 
 namespace jackalui {
     Client::Client() : mainMenuWidget(new MainMenuWidget()), fieldWidget(nullptr), controller(new Controller(this)),
-                        auth(new AuthorizationWidget(mainMenuWidget)) {
+                        auth(new AuthorizationWidget(mainMenuWidget, controller)) {
         connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::authUser);
         connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, controller, &Controller::end_game);
         connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &Client::exitGame);
-        connect(auth, &AuthorizationWidget::authCorrect, this, &Client::startGame);
-        connect(auth, &AuthorizationWidget::authCorrect, controller, &Controller::start_game);
-
+        connect(controller, &Controller::authCorrect, this, &Client::startGame);
+        connect(controller, &Controller::authCorrect, controller, &Controller::start_game);
     }
 
     void Client::show() {
