@@ -4,6 +4,7 @@
 #include <QTime>
 #include "MainMenuWidget.h"
 #include "FieldWidget.h"
+#include "AuthorizationWidget.h"
 #include "controller.h"
 
 namespace jackalui {
@@ -18,6 +19,8 @@ namespace jackalui {
 
         void startGame();
 
+        void authUser();
+
         void exitGame();
 
         void backToMenu();
@@ -26,6 +29,7 @@ namespace jackalui {
         MainMenuWidget* mainMenuWidget;
         FieldWidget* fieldWidget;
         Controller* controller;
+        AuthorizationWidget* auth;
     };
 }
 

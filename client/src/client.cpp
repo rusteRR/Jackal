@@ -1,22 +1,31 @@
 #include "client.h"
 
 namespace jackalui {
-    Client::Client() : mainMenuWidget(new MainMenuWidget()), fieldWidget(nullptr), controller(new Controller(this)){
-        connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, controller, &Controller::start_game);
-        connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::startGame);
+    Client::Client() : mainMenuWidget(new MainMenuWidget()), fieldWidget(nullptr), controller(new Controller(this)),
+                        auth(new AuthorizationWidget(mainMenuWidget)) {
+        connect(mainMenuWidget, &MainMenuWidget::startButtonPressed, this, &Client::authUser);
         connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, controller, &Controller::end_game);
         connect(mainMenuWidget, &MainMenuWidget::exitButtonPressed, this, &Client::exitGame);
+        connect(auth, &AuthorizationWidget::authCorrect, this, &Client::startGame);
+        connect(auth, &AuthorizationWidget::authCorrect, controller, &Controller::start_game);
+
     }
 
     void Client::show() {
         mainMenuWidget->showFullScreen();
     }
 
+    void Client::authUser() {
+        auth->showFullScreen();
+        mainMenuWidget->hide();
+    }
+
     void Client::startGame() {
         fieldWidget = new FieldWidget(controller);
         connect(fieldWidget, &FieldWidget::menuButtonPressed, this, &Client::backToMenu);
         fieldWidget->showFullScreen();
-        mainMenuWidget->hide();
+        // mainMenuWidget->hide();
+        auth->hide();
     }
 
     void Client::exitGame() {

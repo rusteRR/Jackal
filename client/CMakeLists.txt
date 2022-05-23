@@ -39,7 +39,8 @@ set(HEADERS_CLIENT
         include/GameStartLabel.h
         include/MainMenuWidget.h
         include/PirateWidget.h
-        include/ShipWidget.h)
+        include/ShipWidget.h
+        include/AuthorizationWidget.h)
 
 add_executable(JackalClient ${HEADERS_CLIENT} ${SOURCE_CLIENT})
 

@@ -23,6 +23,8 @@ public slots:
 
     void ship_click(int id, int row, int col);
 
+    void enter_name(QString name);
+
 signals:
 
     void field_response(const QJsonDocument &str);

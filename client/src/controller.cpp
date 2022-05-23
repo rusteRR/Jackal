@@ -37,7 +37,6 @@ void Controller::end_game() {
 void Controller::pass_coords(int row, int col) {
     // TODO: this signal come from click on cell, should move into server, then perhaps open cell
     std::cout << row << " " << col << std::endl;
-    //emit open_cell(row, col);
 
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
@@ -48,10 +47,19 @@ void Controller::pass_coords(int row, int col) {
     send_to_server(qObj);
 }
 
+void Controller::enter_name(QString name) {
+    std::cout << "Name entered: " << name.toStdString() << std::endl;
+
+    QJsonObject qObj;
+    qObj.insert("game", "Jackal");
+    qObj.insert("request_type", "enter_name");
+    qObj.insert("name", name);
+    send_to_server(qObj);
+}
+
 void Controller::ship_click(int id, int row, int col) {
     std::cout << "Ship_id: " << id << std::endl;
-    // emit move_ship(6, 0, 7, 0, id, 1);
-    // TODO: usually waiting for response, that will move ship into other cell
+
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "ship_click");
