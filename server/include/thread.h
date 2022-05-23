@@ -29,7 +29,7 @@ namespace jackal {
         
         void process_move(const QString& request_type, int pirate_id, int col_to, int row_to);
         
-        void authentication();
+        void register_player(QString name, int id);
         
         void finish();
 
@@ -40,6 +40,8 @@ namespace jackal {
         void json_response(QJsonObject json);
         
         void update_turn_response(bool is_my_turn);
+        
+        void confirm_registration_slot(int id, int sender_id);
     
     private slots:
     
@@ -52,15 +54,15 @@ namespace jackal {
         
         int m_socket_description;
         
-        QDataStream in;
+        QDataStream m_in;
         
-        bool ship_clicked{false};
+        bool m_ship_clicked{false};
         
         bool my_turn{false};
         
-        int pirate_clicked_id{-1};
+        int m_pirate_clicked_id{-1};
         
-        int player_id;
+        int m_player_id;
         
         
         void produce_json(QJsonDocument &json);

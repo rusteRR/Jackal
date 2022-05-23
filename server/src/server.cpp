@@ -11,13 +11,15 @@ namespace jackal {
     }
 
     void Server::incomingConnection(qintptr socketDescription) {
-        QThread* thread = new QThread(this);
-        ClientWorker* worker = new ClientWorker(socketDescription, m_players_amount++);
+        QThread *thread = new QThread(this);
+        ClientWorker *worker = new ClientWorker(socketDescription, m_players_amount++);
         connect(worker, &ClientWorker::finish, thread, &QThread::quit);
         connect(worker, &ClientWorker::send_field, this, &Server::send_field_slot);
         connect(worker, &ClientWorker::game_start, this, &Server::game_start_slot);
         connect(worker, &ClientWorker::process_move, this, &Server::process_move_slot);
         connect(worker, &ClientWorker::update_my_turn, this, &Server::update_my_turn_slot);
+        connect(worker, &ClientWorker::register_player, this, &Server::register_player_slot);
+        connect(this, &Server::confirm_registration, worker, &ClientWorker::confirm_registration_slot);
         connect(this, &Server::send_json, worker, &ClientWorker::json_response);
         connect(this, &Server::send_my_turn_flag, worker, &ClientWorker::update_turn_response);
         connect(thread, &QThread::finished, worker, &ClientWorker::deleteLater);
@@ -27,10 +29,10 @@ namespace jackal {
 
     void Server::game_start_slot() {
         qDebug() << "Game start signal from user";
-        if (m_players_amount == MAX_PLAYERS_AMOUNT){
+        if (m_players_amount == MAX_PLAYERS_AMOUNT) {
             qDebug() << "game created";
             m_game = std::make_shared<Game>(game_type::DEFAULT);
-            //emit send_json(m_game->get_current_state());
+            //emit send_json(m_game->get_current_state());  
         }
     }
 
@@ -40,12 +42,12 @@ namespace jackal {
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
                 json.insert((std::to_string(j) + ' ' + std::to_string(i)).c_str(),
-                             field.get_element(j, i).get_filename().c_str());
+                            field.get_element(j, i).get_filename().c_str());
             }
         }
         emit send_json(json);
     }
-    
+
     void Server::send_error(const QString &str) {
         QJsonObject error;
         error.insert("game", "Jackal");
@@ -53,13 +55,24 @@ namespace jackal {
         error.insert("error", str);
         emit send_json(error);
     }
-    
+
     void Server::process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to) {
         QJsonObject result = m_game->process_move(request_type.toStdString(), pirate_id, col_to, row_to);
         emit send_json(result);
     }
-    
+
     void Server::update_my_turn_slot(int id) {
         emit send_my_turn_flag(m_players_amount == MAX_PLAYERS_AMOUNT && m_game->current_player_id() == id);
+    }
+
+    void Server::register_player_slot(QString name, int id) {
+        int sender_id = id;
+        if (m_name_id.find(name) != m_name_id.end()) {
+            qDebug() << "Already registered: " << name;
+            id = m_name_id[name];
+        } else {
+            m_name_id[name] = id;
+        }
+        emit confirm_registration(id, sender_id);
     }
 }
