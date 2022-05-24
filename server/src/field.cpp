@@ -12,7 +12,7 @@ namespace jackal {
         std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory {
                 {"empty",          []() { return std::make_shared<EmptyEvent>(); }},
                 {"simple-pointer", [&]() { return std::make_shared<SimplePointer>(settings); }},
-                {"multi-pointer",  []() { return std::make_shared<MultiPointer>(); }},
+                {"multi-pointer",  [&]() { return std::make_shared<MultiPointer>(settings); }},
                 {"horse",          []() { return std::make_shared<Horse>(); }},
                 {"spinner-2",      []() { return std::make_shared<Spinner>(2); }},
                 {"spinner-3",      []() { return std::make_shared<Spinner>(3); }},

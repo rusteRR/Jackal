@@ -7,13 +7,9 @@ namespace jackal {
 
     class MultiPointer : public Event {
     public:
-        MultiPointer() : Event("multiPointer.png", true) {
-        }
+        MultiPointer(Settings& settings);
 
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "MultiPointer" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
 
 
     private:

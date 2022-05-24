@@ -45,7 +45,8 @@ set(SOURCE_LOGIC
         src/events/balloon.cpp
         src/events/cannon.cpp
         src/events/treasure.cpp
-        src/events/barrel.cpp)
+        src/events/barrel.cpp
+        src/events/multiPointer.cpp)
 
 add_executable(JackalLogicOnly ../main.cpp ${SOURCE_LOGIC})
 add_executable(JackalServer src/main.cpp include/server.h src/server.cpp src/thread.cpp include/thread.h ${SOURCE_LOGIC})
