@@ -2,6 +2,7 @@
 #define MULTI_POINTER_H_
 
 #include "event.h"
+#include <set>
 
 namespace jackal {
 
@@ -14,6 +15,7 @@ namespace jackal {
 
     private:
         EventType m_type = EventType::SIMPLE;
+        std::set<std::pair<int, int>> directions;
     };
 
 } // namespace jackal

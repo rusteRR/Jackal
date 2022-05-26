@@ -115,7 +115,8 @@ int jackal::Pirate::get_coins_amount() const {
 
 void jackal::Pirate::decrease_debuff() {
     m_drunk_for = std::max(m_drunk_for - 1, 0);
-    if (m_drunk_for == 0) {
+    m_stucked_for = std::max(m_stucked_for - 1, 0);
+    if (m_drunk_for == 0 && m_stucked_for == 0) {
         set_status(status::ALIVE);
     }
 }
@@ -123,4 +124,8 @@ void jackal::Pirate::decrease_debuff() {
 void jackal::Pirate::drunk(int n) {
     m_drunk_for = n;
     set_status(status::DRUNK);
+}
+
+void jackal::Pirate::heal_dead_pirates(Coords spawn_coords) {
+    m_owner->ressurect_pirates(spawn_coords);
 }

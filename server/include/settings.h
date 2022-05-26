@@ -22,6 +22,7 @@ namespace jackal {
 
     const int COORD_LOWER_BOUND = 0;
     const int COORD_UPPER_BOUND = 12;
+    const int HEAL_TIME = 1;
 
     enum class SimplePointerType {DIRECT, DIAGONAL};
 
