@@ -47,3 +47,7 @@ void jackal::Player::ressurect_pirates(Coords spawn_coords) {
         pirate->stuck(HEAL_TIME + 1);
     }
 }
+
+int jackal::Player::get_rum_bottles() const {
+    return m_rum_bottles;
+}

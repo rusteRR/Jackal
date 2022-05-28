@@ -32,5 +32,15 @@ jackal::MultiPointer::MultiPointer(jackal::Settings& settings) : Event("multiPoi
 
 jackal::EventType jackal::MultiPointer::invoke(jackal::Pirate &pirate) {
     std::cout << "multiPointer" << std::endl;
+    is_opened = true;
+    auto [cur_x, cur_y] = pirate.get_coords();
+    pirate.set_last_move(eventType::MULTIPOINTER, pirate.get_coords());
+    pirate.move(Coords{cur_x + directions.begin()->first, cur_y + directions.begin()->second});
+    /*
+    auto [new_x, new_y] = Server::get_coords;
+    while (directions.find({new_x - cur_x, new_y - cur_y}) == directions.end()) {
+        auto [new_x, new_y] = Server::get_coords;
+    }
+    pirate.move(Coords{new_x, new_y});*/
     return m_type;
 }

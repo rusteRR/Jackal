@@ -46,7 +46,6 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         pirate_to_go->move(new_coords);
         pirate_to_go->set_last_move(eventType::SIMPLE, coords);
         pirate_to_go->attack_pirate(*this);
-        auto n = current_event.get_filename();
         EventType event_type = current_event.invoke(*pirate_to_go);
         while (event_type != EventType::SIMPLE) {
             coords = pirate_to_go->get_coords();

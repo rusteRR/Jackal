@@ -129,3 +129,12 @@ void jackal::Pirate::drunk(int n) {
 void jackal::Pirate::heal_dead_pirates(Coords spawn_coords) {
     m_owner->ressurect_pirates(spawn_coords);
 }
+
+bool jackal::Pirate::try_to_escape() {
+    int rum_bottles = m_owner->get_rum_bottles();
+    if (rum_bottles > 0) {
+        m_owner->set_rum_bottles(--rum_bottles);
+        return true;
+    }
+    return false;
+}
