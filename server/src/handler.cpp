@@ -84,6 +84,32 @@ QJsonObject jackal::Handler::get_current_game_state(Game& game) {
     return qObj;
 }
 
+QJsonObject jackal::Handler::get_possible_moves(Game& game, int pirate_id, eventType type, Coords coords) {
+    QJsonObject qObj;
+
+    qObj["game"] = "Jackal";
+    qObj["response_type"] = "possible_moves";
+
+    auto pirate_to_go = game.m_players[game.m_current_player]->get_pirate(pirate_id);
+
+    QJsonArray coords_to_go;
+
+    for (int i = 0; i <= COORD_UPPER_BOUND; i++) {
+        for (int j = 0; j <= COORD_UPPER_BOUND; j++) {
+            if (type == eventType::SIMPLE && game.check_move_correctness(pirate_to_go, {j, i})) {
+                QJsonObject data;
+                data["coord_x"] = j;
+                data["coord_y"] = i;
+                coords_to_go.append(data);
+            }
+            // TODO : eventType HORSE, PLANE and MULTIPOINTER
+        }
+    }
+
+    qObj["coords_to_go"] = coords_to_go;
+    return qObj;
+}
+
 QJsonObject jackal::Handler::get_error_json(const std::string &error) {
     QJsonObject qObj;
 
