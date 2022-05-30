@@ -10,5 +10,6 @@ jackal::EventType jackal::Spinner::invoke(Pirate& pirate) {
     return m_type;
 }
 
-jackal::Spinner::Spinner(int n) : Event("spinner.png", true), m_cnt(n) {
+jackal::Spinner::Spinner(int n) : Event("spinner", true), m_cnt(n) {
+    m_filename += std::to_string(n) + ".png";
 }

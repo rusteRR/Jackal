@@ -1,6 +1,7 @@
 #include "rum.h"
 
-jackal::Rum::Rum() : Event("rum-1.png", true), bottles(1) {
+jackal::Rum::Rum(int n) : Event("rum", true), bottles(n) {
+    m_filename += std::to_string(n) + ".png";
 }
 
 jackal::EventType jackal::Rum::invoke(jackal::Pirate &pirate) {

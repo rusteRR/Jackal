@@ -7,7 +7,7 @@ namespace jackal {
 
     class Rum : public Event {
     public:
-        Rum();
+        Rum(int n);
 
         EventType invoke(Pirate& pirate) override;
 

@@ -3,22 +3,19 @@
 jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
     std::cout << "Horse" << std::endl;
     is_opened = true;
-    pirate.set_last_move(eventType::HORSE, pirate.get_coords());
-    /*Coords response = get_response();
-    while (!check_correctness(response)) {
-        response = get_response();
-    }*/
-    //pirate.move(response);
+    Coords cur_coords = pirate.get_coords();
+    pirate.set_last_move(eventType::HORSE, cur_coords);
+    /*
+    auto [new_x, new_y] = Server::get_coords;
+    while (!check_move_correctness(cur_coords, Coords{new_x, new_y})) {
+        auto [new_x, new_y] = Server::get_coords;
+    }
+    pirate.move(Coords{new_x, new_y});
+    */
     return EventType::SIMPLE;
 }
 
-jackal::Coords jackal::Horse::get_response() {
-    int col, row;
-    std::cin >> col >> row;
-    return {col, row};
-}
-
-
-bool jackal::Horse::check_correctness(Coords coords) {
-    return true;
+bool jackal::Horse::check_move_correctness(Coords cur_coords, Coords new_coords) {
+    return ((abs(cur_coords.x - new_coords.x) == 2 && abs(cur_coords.y - new_coords.y)) ||
+            (abs(cur_coords.x - new_coords.x) == 1 && abs(cur_coords.y - new_coords.y) == 2));
 }

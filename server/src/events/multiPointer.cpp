@@ -41,6 +41,7 @@ jackal::EventType jackal::MultiPointer::invoke(jackal::Pirate &pirate) {
     while (directions.find({new_x - cur_x, new_y - cur_y}) == directions.end()) {
         auto [new_x, new_y] = Server::get_coords;
     }
-    pirate.move(Coords{new_x, new_y});*/
+    pirate.move(Coords{new_x, new_y});
+    */
     return m_type;
 }
