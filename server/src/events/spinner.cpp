@@ -4,9 +4,12 @@
 jackal::EventType jackal::Spinner::invoke(Pirate& pirate) {
     std::cout << "Spinner" << std::endl;
     is_opened = true;
-    pirate.stuck(m_cnt);
+    if (!pirate.try_to_escape()) {
+        pirate.stuck(m_cnt);
+    }
     return m_type;
 }
 
-jackal::Spinner::Spinner(int n) : Event("spinner.png", true), m_cnt(n) {
+jackal::Spinner::Spinner(int n) : Event("spinner", true), m_cnt(n) {
+    m_filename += std::to_string(n) + ".png";
 }

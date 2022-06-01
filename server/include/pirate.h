@@ -32,6 +32,8 @@ namespace jackal {
         void pick_up_rum(int n);
         Coords get_ship_coords() const;
         void drown();
+        bool try_to_escape();
+        void heal_dead_pirates(Coords spawn_coords);
 
     private:
         status m_status;

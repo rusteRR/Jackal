@@ -33,3 +33,17 @@
   ]
 }
 ```
+
+Формат JSON получения доступных для хода клеток
+```json
+{
+  "game": "Jackal",
+  "response_type": "possible_moves",
+  "coords_to_go" : [
+    {
+      "coord_x": int,
+      "coord_y": int
+    }
+  ]
+}
+```

@@ -1,26 +1,8 @@
 #include "handler.h"
+#include "horse.h"
+#include "plane.h"
 #include <QJsonDocument>
 #include <QJsonArray>
-
-QJsonObject jackal::Handler::make_json(int pirate_id, const std::string& type, bool status, int x, int y) {
-    QString response_status;
-    if (status) {
-        response_status = "completed";
-    }
-    else {
-        response_status = "incorrect";
-    }
-    QJsonObject qObj;
-    qObj.insert("game", "Jackal");
-    qObj.insert("response_type", QString::fromStdString(type));
-    qObj.insert("response_status", response_status);
-    qObj.insert("pirate_id", pirate_id);
-    if (x != -1 && y != -1) {
-        qObj.insert("column", x);
-        qObj.insert("row", y);
-    }
-    return qObj;
-}
 
 QJsonObject jackal::Handler::get_current_game_state(Game& game) {
     QJsonObject qObj;
@@ -81,6 +63,35 @@ QJsonObject jackal::Handler::get_current_game_state(Game& game) {
     }
 
     qObj["field_data"] = field_data;
+    return qObj;
+}
+
+QJsonObject jackal::Handler::get_possible_moves(Game& game, int pirate_id, eventType type, Coords coords) {
+    QJsonObject qObj;
+
+    qObj["game"] = "Jackal";
+    qObj["response_type"] = "possible_moves";
+
+    auto pirate_to_go = game.m_players[game.m_current_player]->get_pirate(pirate_id);
+    Coords cur_coords = pirate_to_go->get_coords();
+
+    QJsonArray coords_to_go;
+
+    for (int i = 0; i <= COORD_UPPER_BOUND; i++) {
+        for (int j = 0; j <= COORD_UPPER_BOUND; j++) {
+            QJsonObject data;
+            if ( (type == eventType::SIMPLE && !game.check_move_correctness(pirate_to_go, {j, i}) ) ||
+                 (type == eventType::HORSE && !Horse::check_move_correctness(cur_coords, Coords{j, i})) ||
+                 (type == eventType::PLANE && !Plane::check_move_correctness(Coords{j, i}) )) {
+                continue;
+            }
+            data["coord_x"] = j;
+            data["coord_y"] = i;
+            coords_to_go.append(data);
+        }
+    }
+
+    qObj["coords_to_go"] = coords_to_go;
     return qObj;
 }
 

@@ -23,9 +23,11 @@ public slots:
 
     void ship_click(int id, int row, int col);
 
-    void enter_name(QString name);
+    void enter_name(const QString &name);
 
 signals:
+
+    void authCorrect();
 
     void field_response(const QJsonDocument &str);
 

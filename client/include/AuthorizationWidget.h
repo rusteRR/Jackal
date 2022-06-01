@@ -42,9 +42,6 @@ namespace jackalui {
             emit controller->enter_name(m_edit->text());
         }
 
-    signals:
-        void authCorrect();
-
 
     private:
         QLineEdit* m_edit;

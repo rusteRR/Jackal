@@ -7,13 +7,11 @@ namespace jackal {
 
     class Plane : public Event {
     public:
-        Plane() : Event("plane.png", true) {
-        }
+        Plane();
 
-        EventType invoke(Pirate& pirate) override {
-            std::cout << "Plane" << std::endl;
-            return m_type;
-        }
+        EventType invoke(Pirate& pirate) override;
+
+        static bool check_move_correctness(Coords new_coords);
 
 
     private:

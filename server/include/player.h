@@ -19,6 +19,8 @@ namespace jackal {
         [[nodiscard]] Coords get_ship_coords() const;
         void increase_coins(int n);
         void decrease_debuff();
+        int get_rum_bottles() const;
+        void ressurect_pirates(Coords spawn_coords);
         
     private:
         std::vector<std::shared_ptr<Pirate>> m_pirates;

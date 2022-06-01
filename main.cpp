@@ -4,6 +4,7 @@
 
 
 #include "game.h"
+#include "handler.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -33,6 +34,8 @@ int main() {
     QJsonObject result;
     while (std::getline(std::cin, command)) {
         auto tokens = parse_input(command);
+        QJsonObject a = jackal::Handler::get_possible_moves(current_game, 0);
+        std::cout << QJsonDocument(a).toJson(QJsonDocument::Compact).toStdString() << std::endl;
         if (tokens.second.size() == 1) {
             result = current_game.process_move(tokens.first, tokens.second[0]);
         }

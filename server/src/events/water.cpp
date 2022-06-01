@@ -1,6 +1,7 @@
 #include "water.h"
 
 jackal::Water::Water() : Event("water.png", true) {
+    is_opened = true;
 }
 
 jackal::EventType jackal::Water::invoke(jackal::Pirate &pirate) {

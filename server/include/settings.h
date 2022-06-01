@@ -22,6 +22,7 @@ namespace jackal {
 
     const int COORD_LOWER_BOUND = 0;
     const int COORD_UPPER_BOUND = 12;
+    const int HEAL_TIME = 1;
 
     enum class SimplePointerType {DIRECT, DIAGONAL};
 
@@ -40,6 +41,8 @@ namespace jackal {
         Settings() = default;
         SimplePointerType get_simple_pointer();
         MultiPointerType get_multi_pointer();
+        static std::pair<int, int> get_direct_directions();
+        static std::pair<int, int>  get_diagonal_directions();
 
     private:
         std::vector<std::pair<SimplePointerType, int>> m_simple_pointer = {

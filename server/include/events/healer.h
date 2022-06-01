@@ -1,22 +1,21 @@
-#ifndef RUM_H_
-#define RUM_H_
+#ifndef HEALER_H_
+#define HEALER_H_
 
 #include "event.h"
 
 namespace jackal {
 
-    class Rum : public Event {
+    class Healer : public Event {
     public:
-        Rum(int n);
+        Healer() : Event("healer.png", false) {
+        }
 
         EventType invoke(Pirate& pirate) override;
 
-
     private:
         EventType m_type = EventType::SIMPLE;
-        int bottles = 0;
     };
 
 } // namespace jackal
 
-#endif // RUM_H_
+#endif // HEALER_H_
