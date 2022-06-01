@@ -10,6 +10,7 @@ namespace jackalui {
         } else {
             picture_to_set = "closed.png";
         }
+
         QPixmap pixmap(picture_to_set);
         m_label->setScaledContents(true);
         m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
@@ -27,10 +28,25 @@ namespace jackalui {
         } else if (m_row == 6 && m_col == 0) {
             set_ship(3, 0);
         }
+        pirate = new QPushButton(this);
+        QPixmap pirate_pic("pirate3.png");
+        QIcon ButtonIcon(pirate_pic);
+        pirate->setGeometry(45, 42, 40, 40);
+        pirate->setIcon(ButtonIcon);
+        pirate->setIconSize(pirate->rect().size());
+        pirate->raise();
+
+        if (!have_ship) {
+            pirate->hide();
+        } else {
+            pirates_amount = 3;
+        }
 
         connect(this, &EventWidget::onPressed, controller, [&]() {
-            controller->pass_coords(m_row, m_col);
+            controller->pass_coords(m_player, m_row, m_col);
         });
+
+        connect(pirate, SIGNAL(clicked()),  SLOT(PirateClicked()));
     }
 
     void EventWidget::set_pic(const QString &file_to_set) {
@@ -39,10 +55,28 @@ namespace jackalui {
 
     void EventWidget::set_ship(int player_number, int money) {
         if (have_ship) return;
+        have_ship = true;
         layout()->removeWidget(m_label);
         ship = new ShipWidget(player_number, money, m_row, m_col, this, controller);
         layout()->addWidget(ship);
         m_is_flipped = true;
+    }
+
+    void EventWidget::add_pirate(int player_id) {
+        pirates_amount++;
+        QPixmap pirate_pic(QString::fromStdString("pirate" + std::to_string(pirates_amount) + ".png"));
+        QIcon ButtonIcon(pirate_pic);
+        pirate->setIcon(ButtonIcon);
+        pirate->setIconSize(pirate->rect().size());
+        pirate->show();
+        pirate->raise();
+        m_player = player_id;
+    }
+
+    void EventWidget::remove_pirates() {
+        if (pirates_amount == 0) return;
+        pirates_amount = 0;
+        pirate->hide();
     }
 
     void EventWidget::flip() {
@@ -57,6 +91,10 @@ namespace jackalui {
         delete ship;
         layout()->addWidget(m_label);
         have_ship = false;
+    }
+
+    void EventWidget::PirateClicked() {
+        emit controller->pirate_click(m_player, m_row, m_col);
     }
 
     void EventWidget::mousePressEvent(QMouseEvent *event) {

@@ -37,6 +37,8 @@ namespace jackalui {
 
         void update_field(const QJsonArray &field_data);
 
+        void clear_pirates();
+
     private:
         Controller *controller;
         QVector<QVector<EventWidget *>> field;

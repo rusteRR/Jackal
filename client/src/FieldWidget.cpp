@@ -47,7 +47,16 @@ namespace jackalui {
         field[row_to][col_to]->set_ship(id, money);
     }
 
+    void FieldWidget::clear_pirates() {
+        for (int i = 0; i < 13; ++i) {
+            for (int j = 0; j < 13; ++j) {
+                field[i][j]->remove_pirates();
+            }
+        }
+    }
+
     void FieldWidget::update_players(const QJsonArray &players_data) {
+        clear_pirates();
         for (int i = 0; i < players_data.size(); ++i) {
             auto player = players_data.at(i);
             int ship_row = player["ship_coord_y"].toInt();
@@ -59,6 +68,17 @@ namespace jackalui {
                 field[cur_pos.first][cur_pos.second]->removeShip();
                 field[ship_row][ship_col]->set_ship(player_id, player_coins);
                 cur_ships[i] = {ship_row, ship_col};
+            }
+
+            QJsonArray pirates = player["pirates"].toArray();
+            for (int j = 0; j < pirates.size(); ++j) {
+                auto pirate = pirates.at(j);
+                int pirate_row = pirate["coord_y"].toInt();
+                int pirate_col = pirate["coord_x"].toInt();
+                bool is_dead = pirate["is_dead"].toBool();
+                if (!is_dead) {
+                    field[pirate_row][pirate_col]->add_pirate(player_id);
+                }
             }
         }
     }

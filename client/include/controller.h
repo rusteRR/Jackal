@@ -19,9 +19,11 @@ public slots:
 
     void end_game();
 
-    void pass_coords(int row, int col);
+    void pass_coords(int id, int row, int col);
 
     void ship_click(int id, int row, int col);
+
+    void pirate_click(int id, int row, int col);
 
     void enter_name(const QString &name);
 

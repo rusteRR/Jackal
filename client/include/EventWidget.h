@@ -5,7 +5,8 @@
 #include <QDebug>
 #include <QGridLayout>
 #include <QString>
-#include "PirateContainer.h"
+#include <QPushButton>
+#include "PirateWidget.h"
 #include "controller.h"
 #include "ShipWidget.h"
 #include <string>
@@ -24,15 +25,27 @@ namespace jackalui {
 
         void removeShip();
 
+        void add_pirate(int player_id);
+
+        void remove_pirates();
+
     private:
         QLabel *m_label;
         Controller *controller;
         QString filename;
         QString picture_to_set;
         ShipWidget *ship;
+        // TODO: PirateWidget *pirate;
+        QPushButton *pirate;
         bool m_is_flipped = false;
         int m_col, m_row;
+        int pirates_amount = 0;
+        int m_player;
         bool have_ship = false;
+
+    public slots:
+
+        void PirateClicked();
 
     signals:
 

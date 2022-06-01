@@ -34,8 +34,7 @@ void Controller::end_game() {
     std::cout << "end game!" << std::endl;
 }
 
-void Controller::pass_coords(int row, int col) {
-    // TODO: this signal come from click on cell, should move into server, then perhaps open cell
+void Controller::pass_coords(int id, int row, int col) {
     std::cout << row << " " << col << std::endl;
 
     QJsonObject qObj;
@@ -68,6 +67,19 @@ void Controller::ship_click(int id, int row, int col) {
     qObj.insert("row_to", row);
     send_to_server(qObj);
 }
+
+void Controller::pirate_click(int id, int row, int col) {
+    std::cout << "Pirate_id: " << id << ' ' << row << ' ' << col << std::endl;
+
+    QJsonObject qObj;
+    qObj.insert("game", "Jackal");
+    qObj.insert("request_type", "pirate_click");
+    qObj.insert("pirate_id", id);
+    qObj.insert("col_to", col);
+    qObj.insert("row_to", row);
+    send_to_server(qObj);
+}
+
 
 void Controller::read_response() {
     in.startTransaction();
