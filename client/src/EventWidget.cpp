@@ -21,12 +21,16 @@ namespace jackalui {
 
         if (m_row == 0 && m_col == 6) {
             set_ship(0, 0);
+            m_player = 0;
         } else if (m_row == 6 && m_col == 12) {
             set_ship(1, 0);
+            m_player = 1;
         } else if (m_row == 12 && m_col == 6) {
             set_ship(2, 0);
+            m_player = 2;
         } else if (m_row == 6 && m_col == 0) {
             set_ship(3, 0);
+            m_player = 3;
         }
         pirate = new QPushButton(this);
         QPixmap pirate_pic("pirate3.png");

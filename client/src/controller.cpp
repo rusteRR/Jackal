@@ -40,7 +40,7 @@ void Controller::pass_coords(int id, int row, int col) {
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "cell_click");
-    qObj.insert("pirate_id", "1"); // TODO: actually not 1, should be different
+    qObj.insert("pirate_id", id); // TODO: actually not 1, should be different
     qObj.insert("col_to", col);
     qObj.insert("row_to", row);
     send_to_server(qObj);
