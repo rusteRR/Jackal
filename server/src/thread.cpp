@@ -59,6 +59,7 @@ namespace jackal {
     }
 
     void ClientWorker::send_to_client(const QJsonDocument &str) {
+        qDebug() << "send data to client";
         QByteArray data;
         qDebug() << str;
         QDataStream out(&data, QIODevice::WriteOnly);
@@ -118,6 +119,7 @@ namespace jackal {
         QJsonObject confirm_registration;
         confirm_registration.insert("game", "jackal");
         confirm_registration.insert("request_type", "confirm_registration");
+        confirm_registration.insert("confirmed", "true");
         send_to_client(confirm_registration);
     }
 }
