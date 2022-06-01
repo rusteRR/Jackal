@@ -24,7 +24,7 @@ namespace jackal {
         }
         if (request_type == "enter_name") {
             QString name = json["name"].toString();
-            qDebug() << "Registered: " << name;
+            qDebug() << "Process registeration: " << name;
             emit register_player(name, m_player_id);
             return;
         }
@@ -75,7 +75,7 @@ namespace jackal {
     void ClientWorker::send_error(const QString &str) {
         QJsonObject error;
         error.insert("game", "Jackal");
-        error.insert("request_type", "requests_error");
+        error.insert("response_type", "requests_error");
         error.insert("error", str);
         send_to_client(error);
     }
@@ -118,8 +118,8 @@ namespace jackal {
         m_player_id = id;
         QJsonObject confirm_registration;
         confirm_registration.insert("game", "jackal");
-        confirm_registration.insert("request_type", "confirm_registration");
-        confirm_registration.insert("confirmed", "true");
+        confirm_registration.insert("response_type", "confirm_registration");
+        //confirm_registration.insert("confirmed", true);
         send_to_client(confirm_registration);
     }
 }
