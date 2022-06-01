@@ -70,6 +70,7 @@ void Controller::ship_click(int id, int row, int col) {
 }
 
 void Controller::read_response() {
+    qDebug() << "entered read_response";
     in.startTransaction();
     QJsonDocument json;
     in >> json;
@@ -79,6 +80,7 @@ void Controller::read_response() {
         return;
     }
     //emit field_response(json);
+    qDebug() << "response_type is " << json["response_type"];
     if (json["response_type"] == "game_state") {
         emit handle_field(json["field_data"].toArray());
         emit handle_players(json["players_data"].toArray());
