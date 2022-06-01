@@ -15,7 +15,6 @@ namespace jackal {
     }
 
     void ClientWorker::produce_json(QJsonDocument &json) {
-        m_json = json;
         qDebug() << "produce_json";
         QString request_type = json["request_type"].toString();
         qDebug() << request_type;
@@ -25,11 +24,12 @@ namespace jackal {
         }
         if (request_type == "enter_name") {
             QString name = json["name"].toString();
-            qDebug() << "Process registeration: " << name;
+            qDebug() << "Process registration: " << name;
             emit register_player(name, m_thread_id);
             return;
         }
-        // other requests are only about game moves
+        // this request is about game move
+        m_json = json;
         emit make_turn(m_player_id);
     }
 
@@ -87,20 +87,22 @@ namespace jackal {
                 send_error("not cell clicked");
                 return;
             }
-            qDebug() << "cell_click";
-            emit process_move("ship_move", m_json["pirate_id"].toInt(), m_json["col_to"].toInt(), m_json["row_to"].toInt());
+            qDebug() << "ship_move"; // TODO: need pass correct pirate id
+            emit process_move("ship_move", 0, m_json["col_to"].toInt(), m_json["row_to"].toInt());
             m_ship_clicked = false;
         }
-        if (m_pirate_clicked) {
+        else if (m_pirate_clicked) {
             if (request_type != "cell_click" && request_type != "ship_click") {
                 send_error("not cell nor ship clicked");
                 return;
             }
-            emit process_move(request_type, m_json["pirate_id"].toInt(), m_json["col_to"].toInt(),
+            qDebug() << "pirate_move";
+            emit process_move("pirate_move", 0, m_json["col_to"].toInt(),
                               m_json["row_to"].toInt());
+            qDebug() << "pirate_move successful";
             m_pirate_clicked = false;
         }
-        if (request_type == "ship_click") {
+        else if (request_type == "ship_click") {
             m_ship_clicked = true;
         } else if (request_type == "pirate_click") {
             if (m_json["pirate_id"].toInt() == m_player_id){

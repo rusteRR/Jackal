@@ -57,15 +57,17 @@ namespace jackal {
     }
 
     void Server::process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to) {
+        qDebug() << "process_move_slot";
         QJsonObject result = m_game->process_move(request_type.toStdString(), pirate_id, col_to, row_to);
+        qDebug() << "process_move successful";
         emit send_json(result);
     }
 
     void Server::make_turn_slot(int id) {
-        qDebug() << m_players_amount;
+        /*qDebug() << m_players_amount;
         if (m_players_amount == MAX_PLAYERS_AMOUNT) {
             qDebug() << m_game->current_player_id() << id;
-        }
+        }*/
         if (m_players_amount == MAX_PLAYERS_AMOUNT && m_game->current_player_id() == id){
             emit make_turn(id);
         }
