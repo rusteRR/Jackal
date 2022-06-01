@@ -1,10 +1,10 @@
 #include "thread.h"
 
 namespace jackal {
-    ClientWorker::ClientWorker(int socketDescription, int player, QObject *parent) : QObject(parent),
-                                                                                     m_socket_description(
-                                                                                             socketDescription),
-                                                                                     m_player_id(player) {
+    ClientWorker::ClientWorker(int socketDescription, int thread_id, QObject *parent) : QObject(parent),
+                                                                                        m_socket_description(
+                                                                                                socketDescription),
+                                                                                        m_thread_id(thread_id) {
         m_socket = new QTcpSocket(this);
         if (!m_socket->setSocketDescriptor(m_socket_description)) {
             emit error(m_socket->error());
@@ -15,6 +15,7 @@ namespace jackal {
     }
 
     void ClientWorker::produce_json(QJsonDocument &json) {
+        m_json = json;
         qDebug() << "produce_json";
         QString request_type = json["request_type"].toString();
         qDebug() << request_type;
@@ -25,37 +26,11 @@ namespace jackal {
         if (request_type == "enter_name") {
             QString name = json["name"].toString();
             qDebug() << "Process registeration: " << name;
-            emit register_player(name, m_player_id);
+            emit register_player(name, m_thread_id);
             return;
         }
-        /*emit update_my_turn(player_id);
-        if (!my_turn){
-            qDebug() << "Not my turn";
-            return;
-        }*/
-        if (m_ship_clicked) {
-            if (request_type != "cell_click") {
-                send_error("not cell clicked");
-                return;
-            }
-            qDebug() << "cell_click";
-            emit process_move("ship_move", json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt());
-            m_ship_clicked = false;
-        }
-        if (m_pirate_clicked_id != -1) {
-            if (request_type != "cell_click" && request_type != "ship_click") {
-                send_error("not cell nor ship clicked");
-                return;
-            }
-            emit process_move(request_type, json["pirate_id"].toInt(), json["col_to"].toInt(),
-                              json["row_to"].toInt());
-            m_pirate_clicked_id = -1;
-        }
-        if (request_type == "ship_click") {
-            m_ship_clicked = true;
-        } else if (request_type == "pirate_click") {
-            m_pirate_clicked_id = json["pirate_id"].toInt();
-        }
+        // other requests are only about game moves
+        emit make_turn(m_player_id);
     }
 
     void ClientWorker::send_to_client(const QJsonDocument &str) {
@@ -100,8 +75,38 @@ namespace jackal {
         send_to_client(json);
     }
 
-    void ClientWorker::update_turn_response(bool is_my_turn) {
-        my_turn = is_my_turn;
+    void ClientWorker::make_turn_response(int id) {
+        if (id != m_player_id) {
+            qDebug() << m_player_id << ": not my turn";
+            return;
+        }
+        qDebug() << "moving:" << id;
+        QString request_type = m_json["request_type"].toString();
+        if (m_ship_clicked) {
+            if (request_type != "cell_click") {
+                send_error("not cell clicked");
+                return;
+            }
+            qDebug() << "cell_click";
+            emit process_move("ship_move", m_json["pirate_id"].toInt(), m_json["col_to"].toInt(), m_json["row_to"].toInt());
+            m_ship_clicked = false;
+        }
+        if (m_pirate_clicked) {
+            if (request_type != "cell_click" && request_type != "ship_click") {
+                send_error("not cell nor ship clicked");
+                return;
+            }
+            emit process_move(request_type, m_json["pirate_id"].toInt(), m_json["col_to"].toInt(),
+                              m_json["row_to"].toInt());
+            m_pirate_clicked = false;
+        }
+        if (request_type == "ship_click") {
+            m_ship_clicked = true;
+        } else if (request_type == "pirate_click") {
+            if (m_json["pirate_id"].toInt() == m_player_id){
+                m_pirate_clicked = true;
+            }
+        }
     }
 
     void ClientWorker::disconnect_response() {
@@ -110,12 +115,16 @@ namespace jackal {
         emit finish();
     }
 
-    void ClientWorker::confirm_registration_slot(int id, int sender_id) {
-        if (m_player_id != sender_id) {
+    void ClientWorker::confirm_registration_slot(int player_id, int sender_id) {
+        if (m_thread_id != sender_id) {
             return;
         }
-        qDebug() << "user's id:" << id << ", registration confirmed";
-        m_player_id = id;
+        if (player_id == -1) {
+            qDebug() << "registration requested";
+            return;
+        }
+        qDebug() << "player's id:" << player_id << ", registration confirmed";
+        m_player_id = player_id;
         QJsonObject confirm_registration;
         confirm_registration.insert("game", "jackal");
         confirm_registration.insert("response_type", "confirm_registration");

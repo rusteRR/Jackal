@@ -12,16 +12,16 @@ namespace jackal {
 
     void Server::incomingConnection(qintptr socketDescription) {
         QThread *thread = new QThread(this);
-        ClientWorker *worker = new ClientWorker(socketDescription, m_players_amount++);
+        ClientWorker *worker = new ClientWorker(socketDescription,  m_threads_ids++);
         connect(worker, &ClientWorker::finish, thread, &QThread::quit);
         connect(worker, &ClientWorker::send_field, this, &Server::send_field_slot);
         connect(worker, &ClientWorker::game_start, this, &Server::game_start_slot);
         connect(worker, &ClientWorker::process_move, this, &Server::process_move_slot);
-        connect(worker, &ClientWorker::update_my_turn, this, &Server::update_my_turn_slot);
+        connect(worker, &ClientWorker::make_turn, this, &Server::make_turn_slot);
         connect(worker, &ClientWorker::register_player, this, &Server::register_player_slot);
         connect(this, &Server::confirm_registration, worker, &ClientWorker::confirm_registration_slot);
         connect(this, &Server::send_json, worker, &ClientWorker::json_response);
-        connect(this, &Server::send_my_turn_flag, worker, &ClientWorker::update_turn_response);
+        connect(this, &Server::make_turn, worker, &ClientWorker::make_turn_response);
         connect(thread, &QThread::finished, worker, &ClientWorker::deleteLater);
         worker->moveToThread(thread);
         thread->start();
@@ -29,7 +29,7 @@ namespace jackal {
 
     void Server::game_start_slot() {
         qDebug() << "Game start signal from user";
-        if (m_players_amount == MAX_PLAYERS_AMOUNT) {
+        if (m_players_amount == MAX_PLAYERS_AMOUNT && m_game == nullptr) {
             qDebug() << "game created";
             m_game = std::make_shared<Game>(game_type::DEFAULT);
             //emit send_json(m_game->get_current_state());  
@@ -61,18 +61,25 @@ namespace jackal {
         emit send_json(result);
     }
 
-    void Server::update_my_turn_slot(int id) {
-        emit send_my_turn_flag(m_players_amount == MAX_PLAYERS_AMOUNT && m_game->current_player_id() == id);
+    void Server::make_turn_slot(int id) {
+        qDebug() << m_players_amount;
+        if (m_players_amount == MAX_PLAYERS_AMOUNT) {
+            qDebug() << m_game->current_player_id() << id;
+        }
+        if (m_players_amount == MAX_PLAYERS_AMOUNT && m_game->current_player_id() == id){
+            emit make_turn(id);
+        }
     }
 
-    void Server::register_player_slot(QString name, int id) {
-        int sender_id = id;
+    void Server::register_player_slot(QString name, int thread_id) {
+        int player_id = -1;
         if (m_name_id.find(name) != m_name_id.end()) {
-            qDebug() << "Already registered: " << name;
-            id = m_name_id[name];
-        } else {
-            m_name_id[name] = id;
+            qDebug() << "Already registered: " << name << ". Id is " << m_name_id[name];
+            player_id = m_name_id[name];
+        } else if (m_players_amount < MAX_PLAYERS_AMOUNT){
+            player_id = m_players_amount++;
+            m_name_id[name] = player_id;
         }
-        emit confirm_registration(id, sender_id);
+        emit confirm_registration(player_id, thread_id);
     }
 }
