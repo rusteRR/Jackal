@@ -12,10 +12,10 @@ jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
     }
     pirate.move(Coords{new_x, new_y});
     */
-    return EventType::SIMPLE;
+    return m_type;
 }
 
 bool jackal::Horse::check_move_correctness(Coords cur_coords, Coords new_coords) {
-    return ((abs(cur_coords.x - new_coords.x) == 2 && abs(cur_coords.y - new_coords.y)) ||
+    return ((abs(cur_coords.x - new_coords.x) == 2 && abs(cur_coords.y - new_coords.y) == 1) ||
             (abs(cur_coords.x - new_coords.x) == 1 && abs(cur_coords.y - new_coords.y) == 2));
 }

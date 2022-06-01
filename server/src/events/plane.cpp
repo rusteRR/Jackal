@@ -5,6 +5,7 @@ jackal::Plane::Plane() : Event("plane.png", true) {
 
 jackal::EventType jackal::Plane::invoke(jackal::Pirate &pirate) {
     std::cout << "Plane" << std::endl;
+    pirate.set_last_move(eventType::PLANE, pirate.get_coords());
     if (!is_opened) {
 
     }
