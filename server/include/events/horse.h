@@ -12,13 +12,13 @@ namespace jackal {
 
         EventType invoke(Pirate& pirate) override;
 
+        static bool check_move_correctness(Coords cur_coords, Coords new_coords);
+
 
     private:
         EventType m_type = EventType::NEW_EVENT;
 
         Coords get_response();
-
-        bool check_correctness(Coords coords);
     };
 
 } // namespace jackal
