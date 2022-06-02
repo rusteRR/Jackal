@@ -28,9 +28,39 @@ namespace jackal {
             emit register_player(name, m_thread_id);
             return;
         }
-        // this request is about game move
-        m_json = json;
-        emit make_turn(m_player_id);
+        if (!is_my_turn){
+            qDebug() << "not my turn:" << m_player_id;
+            return;
+        }
+        if (m_ship_clicked) {
+            if (request_type != "cell_click") {
+                send_error("not cell clicked");
+                return;
+            }
+            qDebug() << "ship_move"; // TODO: need pass correct pirate id
+            emit process_move("ship_move", 0, json["col_to"].toInt(), json["row_to"].toInt());
+            m_ship_clicked = false;
+            is_my_turn = false;
+        }
+        else if (m_pirate_clicked) {
+            if (request_type != "cell_click" && request_type != "ship_click") {
+                send_error("not cell nor ship clicked");
+                return;
+            }
+            qDebug() << "pirate_move";
+            emit process_move("pirate_move", 0, json["col_to"].toInt(),
+                              json["row_to"].toInt());
+            qDebug() << "pirate_move successful";
+            m_pirate_clicked = false;
+            is_my_turn = false;
+        }
+        else if (request_type == "ship_click") {
+            m_ship_clicked = true;
+        } else if (request_type == "pirate_click") {
+            if (json["pirate_id"].toInt() == m_player_id){
+                m_pirate_clicked = true;
+            }
+        }
     }
 
     void ClientWorker::send_to_client(const QJsonDocument &str) {
@@ -71,44 +101,8 @@ namespace jackal {
         }
     }
 
-    void ClientWorker::json_response(QJsonObject json) {
+    void ClientWorker::send_json_slot(QJsonObject json) {
         send_to_client(json);
-    }
-
-    void ClientWorker::make_turn_response(int id) {
-        if (id != m_player_id) {
-            qDebug() << m_player_id << ": not my turn";
-            return;
-        }
-        qDebug() << "moving:" << id;
-        QString request_type = m_json["request_type"].toString();
-        if (m_ship_clicked) {
-            if (request_type != "cell_click") {
-                send_error("not cell clicked");
-                return;
-            }
-            qDebug() << "ship_move"; // TODO: need pass correct pirate id
-            emit process_move("ship_move", 0, m_json["col_to"].toInt(), m_json["row_to"].toInt());
-            m_ship_clicked = false;
-        }
-        else if (m_pirate_clicked) {
-            if (request_type != "cell_click" && request_type != "ship_click") {
-                send_error("not cell nor ship clicked");
-                return;
-            }
-            qDebug() << "pirate_move";
-            emit process_move("pirate_move", 0, m_json["col_to"].toInt(),
-                              m_json["row_to"].toInt());
-            qDebug() << "pirate_move successful";
-            m_pirate_clicked = false;
-        }
-        else if (request_type == "ship_click") {
-            m_ship_clicked = true;
-        } else if (request_type == "pirate_click") {
-            if (m_json["pirate_id"].toInt() == m_player_id){
-                m_pirate_clicked = true;
-            }
-        }
     }
 
     void ClientWorker::disconnect_response() {
@@ -130,7 +124,11 @@ namespace jackal {
         QJsonObject confirm_registration;
         confirm_registration.insert("game", "jackal");
         confirm_registration.insert("response_type", "confirm_registration");
-        //confirm_registration.insert("confirmed", true);
         send_to_client(confirm_registration);
+    }
+    void ClientWorker::update_status_slot(int id) {
+        qDebug() << "Now moving:" << id;
+        if (m_player_id == id) is_my_turn = true;
+        else is_my_turn = false;
     }
 }

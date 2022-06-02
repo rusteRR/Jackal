@@ -11,6 +11,8 @@
 #include <QJsonDocument>
 #include <QString>
 #include <map>
+#include <QMutex>
+#include <QMutexLocker>
 #include "thread.h"
 #include "game.h"
 
@@ -27,30 +29,25 @@ namespace jackal {
 
         void send_json(QJsonObject json);
 
-        void make_turn(int id);
+        void update_status(int id);
         
         void confirm_registration(int id, int sender_id);
 
     private slots:
 
         void register_player_slot(QString name, int id);
-        
-        void send_field_slot();
 
         void game_start_slot();
 
-        void make_turn_slot(int id);
-
         void process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to);
         
-    private:
-        void send_error(const QString &str);
+    private:    
         std::shared_ptr<Game> m_game{nullptr};
         int m_players_amount{0};
-        int m_players_id{0};
         int m_threads_ids{0};
-        const int MAX_PLAYERS_AMOUNT = 1;
+        const int MAX_PLAYERS_AMOUNT{2};
         std::map<QString, int> m_name_id;
+        QMutex m_mutex;
     };
 
 }

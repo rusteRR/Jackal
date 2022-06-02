@@ -17,13 +17,9 @@ namespace jackal {
     public:
         explicit ClientWorker(int socketDescription, int thread_id, QObject *parent = nullptr);
 
-        //void run();
-
     signals:
 
         void error(QTcpSocket::SocketError socketError);
-
-        void send_field();
 
         void game_start();
         
@@ -33,13 +29,11 @@ namespace jackal {
         
         void finish();
 
-        void make_turn(int id);
-
     public slots:
         
-        void json_response(QJsonObject json);
+        void send_json_slot(QJsonObject json);
         
-        void make_turn_response(int id);
+        void update_status_slot(int id);
         
         void confirm_registration_slot(int player_id, int sender_id);
     
@@ -56,11 +50,11 @@ namespace jackal {
         
         QDataStream m_in;
         
-        QJsonDocument m_json;
-        
         bool m_ship_clicked{false};
         
         bool m_pirate_clicked{false};
+        
+        bool is_my_turn{false};
         
         int m_player_id{-1};
         
