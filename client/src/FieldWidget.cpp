@@ -88,12 +88,14 @@ namespace jackalui {
             auto cell = field_data.at(i);
             int row = cell["coord_y"].toInt();
             int col = cell["coord_x"].toInt();
+            int coins = cell["coins"].toInt();
             bool is_open = cell["is_open"].toBool();
             QString filename = cell["filename"].toString();
             // TODO: and money
             field[row][col]->set_pic(filename);
             if (is_open) {
                 field[row][col]->flip();
+                field[row][col]->set_coins(coins);
             }
         }
     }

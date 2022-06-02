@@ -29,8 +29,11 @@ namespace jackalui {
 
         void remove_pirates();
 
+        void set_coins(int money_count);
+
     private:
         QLabel *m_label;
+        QLabel *money_counter;
         Controller *controller;
         QString filename;
         QString picture_to_set;
@@ -38,10 +41,12 @@ namespace jackalui {
         // TODO: PirateWidget *pirate;
         QPushButton *pirate;
         bool m_is_flipped = false;
-        int m_col, m_row;
-        int pirates_amount = 0;
+        int m_col;
+        int m_row;
+        int m_pirates_amount = 0;
         int m_player;
-        bool have_ship = false;
+        int m_money;
+        bool m_have_ship = false;
 
     public slots:
 

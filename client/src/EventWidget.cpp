@@ -4,12 +4,18 @@ namespace jackalui {
     EventWidget::EventWidget(int col_, int row_, QWidget *parent, Controller *controller_) : QWidget(parent),
                                                                                              m_label(new QLabel(this)),
                                                                                              m_col(col_), m_row(row_),
+                                                                                           //  money_counter(new QLabel(this)),
                                                                                              controller(controller_) {
         if (m_col == 0 || m_row == 0 || m_col == 12 || m_row == 12) {
             picture_to_set = "water.png";
         } else {
             picture_to_set = "closed.png";
         }
+
+        /* money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        money_counter->setAlignment(Qt::AlignBottom);
+        money_counter->setNum(m_money); */
+
 
         QPixmap pixmap(picture_to_set);
         m_label->setScaledContents(true);
@@ -40,11 +46,13 @@ namespace jackalui {
         pirate->setIconSize(pirate->rect().size());
         pirate->raise();
 
-        if (!have_ship) {
+        if (!m_have_ship) {
             pirate->hide();
         } else {
-            pirates_amount = 3;
+            m_pirates_amount = 3;
         }
+
+        // set_coins(0);
 
         connect(this, &EventWidget::onPressed, controller, [&]() {
             controller->pass_coords(m_player, m_row, m_col);
@@ -58,17 +66,31 @@ namespace jackalui {
     }
 
     void EventWidget::set_ship(int player_number, int money) {
-        if (have_ship) return;
-        have_ship = true;
+        if (m_have_ship) return;
+        m_have_ship = true;
         layout()->removeWidget(m_label);
         ship = new ShipWidget(player_number, money, m_row, m_col, this, controller);
         layout()->addWidget(ship);
         m_is_flipped = true;
     }
 
+    void EventWidget::set_coins(int money_count) {
+        if (m_have_ship) {
+            ship->set_coins(money_count);
+            return;
+        }
+        if (!m_is_flipped) {
+            return;
+        }
+        m_money = money_count;
+        money_counter->setNum(m_money);
+        money_counter->show();
+        money_counter->raise();
+    }
+
     void EventWidget::add_pirate(int player_id) {
-        pirates_amount++;
-        QPixmap pirate_pic(QString::fromStdString("pirate" + std::to_string(pirates_amount) + ".png"));
+        m_pirates_amount++;
+        QPixmap pirate_pic(QString::fromStdString("pirate" + std::to_string(m_pirates_amount) + ".png"));
         QIcon ButtonIcon(pirate_pic);
         pirate->setIcon(ButtonIcon);
         pirate->setIconSize(pirate->rect().size());
@@ -78,13 +100,19 @@ namespace jackalui {
     }
 
     void EventWidget::remove_pirates() {
-        if (pirates_amount == 0) return;
-        pirates_amount = 0;
+        if (m_pirates_amount == 0) return;
+        m_pirates_amount = 0;
         pirate->hide();
     }
 
     void EventWidget::flip() {
-        if (m_is_flipped) return;
+        if (m_is_flipped || picture_to_set == "water.png") return;
+
+        money_counter = new QLabel(m_label);
+        money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        money_counter->setAlignment(Qt::AlignBottom);
+        set_coins(0);
+
         m_is_flipped = true;
         QPixmap pixmap(filename);
         m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
@@ -94,7 +122,7 @@ namespace jackalui {
         layout()->removeWidget(ship);
         delete ship;
         layout()->addWidget(m_label);
-        have_ship = false;
+        m_have_ship = false;
     }
 
     void EventWidget::PirateClicked() {
