@@ -56,6 +56,14 @@ void Controller::enter_name(const QString &name) {
     send_to_server(qObj);
 }
 
+void Controller::back_to_menu_slot(){
+    std::cout << "Back to menu" << std::endl;
+    QJsonObject qObj;
+    qObj.insert("game", "Jackal");
+    qObj.insert("request_type", "back_to_menu");
+    send_to_server(qObj);
+}
+
 void Controller::ship_click(int id, int row, int col) {
     std::cout << "Ship_id: " << id << std::endl;
 
