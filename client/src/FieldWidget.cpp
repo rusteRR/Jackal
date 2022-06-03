@@ -7,6 +7,7 @@ namespace jackalui {
         auto menuButton = new QPushButton("Menu", this);
         connect(controller, &Controller::field_response, this, &FieldWidget::set_pics);
         connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
+        connect(menuButton, &QPushButton::pressed, controller_, &Controller::back_to_menu_slot);
         connect(controller, &Controller::open_cell, this, &FieldWidget::cellOpen);
         connect(controller, &Controller::move_ship, this, &FieldWidget::shipMove);
         connect(controller, &Controller::handle_players, this, &FieldWidget::update_players);

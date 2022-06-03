@@ -41,12 +41,15 @@ namespace jackal {
 
         void process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to);
         
+        void quit_slot(int id);
+        
     private:    
         std::shared_ptr<Game> m_game{nullptr};
         int m_players_amount{0};
         int m_threads_ids{0};
-        const int MAX_PLAYERS_AMOUNT{2};
+        const int MAX_PLAYERS_AMOUNT{4};
         std::map<QString, int> m_name_id;
+        std::map<int, bool> m_playing;
         QMutex m_mutex;
     };
 

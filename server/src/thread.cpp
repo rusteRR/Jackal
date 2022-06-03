@@ -28,6 +28,10 @@ namespace jackal {
             emit register_player(name, m_thread_id);
             return;
         }
+        if (request_type == "back_to_menu"){
+            qDebug() << "back to menu";
+            emit quit(m_player_id);
+        }
         if (!is_my_turn){
             qDebug() << "not my turn:" << m_player_id;
             return;
@@ -108,6 +112,7 @@ namespace jackal {
     void ClientWorker::disconnect_response() {
         m_socket->close();
         qDebug() << "disconnected";
+        emit quit(m_player_id);
         emit finish();
     }
 

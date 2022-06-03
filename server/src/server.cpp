@@ -18,6 +18,7 @@ namespace jackal {
         connect(worker, &ClientWorker::game_start, this, &Server::game_start_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::process_move, this, &Server::process_move_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::register_player, this, &Server::register_player_slot, Qt::BlockingQueuedConnection);
+        connect(worker, &ClientWorker::quit, this, &Server::quit_slot);
         connect(this, &Server::confirm_registration, worker, &ClientWorker::confirm_registration_slot);
         connect(this, &Server::send_json, worker, &ClientWorker::send_json_slot);
         connect(this, &Server::update_status, worker, &ClientWorker::update_status_slot);
@@ -53,10 +54,20 @@ namespace jackal {
         if (m_name_id.find(name) != m_name_id.end()) {
             qDebug() << "Already registered: " << name << ". Id is " << m_name_id[name];
             player_id = m_name_id[name];
+            if (!m_playing[player_id]){
+                m_playing[player_id] = true;
+            } else{
+                player_id = -1;
+            }
         } else if (m_players_amount < MAX_PLAYERS_AMOUNT){
             player_id = m_players_amount++;
             m_name_id[name] = player_id;
+            m_playing[player_id] = true;
         }
         emit confirm_registration(player_id, thread_id);
+    }
+    
+    void Server::quit_slot(int id) {
+        m_playing[id] = false;
     }
 }

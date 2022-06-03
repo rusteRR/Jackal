@@ -27,6 +27,8 @@ namespace jackal {
         
         void register_player(QString name, int thread_id);
         
+        void quit(int id);
+        
         void finish();
 
     public slots:
