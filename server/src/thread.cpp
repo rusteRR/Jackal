@@ -12,16 +12,14 @@ namespace jackal {
         }
         connect(m_socket, &QTcpSocket::readyRead, this, &ClientWorker::read_response);
         connect(m_socket, &QTcpSocket::disconnected, this, &ClientWorker::disconnect_response);
+        m_in.setDevice(m_socket);
+        m_in.setVersion(QDataStream::Qt_4_0);
     }
 
     void ClientWorker::produce_json(QJsonDocument &json) {
         qDebug() << "produce_json";
         QString request_type = json["request_type"].toString();
         qDebug() << request_type;
-        if (request_type == "game_start") {
-            emit game_start();
-            return;
-        }
         if (request_type == "enter_name") {
             QString name = json["name"].toString();
             qDebug() << "Process registration: " << name;
@@ -75,6 +73,7 @@ namespace jackal {
         out.setVersion(QDataStream::Qt_5_2);
         out << str;
         m_socket->write(data);
+        m_socket->flush();
     }
 
     void ClientWorker::send_to_client(const QJsonObject &obj) {
@@ -90,18 +89,16 @@ namespace jackal {
     }
 
     void ClientWorker::read_response() {
-        m_in.setDevice(m_socket);
-        m_in.setVersion(QDataStream::Qt_4_0);
         QJsonDocument json;
+        m_in.startTransaction();
         while (!m_in.atEnd()) {
-            m_in.startTransaction();
             m_in >> json;
-            if (!m_in.commitTransaction())
-                return;
-            if (m_in.status() != QDataStream::Ok) {
-                return;
-            }
             produce_json(json);
+        }
+        if (!m_in.commitTransaction())
+            return;
+        if (m_in.status() != QDataStream::Ok) {
+            return;
         }
     }
 
