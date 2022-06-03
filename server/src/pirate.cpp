@@ -67,7 +67,6 @@ void jackal::Pirate::stuck(int steps) {
 void jackal::Pirate::die() {
     std::cout << "Pirate is dead" << std::endl;
     m_status = status::DEAD;
-    // TODO : unfortunately next line causes error. (Sol: mark pirate dead when make response(?))
     m_coords = {-2, -2};
 }
 

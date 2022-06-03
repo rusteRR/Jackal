@@ -49,6 +49,9 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         EventType event_type = current_event.invoke(*pirate_to_go);
         while (event_type != EventType::SIMPLE) {
             coords = pirate_to_go->get_coords();
+            if (coords.x < 0 || coords.y < 0) {
+                break;
+            }
             Event& new_event = m_field.get_element(coords.x, coords.y);
             event_type = new_event.invoke(*pirate_to_go);
             pirate_to_go->attack_pirate(*this);
@@ -66,12 +69,12 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
 
 
 bool jackal::Game::check_move_correctness(const std::shared_ptr<Pirate>& pirate_to_go, Coords new_coords) {
-    auto coords = pirate_to_go->get_coords();
-    Event &current_event = m_field.get_element(new_coords.x, new_coords.y);
     auto cur_status = pirate_to_go->get_status();
     if (cur_status == status::DEAD || cur_status == status::STUCK || cur_status == status::DRUNK) {
         return false;
     }
+    auto coords = pirate_to_go->get_coords();
+    Event &current_event = m_field.get_element(new_coords.x, new_coords.y);
     if (cur_status == status::CARRYING_COIN && !current_event.opened_status()) {
         return false;
     }
