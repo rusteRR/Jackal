@@ -3,6 +3,7 @@
 namespace jackalui {
     FieldWidget::FieldWidget(Controller *controller_, QWidget *parent) : QWidget(parent), controller(controller_),
                                                                          field(13) {
+        //this->setStyleSheet( "background-color: rgb(244,214,96);");
         auto menuButton = new QPushButton("Menu", this);
         connect(controller, &Controller::field_response, this, &FieldWidget::set_pics);
         connect(menuButton, &QPushButton::pressed, this, &FieldWidget::menuButtonPressed);
@@ -11,8 +12,40 @@ namespace jackalui {
         connect(controller, &Controller::handle_players, this, &FieldWidget::update_players);
         connect(controller, &Controller::handle_field, this, &FieldWidget::update_field);
         menuButton->setMaximumSize(300, 500);
-        auto grid = new QGridLayout(this);
-        grid->setContentsMargins(410, 10, 410, 10);
+
+        auto GRID = new QHBoxLayout(this);
+        auto players = new QVBoxLayout(this);
+        auto FIELD = new QWidget(this);
+        auto grid = new QGridLayout(FIELD);
+
+        QImage image("player_icon.png");
+        QPainter p(&image);
+        p.setPen(QPen(Qt::black));
+        p.setFont(QFont("Italic", 42));
+        p.drawText(image.rect(), Qt::AlignLeft, "bebra");
+
+        auto player1 = new QLabel(this);
+        auto player2 = new QLabel(this);
+        auto player3 = new QLabel(this);
+        auto player4 = new QLabel(this);
+        player1->setPixmap(QPixmap::fromImage(image));
+        player2->setPixmap(QPixmap::fromImage(image));
+        player3->setPixmap(QPixmap::fromImage(image));
+        player4->setPixmap(QPixmap::fromImage(image));
+
+        auto spacer = new QSpacerItem(100, 150);
+        players->addSpacerItem(spacer);
+
+        players->addWidget(player1);
+        players->addWidget(player2);
+        players->addWidget(player3);
+        players->addWidget(player4);
+
+        auto spacer1 = new QSpacerItem(100, 150);
+        players->addSpacerItem(spacer1);
+
+        GRID->addLayout(players);
+
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
                 auto event = new EventWidget(j, i, this, controller);
@@ -23,7 +56,7 @@ namespace jackalui {
         grid->setHorizontalSpacing(0);
         grid->setVerticalSpacing(0);
 
-        //controller->wait_filename();
+        GRID->addWidget(FIELD);
     }
 
     void FieldWidget::set_pics(const QJsonDocument &json) {

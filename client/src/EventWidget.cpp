@@ -20,6 +20,8 @@ namespace jackalui {
         QPixmap pixmap(picture_to_set);
         m_label->setScaledContents(true);
         m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
+        m_label->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+
 
         auto layout = new QVBoxLayout(this);
         layout->addWidget(m_label);

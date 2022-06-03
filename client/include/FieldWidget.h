@@ -7,6 +7,9 @@
 #include <QPushButton>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QImage>
+#include <QPainter>
+#include <QSpacerItem>
 #include <QString>
 #include <QJsonDocument>
 #include <map>

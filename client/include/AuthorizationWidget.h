@@ -21,7 +21,7 @@ namespace jackalui {
     Q_OBJECT
     public:
         explicit AuthorizationWidget(QWidget* parent = nullptr, Controller *controller_ = nullptr) : QDialog(parent), controller(controller_) {
-            setStyleSheet( "background-image:url(background.png);"); // TODO: should be scaled:(
+            this->setStyleSheet( "background-color: rgb(197, 209, 119);"); // TODO: should be scaled:(
             QBoxLayout* layout = new QHBoxLayout;
             m_edit = new QLineEdit;
             layout->addWidget( m_edit );
