@@ -19,20 +19,51 @@ namespace jackalui {
         auto FIELD = new QWidget(this);
         auto grid = new QGridLayout(FIELD);
 
-        QImage image("player_icon.png");
-        QPainter p(&image);
-        p.setPen(QPen(Qt::black));
-        p.setFont(QFont("Italic", 42));
-        p.drawText(image.rect(), Qt::AlignLeft, "bebra");
+        QImage image1("icon.png");
+        QImage image2("icon.png");
+        QImage image3("icon.png");
+        QImage image4("icon.png");
+        QPainter p1(&image1);
+        QPainter p2(&image2);
+        QPainter p3(&image3);
+        QPainter p4(&image4);
+        p1.setPen(QPen(Qt::black));
+        p1.setFont(QFont("Italic", 34));
+        p1.drawText(40, 70, "player1");
+        p1.drawText(40, 140, "150");
+
+        QPixmap pirate_blue("pirate_blue.png");
+        p1.drawPixmap(200, 0, pirate_blue);
+        p2.setPen(QPen(Qt::black));
+        p2.setFont(QFont("Italic", 34));
+        p2.drawText(40, 70, "player2");
+        p2.drawText(40, 140, "150");
+
+        QPixmap pirate_green("pirate_green.png");
+        p2.drawPixmap(190, 0, pirate_green);
+        p3.setPen(QPen(Qt::black));
+        p3.setFont(QFont("Italic", 34));
+        p3.drawText(40, 70, "player3");
+        p3.drawText(40, 140, "150");
+
+        QPixmap pirate_purple("pirate_purple.png");
+        p3.drawPixmap(190, 0, pirate_purple);
+        p4.setPen(QPen(Qt::black));
+        p4.setFont(QFont("Italic", 34));
+        p4.drawText(40, 70, "player4");
+        p4.drawText(40, 140, "150");
+
+        QPixmap pirate_red("pirate_red.png");
+        p4.drawPixmap(190, 0, pirate_red);
 
         auto player1 = new QLabel(this);
         auto player2 = new QLabel(this);
         auto player3 = new QLabel(this);
         auto player4 = new QLabel(this);
-        player1->setPixmap(QPixmap::fromImage(image));
-        player2->setPixmap(QPixmap::fromImage(image));
-        player3->setPixmap(QPixmap::fromImage(image));
-        player4->setPixmap(QPixmap::fromImage(image));
+        player1->setPixmap(QPixmap::fromImage(image1));
+        player2->setPixmap(QPixmap::fromImage(image2));
+        player3->setPixmap(QPixmap::fromImage(image3));
+        player4->setPixmap(QPixmap::fromImage(image4));
 
         auto spacer = new QSpacerItem(100, 150);
         players->addSpacerItem(spacer);
