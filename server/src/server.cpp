@@ -7,7 +7,6 @@ namespace jackal {
             return;
         } else {
             qDebug() << "server is started";
-//            qDebug() << "listening at" << ;
         }
     }
 
@@ -15,10 +14,9 @@ namespace jackal {
         QThread *thread = new QThread(this);
         ClientWorker *worker = new ClientWorker(socketDescription,  m_threads_ids++);
         connect(worker, &ClientWorker::finish, thread, &QThread::quit);
-        connect(worker, &ClientWorker::game_start, this, &Server::game_start_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::process_move, this, &Server::process_move_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::register_player, this, &Server::register_player_slot, Qt::BlockingQueuedConnection);
-        connect(worker, &ClientWorker::quit, this, &Server::quit_slot);
+        connect(worker, &ClientWorker::quit, this, &Server::quit_slot, Qt::BlockingQueuedConnection);
         connect(this, &Server::confirm_registration, worker, &ClientWorker::confirm_registration_slot);
         connect(this, &Server::send_json, worker, &ClientWorker::send_json_slot);
         connect(this, &Server::update_status, worker, &ClientWorker::update_status_slot);
@@ -27,20 +25,7 @@ namespace jackal {
         thread->start();
     }
 
-    void Server::game_start_slot() {
-        QMutexLocker lock(&m_mutex);
-        qDebug() << "Game start signal from user";
-        if (m_players_amount == MAX_PLAYERS_AMOUNT && m_game == nullptr) {
-            qDebug() << "game created";
-            m_game = std::make_shared<Game>(game_type::DEFAULT);
-            int cur_id = m_game->current_player_id();
-            emit update_status(cur_id);
-            //emit send_json(m_game->get_current_state());  
-        }
-    }
-
     void Server::process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to) {
-        QMutexLocker lock(&m_mutex);
         qDebug() << "process_move_slot";
         QJsonObject result = m_game->process_move(request_type.toStdString(), pirate_id, col_to, row_to);
         qDebug() << "process_move successful";
@@ -63,8 +48,44 @@ namespace jackal {
             player_id = m_players_amount++;
             m_name_id[name] = player_id;
             m_playing[player_id] = true;
+            if (m_players_amount == MAX_PLAYERS_AMOUNT && m_game == nullptr) {
+                qDebug() << "game created";
+                m_game = std::make_shared<Game>(game_type::DEFAULT);
+            }
         }
         emit confirm_registration(player_id, thread_id);
+        send_players_names();
+        if (m_game != nullptr){
+            QJsonObject state = m_game->get_current_state();
+            int cur_id = m_game->current_player_id();
+            emit update_status(cur_id);
+            emit send_json(state);
+        }
+    }
+    
+    void Server::send_players_names() {
+        QJsonObject json;
+        QJsonArray players;
+        int cnt = 0;
+        std::vector<std::pair<int, QString>> v;
+        for (auto &x : m_name_id){
+            v.emplace_back(x.second, x.first);
+            cnt++;
+        }
+        std::sort(v.begin(),v.end());
+        while(cnt < MAX_PLAYERS_AMOUNT){
+            v.emplace_back(cnt++, "Waiting...");
+        }
+        for (auto &x : v){
+            QJsonObject player;
+            player["name"] = x.second;
+            player["id"] = x.first;
+            players.append(player);
+        }
+        json.insert("game", "Jackal");
+        json.insert("response_type", "players");
+        json.insert("players", players);
+        emit send_json(json);
     }
     
     void Server::quit_slot(int id) {

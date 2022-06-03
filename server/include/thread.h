@@ -20,8 +20,6 @@ namespace jackal {
     signals:
 
         void error(QTcpSocket::SocketError socketError);
-
-        void game_start();
         
         void process_move(const QString& request_type, int pirate_id, int col_to, int row_to);
         

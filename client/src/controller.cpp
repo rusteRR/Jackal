@@ -19,6 +19,7 @@ void Controller::send_to_server(const QJsonDocument &str){
     out.setVersion(QDataStream::Qt_5_2);
     out << str;
     m_socket->write(data);
+    m_socket->flush();
 }
 void Controller::send_to_server(const QJsonObject &obj) {
     send_to_server(QJsonDocument(obj));
@@ -93,25 +94,32 @@ void Controller::read_response() {
     qDebug() << "entered read_response";
     in.startTransaction();
     QJsonDocument json;
-    in >> json;
+    while (!in.atEnd()) {
+        in >> json;
+        //emit field_response(json);
+        qDebug() << "response_type is " << json["response_type"];
+        if (json["response_type"] == "game_state") {
+            emit handle_field(json["field_data"].toArray());
+            emit handle_players(json["players_data"].toArray());
+            return;
+        }
+        else if (json["response_type"] == "confirm_registration") {
+            emit authCorrect();
+            return;
+        }
+        else if (json["response_type"] == "requests_error") {
+            /* emit handle_error(json["error"])  */
+        }
+        else if (json["response_type"] == "players"){
+            //TODO: show names
+        } else{
+            qDebug() << "unknown response";
+        }
+    }
     if (!in.commitTransaction())
         return;
     if (in.status() != QDataStream::Ok) {
         return;
-    }
-    //emit field_response(json);
-    qDebug() << "response_type is " << json["response_type"];
-    if (json["response_type"] == "game_state") {
-        emit handle_field(json["field_data"].toArray());
-        emit handle_players(json["players_data"].toArray());
-        return;
-    }
-    if (json["response_type"] == "confirm_registration") {
-        emit authCorrect();
-        return;
-    }
-    if (json["response_type"] == "requests_error") {
-        /* emit handle_error(json["error"])  */
     }
 }
 
