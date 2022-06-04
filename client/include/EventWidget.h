@@ -6,6 +6,7 @@
 #include <QGridLayout>
 #include <QString>
 #include <QPushButton>
+#include <QPainter>
 #include "PirateWidget.h"
 #include "controller.h"
 #include "ShipWidget.h"
@@ -33,12 +34,11 @@ namespace jackalui {
 
     private:
         QLabel *m_label;
-        QLabel *money_counter;
+        QPushButton *money_counter;
         Controller *controller;
         QString filename;
         QString picture_to_set;
         ShipWidget *ship;
-        // TODO: PirateWidget *pirate;
         QPushButton *pirate;
         bool m_is_flipped = false;
         int m_col;
@@ -51,6 +51,8 @@ namespace jackalui {
     public slots:
 
         void PirateClicked();
+
+        void CoinClicked();
 
     signals:
 

@@ -12,11 +12,6 @@ namespace jackalui {
             picture_to_set = "closed.png";
         }
 
-        /* money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        money_counter->setAlignment(Qt::AlignBottom);
-        money_counter->setNum(m_money); */
-
-
         QPixmap pixmap(picture_to_set);
         m_label->setScaledContents(true);
         m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
@@ -85,9 +80,19 @@ namespace jackalui {
             return;
         }
         m_money = money_count;
-        money_counter->setNum(m_money);
-        money_counter->show();
-        money_counter->raise();
+        QPixmap coin("coin.png");
+        QPainter painter(&coin);
+        painter.setFont(QFont("Italic", 50));
+        painter.drawText(45, 95, QString::number(money_count));
+        QIcon ButtonIcon(coin);
+        money_counter->setIcon(ButtonIcon);
+        money_counter->setIconSize(money_counter->rect().size());
+        if (money_count > 0) {
+            money_counter->show();
+            money_counter->raise();
+        } else {
+            money_counter->hide();
+        }
     }
 
     void EventWidget::add_pirate(int player_id) {
@@ -109,9 +114,19 @@ namespace jackalui {
 
     void EventWidget::flip() {
         if (m_is_flipped || picture_to_set == "water.png") return;
-        money_counter = new QLabel(m_label);
-        money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        money_counter->setAlignment(Qt::AlignBottom);
+
+        money_counter = new QPushButton(this);
+        money_counter->setGeometry(0, 0, 25, 25);
+
+        QPixmap coin("coin.png");
+        QPainter painter(&coin);
+        painter.setFont(QFont("Italic", 50));
+        painter.drawText(45, 95, "0");
+        QIcon ButtonIcon(coin);
+        money_counter->setIcon(ButtonIcon);
+        money_counter->setIconSize(money_counter->rect().size());
+        connect(money_counter, SIGNAL(clicked()),  SLOT(CoinClicked()));
+
         set_coins(0);
 
         m_is_flipped = true;
@@ -129,6 +144,10 @@ namespace jackalui {
 
     void EventWidget::PirateClicked() {
         emit controller->pirate_click(m_player, m_row, m_col);
+    }
+
+    void EventWidget::CoinClicked() {
+        emit controller->click_coin(m_row, m_col);
     }
 
     void EventWidget::mousePressEvent(QMouseEvent *event) {
