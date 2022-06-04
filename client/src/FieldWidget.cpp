@@ -140,11 +140,12 @@ namespace jackalui {
             QJsonArray pirates = player["pirates"].toArray();
             for (int j = 0; j < pirates.size(); ++j) {
                 auto pirate = pirates.at(j);
+                int pirate_id = pirate["pirate_id"].toInt();
                 int pirate_row = pirate["coord_y"].toInt();
                 int pirate_col = pirate["coord_x"].toInt();
                 bool is_dead = pirate["is_dead"].toBool();
                 if (!is_dead) {
-                    field[pirate_row][pirate_col]->add_pirate(player_id);
+                    field[pirate_row][pirate_col]->add_pirate(player_id, pirate_id);
                 }
             }
         }
@@ -166,7 +167,6 @@ namespace jackalui {
             int col = cell["coord_x"].toInt();
             int coins = cell["coins"].toInt();
             bool is_open = cell["is_open"].toBool();
-            is_open = true;
             QString filename = cell["filename"].toString();
             field[row][col]->set_pic(filename);
             if (is_open) {

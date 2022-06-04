@@ -26,7 +26,7 @@ namespace jackalui {
 
         void removeShip();
 
-        void add_pirate(int player_id);
+        void add_pirate(int player_id, int pirate_id);
 
         void remove_pirates();
 
@@ -39,7 +39,9 @@ namespace jackalui {
         QString filename;
         QString picture_to_set;
         ShipWidget *ship;
-        QPushButton *pirate;
+        QPushButton *pirate1;
+        QPushButton *pirate2;
+        QPushButton *pirate3;
         bool m_is_flipped = false;
         int m_col;
         int m_row;
