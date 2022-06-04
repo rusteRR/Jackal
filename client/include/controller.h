@@ -43,6 +43,8 @@ signals:
 
     void handle_field(const QJsonArray &field_data);
 
+    void handle_error(const QString &error_message);
+
 private:
     void send_to_server(const QJsonDocument &str);
 

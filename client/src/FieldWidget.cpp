@@ -12,6 +12,7 @@ namespace jackalui {
         connect(controller, &Controller::move_ship, this, &FieldWidget::shipMove);
         connect(controller, &Controller::handle_players, this, &FieldWidget::update_players);
         connect(controller, &Controller::handle_field, this, &FieldWidget::update_field);
+        connect(controller, &Controller::handle_error, this, &FieldWidget::show_error);
         menuButton->setMaximumSize(300, 500);
 
         auto GRID = new QHBoxLayout(this);
@@ -77,6 +78,7 @@ namespace jackalui {
         players->addSpacerItem(spacer1);
 
         GRID->addLayout(players);
+
 
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
@@ -164,5 +166,17 @@ namespace jackalui {
                 field[row][col]->set_coins(coins);
             }
         }
+    }
+
+    void FieldWidget::show_error(const QString &error_message) {
+        qDebug() << "error: " << error_message;
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Jackal error");
+        msgBox.setText(QString("<font size=28>") + "Error message:" + "</font>");
+        msgBox.setInformativeText(QString("<font size=5>") + error_messages.at(error_message) + "</font>");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setStyleSheet("QLabel{min-width: 365px;}");
+        msgBox.exec();
     }
 }

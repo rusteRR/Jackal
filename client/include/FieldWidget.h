@@ -10,6 +10,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QSpacerItem>
+#include <QMessageBox>
 #include <QString>
 #include <QJsonDocument>
 #include <map>
@@ -42,9 +43,15 @@ namespace jackalui {
 
         void clear_pirates();
 
+        void show_error(const QString &error_message);
+
     private:
         Controller *controller;
         QVector<QVector<EventWidget *>> field;
+        const std::map<QString, QString> error_messages = {{"take_coin", "There is no coin"},
+                                                     {"ship_move", "You can't move ship like that"},
+                                                     {"pirate_move", "You can't move pirate like that"}};
+
         std::map<int, std::pair<int,int>> cur_ships = {{0, {0, 6}}, {1, {6, 12}}, {2, {12, 6}}, {3,{6, 0}}};
     };
 }

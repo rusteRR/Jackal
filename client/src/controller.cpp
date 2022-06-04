@@ -90,7 +90,6 @@ void Controller::pirate_click(int id, int row, int col) {
 
 
 void Controller::read_response() {
-    std::cout << "Bebra" << std::endl;
     qDebug() << "entered read_response";
     in.startTransaction();
     QJsonDocument json;
@@ -108,7 +107,7 @@ void Controller::read_response() {
             return;
         }
         else if (json["response_type"] == "requests_error") {
-            /* emit handle_error(json["error"])  */
+            emit handle_error(json["error"].toString());
         }
         else if (json["response_type"] == "players"){
             //TODO: show names
