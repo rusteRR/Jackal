@@ -13,7 +13,6 @@ namespace jackal {
 
     private:
         EventType m_type = EventType::SIMPLE;
-        int amount;
     };
 
 } // namespace jackal

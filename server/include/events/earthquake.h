@@ -12,6 +12,7 @@ namespace jackal {
 
         EventType invoke(Pirate& pirate) override {
             std::cout << "Earthquake" << std::endl;
+            is_opened = true;
             return m_type;
         }
 
