@@ -44,7 +44,7 @@ void jackal::Pirate::attack_pirate(Game &game) {
             this->go_to_ship();
             return;
         }
-        if (pirate_ptr->get_status() == status::JUNGLE) {
+        if (pirate_ptr->get_status() == status::JUNGLE || pirate_ptr->get_status() == status::DEAD) {
             continue;
         }
         if (pirate_ptr->get_coords() == m_coords) {
@@ -68,7 +68,7 @@ void jackal::Pirate::stuck(int steps) {
 void jackal::Pirate::die() {
     std::cout << "Pirate is dead" << std::endl;
     m_status = status::DEAD;
-    m_coords = {-2, -2};
+    m_coords = {0, 0};
 }
 
 void jackal::Pirate::set_last_move(eventType type, Coords coords) {
