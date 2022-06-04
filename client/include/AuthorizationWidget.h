@@ -21,15 +21,19 @@ namespace jackalui {
     Q_OBJECT
     public:
         explicit AuthorizationWidget(QWidget* parent = nullptr, Controller *controller_ = nullptr) : QDialog(parent), controller(controller_) {
-            this->setStyleSheet( "background-color: rgb(197, 209, 119);"); // TODO: should be scaled:(
+            //this->setStyleSheet( "background-color: rgb(176, 174, 114);");
+            this->setStyleSheet( "background-image: url(error_background.png);");
+            resize(400, 130);
+            setWindowTitle("Jackal");
+
             QBoxLayout* layout = new QHBoxLayout;
             m_edit = new QLineEdit;
             layout->addWidget( m_edit );
+            m_edit->setPlaceholderText("Enter your name:");
 
             auto okBtn = new QPushButton( "OK" );
             connect( okBtn, SIGNAL( clicked() ), SLOT( accept() ) );
             layout->addWidget( okBtn );
-
             setLayout( layout );
         }
 
