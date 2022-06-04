@@ -14,7 +14,7 @@ namespace jackal {
 
 
     private:
-        EventType m_type = EventType::SIMPLE;
+        EventType m_type = EventType::NEW_EVENT;
         std::set<std::pair<int, int>> directions;
     };
 

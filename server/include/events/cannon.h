@@ -14,7 +14,7 @@ namespace jackal {
     private:
         int m_dcol;
         int m_drow;
-        EventType m_type = EventType::SIMPLE;
+        EventType m_type = EventType::NEW_EVENT;
     };
 
 } // namespace jackal
