@@ -13,6 +13,7 @@ namespace jackalui {
         connect(controller, &Controller::handle_players, this, &FieldWidget::update_players);
         connect(controller, &Controller::handle_field, this, &FieldWidget::update_field);
         connect(controller, &Controller::handle_error, this, &FieldWidget::show_error);
+        connect(controller, &Controller::update_names, this, &FieldWidget::update_names);
         menuButton->setMaximumSize(300, 500);
 
         auto GRID = new QHBoxLayout(this);
@@ -28,28 +29,25 @@ namespace jackalui {
         QPainter p2(&image2);
         QPainter p3(&image3);
         QPainter p4(&image4);
-        p1.setPen(QPen(Qt::black));
         p1.setFont(QFont("Italic", 34));
         p1.drawText(40, 70, "player1");
         p1.drawText(40, 140, "150");
 
         QPixmap pirate_blue("pirate_blue.png");
         p1.drawPixmap(200, 0, pirate_blue);
-        p2.setPen(QPen(Qt::black));
         p2.setFont(QFont("Italic", 34));
         p2.drawText(40, 70, "player2");
         p2.drawText(40, 140, "150");
 
+
         QPixmap pirate_green("pirate_green.png");
         p2.drawPixmap(190, 0, pirate_green);
-        p3.setPen(QPen(Qt::black));
         p3.setFont(QFont("Italic", 34));
         p3.drawText(40, 70, "player3");
         p3.drawText(40, 140, "150");
 
         QPixmap pirate_purple("pirate_purple.png");
         p3.drawPixmap(190, 0, pirate_purple);
-        p4.setPen(QPen(Qt::black));
         p4.setFont(QFont("Italic", 34));
         p4.drawText(40, 70, "player4");
         p4.drawText(40, 140, "150");
@@ -57,10 +55,10 @@ namespace jackalui {
         QPixmap pirate_red("pirate_red.png");
         p4.drawPixmap(190, 0, pirate_red);
 
-        auto player1 = new QLabel(this);
-        auto player2 = new QLabel(this);
-        auto player3 = new QLabel(this);
-        auto player4 = new QLabel(this);
+        player1 = new QLabel(this);
+        player2 = new QLabel(this);
+        player3 = new QLabel(this);
+        player4 = new QLabel(this);
         player1->setPixmap(QPixmap::fromImage(image1));
         player2->setPixmap(QPixmap::fromImage(image2));
         player3->setPixmap(QPixmap::fromImage(image3));
@@ -132,6 +130,7 @@ namespace jackalui {
             int player_id = player["player_id"].toInt();
             int player_coins = player["total_coins"].toInt();
             auto cur_pos = cur_ships[i];
+            players_coins[i] = player_coins;
             if (cur_pos.first != ship_row || cur_pos.second != ship_col) {
                 field[cur_pos.first][cur_pos.second]->removeShip();
                 field[ship_row][ship_col]->set_ship(player_id, player_coins);
@@ -149,6 +148,15 @@ namespace jackalui {
                 }
             }
         }
+        update_icons();
+    }
+
+    void FieldWidget::update_names(const QJsonArray &json) {
+        for (int i = 0; i < json.size(); ++i) {
+            auto player = json.at(i);
+            names[i] = player["name"].toString();
+        }
+        update_icons();
     }
 
     void FieldWidget::update_field(const QJsonArray &field_data) {
@@ -168,6 +176,46 @@ namespace jackalui {
         }
     }
 
+    void FieldWidget::update_icons() {
+        QImage image1("icon.png");
+        QImage image2("icon.png");
+        QImage image3("icon.png");
+        QImage image4("icon.png");
+        QPainter p1(&image1);
+        QPainter p2(&image2);
+        QPainter p3(&image3);
+        QPainter p4(&image4);
+
+        p1.setFont(QFont("Italic", 34));
+        p1.drawText(40, 70, names[0]);
+        p1.drawText(40, 140, QString::number(players_coins[0]));
+        QPixmap pirate_blue("pirate_blue.png");
+        p1.drawPixmap(200, 0, pirate_blue);
+
+        p2.setFont(QFont("Italic", 34));
+        p2.drawText(40, 70, names[1]);
+        p2.drawText(40, 140, QString::number(players_coins[1]));
+        QPixmap pirate_green("pirate_green.png");
+        p2.drawPixmap(190, 0, pirate_green);
+
+        p3.setFont(QFont("Italic", 34));
+        p3.drawText(40, 70, names[2]);
+        p3.drawText(40, 140, QString::number(players_coins[2]));
+        QPixmap pirate_purple("pirate_purple.png");
+        p3.drawPixmap(190, 0, pirate_purple);
+
+        p4.setFont(QFont("Italic", 34));
+        p4.drawText(40, 70, names[3]);
+        p4.drawText(40, 140, QString::number(players_coins[3]));
+        QPixmap pirate_red("pirate_red.png");
+        p4.drawPixmap(190, 0, pirate_red);
+
+        player1->setPixmap(QPixmap::fromImage(image1));
+        player2->setPixmap(QPixmap::fromImage(image2));
+        player3->setPixmap(QPixmap::fromImage(image3));
+        player4->setPixmap(QPixmap::fromImage(image4));
+    }
+
     void FieldWidget::show_error(const QString &error_message) {
         qDebug() << "error: " << error_message;
         QMessageBox msgBox;
@@ -177,6 +225,7 @@ namespace jackalui {
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.setStyleSheet("QLabel{min-width: 365px;}");
+        // msgBox.setStyleSheet("QMessageBox { background-image: url(error_background.png) }"); // TODO: make pretty backgr
         msgBox.exec();
     }
 }

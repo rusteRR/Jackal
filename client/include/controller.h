@@ -45,6 +45,8 @@ signals:
 
     void handle_error(const QString &error_message);
 
+    void update_names(const QJsonArray &json);
+
 private:
     void send_to_server(const QJsonDocument &str);
 

@@ -110,7 +110,7 @@ void Controller::read_response() {
             emit handle_error(json["error"].toString());
         }
         else if (json["response_type"] == "players"){
-            //TODO: show names
+            emit update_names(json["players"].toArray());
         } else{
             qDebug() << "unknown response";
         }

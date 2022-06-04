@@ -47,7 +47,7 @@ namespace jackal {
         std::shared_ptr<Game> m_game{nullptr};
         int m_players_amount{0};
         int m_threads_ids{0};
-        const int MAX_PLAYERS_AMOUNT{1};
+        const int MAX_PLAYERS_AMOUNT{4};
         std::map<QString, int> m_name_id;
         std::map<int, bool> m_playing;
     };

@@ -86,9 +86,9 @@ namespace jackalui {
         }
         m_money = money_count;
         //TODO: fix coin bug
-//        money_counter->setNum(m_money);
-//        money_counter->show();
-//        money_counter->raise();
+        money_counter->setNum(m_money);
+        money_counter->show();
+        money_counter->raise();
     }
 
     void EventWidget::add_pirate(int player_id) {
@@ -110,7 +110,6 @@ namespace jackalui {
 
     void EventWidget::flip() {
         if (m_is_flipped || picture_to_set == "water.png") return;
-
         money_counter = new QLabel(m_label);
         money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
         money_counter->setAlignment(Qt::AlignBottom);
@@ -126,6 +125,7 @@ namespace jackalui {
         delete ship;
         layout()->addWidget(m_label);
         m_have_ship = false;
+        m_is_flipped = false;
     }
 
     void EventWidget::PirateClicked() {

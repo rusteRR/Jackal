@@ -25,6 +25,10 @@ namespace jackalui {
     public:
         explicit FieldWidget(Controller *controller_, QWidget *parent = nullptr);
 
+        void update_names(const QJsonArray &json);
+
+        void update_icons();
+
     signals:
 
         void menuButtonPressed();
@@ -46,13 +50,19 @@ namespace jackalui {
         void show_error(const QString &error_message);
 
     private:
+        QLabel* player1 = new QLabel(this);
+        QLabel* player2 = new QLabel(this);
+        QLabel* player3 = new QLabel(this);
+        QLabel* player4 = new QLabel(this);
         Controller *controller;
         QVector<QVector<EventWidget *>> field;
         const std::map<QString, QString> error_messages = {{"take_coin", "There is no coin"},
                                                      {"ship_move", "You can't move ship like that"},
-                                                     {"pirate_move", "You can't move pirate like that"}};
-
+                                                     {"pirate_move", "You can't move pirate like that"},
+                                                           {"not cell clicked", "not cell clicked"}};
+        std::map<int, QString> names = { {0, "pirate1"}, {1, "pirate2"}, {2, "pirate3"}, {3, "pirate4"}};
         std::map<int, std::pair<int,int>> cur_ships = {{0, {0, 6}}, {1, {6, 12}}, {2, {12, 6}}, {3,{6, 0}}};
+        std::map<int,int> players_coins = {{0, 0}, {1, 0}, {2, 0}, {3, 0} };
     };
 }
 
