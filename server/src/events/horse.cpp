@@ -11,8 +11,9 @@ jackal::EventType jackal::Horse::invoke(Pirate& pirate) {
         auto [new_x, new_y] = Server::get_coords;
     }
     pirate.move(Coords{new_x, new_y});
-    */
     return m_type;
+     */
+    return EventType::SIMPLE;
 }
 
 bool jackal::Horse::check_move_correctness(Coords cur_coords, Coords new_coords) {
