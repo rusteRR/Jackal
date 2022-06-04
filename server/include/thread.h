@@ -27,6 +27,8 @@ namespace jackal {
         
         void quit(int id);
         
+        void get_possible_turns(int player_id, int pirate_id);
+        
         void finish();
 
     public slots:

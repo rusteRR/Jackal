@@ -14,6 +14,7 @@
 #include <QJsonArray>
 #include <vector>
 #include <utility>
+#include "handler.h"
 #include "thread.h"
 #include "game.h"
 
@@ -41,6 +42,8 @@ namespace jackal {
         void process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to);
         
         void quit_slot(int id);
+
+        void get_possible_turns_slot(int pirate_id, int sender_id);
         
     private:
         void send_players_names();

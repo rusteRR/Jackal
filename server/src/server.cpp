@@ -17,6 +17,7 @@ namespace jackal {
         connect(worker, &ClientWorker::process_move, this, &Server::process_move_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::register_player, this, &Server::register_player_slot, Qt::BlockingQueuedConnection);
         connect(worker, &ClientWorker::quit, this, &Server::quit_slot, Qt::BlockingQueuedConnection);
+        connect(worker, &ClientWorker::get_possible_turns, this, &Server::get_possible_turns_slot, Qt::BlockingQueuedConnection);
         connect(this, &Server::confirm_registration, worker, &ClientWorker::confirm_registration_slot);
         connect(this, &Server::send_json, worker, &ClientWorker::send_json_slot);
         connect(this, &Server::update_status, worker, &ClientWorker::update_status_slot);
@@ -86,6 +87,11 @@ namespace jackal {
         json.insert("response_type", "players");
         json.insert("players", players);
         emit send_json(json, -1);
+    }
+    
+    void Server::get_possible_turns_slot(int pirate_id, int sender_id) {
+        QJsonObject json = Handler::get_possible_moves(*m_game, pirate_id);
+        send_json(json, sender_id);
     }
     
     void Server::quit_slot(int id) {
