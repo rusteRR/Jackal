@@ -81,7 +81,6 @@ namespace jackalui {
         mapper.setMapping(pirate3, 2); // Number to be passed in the slot
 
         connect(&mapper, SIGNAL(mapped(int)), this, SLOT(PirateClicked(int)));*/
-
         connect(pirate1, SIGNAL(clicked()),  SLOT(PirateClickedFirst()));
         connect(pirate2, SIGNAL(clicked()),  SLOT(PirateClickedSecond()));
         connect(pirate3, SIGNAL(clicked()),  SLOT(PirateClickedThird()));
@@ -128,6 +127,7 @@ namespace jackalui {
     }
 
     void EventWidget::add_pirate(int player_id, int pirate_id) {
+        m_player = player_id;
         m_pirates_amount++;
         QPixmap pirate_pic("pirate_icon" + QString::number(m_player + 1) + ".png");
         QIcon ButtonIcon(pirate_pic);
@@ -147,7 +147,6 @@ namespace jackalui {
             pirate3->show();
             pirate3->raise();
         }
-        m_player = player_id;
     }
 
     void EventWidget::remove_pirates() {
