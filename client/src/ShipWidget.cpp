@@ -17,13 +17,7 @@ namespace jackalui {
         money_counter = new QPushButton(this);
         money_counter->setGeometry(0, 0, 25, 25);
 
-        QPixmap coin("coin.png");
-        QPainter painter(&coin);
-        painter.setFont(QFont("Italic", 50));
-        painter.drawText(45, 95, "0");
-        QIcon ButtonIcon(coin);
-        money_counter->setIcon(ButtonIcon);
-        money_counter->setIconSize(money_counter->rect().size());
+        set_coins(money);
 
         connect(this, &ShipWidget::onPressed, controller, [&]() {
             controller->ship_click(m_id, m_row, m_col);

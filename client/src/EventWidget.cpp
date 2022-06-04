@@ -63,7 +63,10 @@ namespace jackalui {
     }
 
     void EventWidget::set_ship(int player_number, int money) {
-        if (m_have_ship) return;
+        if (m_have_ship) {
+            ship->set_coins(money);
+            return;
+        }
         m_have_ship = true;
         layout()->removeWidget(m_label);
         ship = new ShipWidget(player_number, money, m_row, m_col, this, controller);

@@ -21,7 +21,7 @@ namespace jackalui {
         auto FIELD = new QWidget(this);
         auto grid = new QGridLayout(FIELD);
 
-        QImage image1("icon.png");
+        {QImage image1("icon.png");
         QImage image2("icon.png");
         QImage image3("icon.png");
         QImage image4("icon.png");
@@ -60,7 +60,7 @@ namespace jackalui {
         player1->setPixmap(QPixmap::fromImage(image1));
         player2->setPixmap(QPixmap::fromImage(image2));
         player3->setPixmap(QPixmap::fromImage(image3));
-        player4->setPixmap(QPixmap::fromImage(image4));
+        player4->setPixmap(QPixmap::fromImage(image4));}
 
         auto spacer = new QSpacerItem(100, 150);
         players->addSpacerItem(spacer);
@@ -133,6 +133,8 @@ namespace jackalui {
                 field[cur_pos.first][cur_pos.second]->removeShip();
                 field[ship_row][ship_col]->set_ship(player_id, player_coins);
                 cur_ships[i] = {ship_row, ship_col};
+            } else {
+                field[ship_row][ship_col]->set_ship(player_id, player_coins);
             }
 
             QJsonArray pirates = player["pirates"].toArray();
@@ -164,8 +166,8 @@ namespace jackalui {
             int col = cell["coord_x"].toInt();
             int coins = cell["coins"].toInt();
             bool is_open = cell["is_open"].toBool();
+            is_open = true;
             QString filename = cell["filename"].toString();
-            // TODO: and money
             field[row][col]->set_pic(filename);
             if (is_open) {
                 field[row][col]->flip();
