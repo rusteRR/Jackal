@@ -32,25 +32,25 @@ namespace jackalui {
         p1.setFont(QFont("Italic", 34));
         p1.drawText(40, 70, "player1");
         p1.drawText(40, 140, "150");
-        QPixmap pirate_blue("pirate_blue.png");
+        QPixmap pirate_blue("pirate1.png");
         p1.drawPixmap(200, 0, pirate_blue);
 
         p2.setFont(QFont("Italic", 34));
         p2.drawText(40, 70, "player2");
         p2.drawText(40, 140, "150");
-        QPixmap pirate_green("pirate_green.png");
+        QPixmap pirate_green("pirate2.png");
         p2.drawPixmap(190, 0, pirate_green);
 
         p3.setFont(QFont("Italic", 34));
         p3.drawText(40, 70, "player3");
         p3.drawText(40, 140, "150");
-        QPixmap pirate_purple("pirate_purple.png");
+        QPixmap pirate_purple("pirate3.png");
         p3.drawPixmap(190, 0, pirate_purple);
 
         p4.setFont(QFont("Italic", 34));
         p4.drawText(40, 70, "player4");
         p4.drawText(40, 140, "150");
-        QPixmap pirate_red("pirate_red.png");
+        QPixmap pirate_red("pirate4.png");
         p4.drawPixmap(190, 0, pirate_red);
 
         player1 = new QLabel(this);
@@ -189,25 +189,25 @@ namespace jackalui {
         p1.setFont(QFont("Italic", 34));
         p1.drawText(40, 70, names[0]);
         p1.drawText(40, 140, QString::number(players_coins[0]));
-        QPixmap pirate_blue("pirate_blue.png");
+        QPixmap pirate_blue("pirate1.png");
         p1.drawPixmap(200, 0, pirate_blue);
 
         p2.setFont(QFont("Italic", 34));
         p2.drawText(40, 70, names[1]);
         p2.drawText(40, 140, QString::number(players_coins[1]));
-        QPixmap pirate_green("pirate_green.png");
+        QPixmap pirate_green("pirate2.png");
         p2.drawPixmap(190, 0, pirate_green);
 
         p3.setFont(QFont("Italic", 34));
         p3.drawText(40, 70, names[2]);
         p3.drawText(40, 140, QString::number(players_coins[2]));
-        QPixmap pirate_purple("pirate_purple.png");
+        QPixmap pirate_purple("pirate3.png");
         p3.drawPixmap(190, 0, pirate_purple);
 
         p4.setFont(QFont("Italic", 34));
         p4.drawText(40, 70, names[3]);
         p4.drawText(40, 140, QString::number(players_coins[3]));
-        QPixmap pirate_red("pirate_red.png");
+        QPixmap pirate_red("pirate4.png");
         p4.drawPixmap(190, 0, pirate_red);
 
         player1->setPixmap(QPixmap::fromImage(image1));
