@@ -1,4 +1,5 @@
 #include "event.h"
+#include <random>
 
 
 std::string jackal::Event::get_filename() {
@@ -7,7 +8,8 @@ std::string jackal::Event::get_filename() {
 
 jackal::Event::Event(const std::string &file, bool is_av) : m_filename(file), m_coins(0),
                                             is_opened(false), m_is_available_with_coin(is_av),
-                                            has_treasure(false) {
+                                            has_treasure(false),
+                                            eng1(std::chrono::steady_clock::now().time_since_epoch().count()) {
 }
 
 bool jackal::Event::take_coin(Pirate& pirate, int coins_to_take) {
