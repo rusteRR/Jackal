@@ -15,7 +15,7 @@ namespace jackal {
 
 
     private:
-        EventType m_type = EventType::NEW_EVENT;
+        EventType m_type = EventType::SIMPLE;
     };
 
 } // namespace jackal
