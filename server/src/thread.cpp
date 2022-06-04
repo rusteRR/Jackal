@@ -40,19 +40,19 @@ namespace jackal {
                 send_error("not cell clicked");
                 return;
             }
-            qDebug() << "ship_move"; // TODO: need pass correct pirate id
-            emit process_move("ship_move", json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt());
+            qDebug() << "ship_move";
+            emit process_move("ship_move", 0, json["col_to"].toInt(), json["row_to"].toInt());
             is_my_turn = false;
         } else if (m_pirate_clicked != -1) {
             if (request_type == "cell_click" || request_type == "ship_click") {
                 qDebug() << "pirate_move";
-                emit process_move("pirate_move", json["pirate_id"].toInt(), json["col_to"].toInt(),
+                emit process_move("pirate_move", m_pirate_clicked, json["col_to"].toInt(),
                                   json["row_to"].toInt());
                 qDebug() << "pirate_move successful";
                 is_my_turn = false;
             } else if (request_type == "coin_click") {
                 qDebug() << "take_coin";
-                emit process_move("take_coin", json["pirate_id"].toInt(), 0, 0);
+                emit process_move("take_coin", m_pirate_clicked, 0, 0);
                 qDebug() << "take_coin successful";
             } else {
                 send_error("wrong turn");
