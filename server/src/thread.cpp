@@ -26,11 +26,11 @@ namespace jackal {
             emit register_player(name, m_thread_id);
             return;
         }
-        if (request_type == "back_to_menu"){
+        if (request_type == "back_to_menu") {
             qDebug() << "back to menu";
             emit quit(m_player_id);
         }
-        if (!is_my_turn){
+        if (!is_my_turn) {
             qDebug() << "not my turn:" << m_player_id;
             return;
         }
@@ -41,33 +41,31 @@ namespace jackal {
                 return;
             }
             qDebug() << "ship_move"; // TODO: need pass correct pirate id
-            emit process_move("ship_move", 0, json["col_to"].toInt(), json["row_to"].toInt());
+            emit process_move("ship_move", json["pirate_id"].toInt(), json["col_to"].toInt(), json["row_to"].toInt());
             is_my_turn = false;
-        }
-        else if (m_pirate_clicked != -1) {
-            if (request_type == "cell_click" ||  request_type == "ship_click") {
+        } else if (m_pirate_clicked != -1) {
+            if (request_type == "cell_click" || request_type == "ship_click") {
                 qDebug() << "pirate_move";
-                emit process_move("pirate_move", 0, json["col_to"].toInt(),
+                emit process_move("pirate_move", json["pirate_id"].toInt(), json["col_to"].toInt(),
                                   json["row_to"].toInt());
                 qDebug() << "pirate_move successful";
                 is_my_turn = false;
-            } else if (request_type == "coin_click"){
+            } else if (request_type == "coin_click") {
                 qDebug() << "take_coin";
-                emit process_move("take_coin", 0/*TODO: pirate_id*/, 0,0);
+                emit process_move("take_coin", json["pirate_id"].toInt(), 0, 0);
                 qDebug() << "take_coin successful";
-            } else{
+            } else {
                 send_error("wrong turn");
             }
             m_pirate_clicked = -1;
-        }
-        else if (request_type == "ship_click") {
+        } else if (request_type == "ship_click") {
             m_ship_clicked = true;
         } else if (request_type == "pirate_click") {
-            if (json["pirate_id"].toInt() == m_player_id){
-                //m_pirate_clicked = json["pirate_id"].toInt(); TODO
-                m_pirate_clicked = 0;
+            if (json["player_id"] == m_player_id) {
+                m_pirate_clicked = json["pirate_id"].toInt();
+                emit get_possible_turns(m_player_id, m_pirate_clicked);
             }
-        } else if (request_type == "coin_click"){
+        } else if (request_type == "coin_click") {
             send_error("you should choose pirate first");
         }
     }
@@ -110,7 +108,9 @@ namespace jackal {
     }
 
     void ClientWorker::send_json_slot(QJsonObject json, int current_player) {
-        if (json["response_type"] == "requests_error" && m_player_id != current_player) return;
+        if ((json["response_type"] == "requests_error" || json["response_type"] == "possible_moves") &&
+            m_player_id != current_player)
+            return;
         send_to_client(json);
     }
 
@@ -136,6 +136,7 @@ namespace jackal {
         confirm_registration.insert("response_type", "confirm_registration");
         send_to_client(confirm_registration);
     }
+
     void ClientWorker::update_status_slot(int id) {
         qDebug() << "Now moving:" << id;
         if (m_player_id == id) is_my_turn = true;
