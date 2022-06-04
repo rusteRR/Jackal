@@ -24,14 +24,14 @@ namespace jackal {
         worker->moveToThread(thread);
         thread->start();
     }
-
+    
     void Server::process_move_slot(const QString &request_type, int pirate_id, int col_to, int row_to) {
         qDebug() << "process_move_slot";
         QJsonObject result = m_game->process_move(request_type.toStdString(), pirate_id, col_to, row_to);
         qDebug() << "process_move successful";
         int cur_id = m_game->current_player_id();
         emit update_status(cur_id);
-        emit send_json(result);
+        emit send_json(result, cur_id);
     }
 
     void Server::register_player_slot(QString name, int thread_id) {
@@ -59,7 +59,7 @@ namespace jackal {
             QJsonObject state = m_game->get_current_state();
             int cur_id = m_game->current_player_id();
             emit update_status(cur_id);
-            emit send_json(state);
+            emit send_json(state, cur_id);
         }
     }
     
@@ -73,7 +73,7 @@ namespace jackal {
             cnt++;
         }
         std::sort(v.begin(),v.end());
-        while(cnt < MAX_PLAYERS_AMOUNT){
+            while(cnt < MAX_PLAYERS_AMOUNT){
             v.emplace_back(cnt++, "Waiting...");
         }
         for (auto &x : v){
@@ -85,7 +85,7 @@ namespace jackal {
         json.insert("game", "Jackal");
         json.insert("response_type", "players");
         json.insert("players", players);
-        emit send_json(json);
+        emit send_json(json, -1);
     }
     
     void Server::quit_slot(int id) {

@@ -31,7 +31,7 @@ namespace jackal {
 
     public slots:
         
-        void send_json_slot(QJsonObject json);
+        void send_json_slot(QJsonObject json, int current_player);
         
         void update_status_slot(int id);
         

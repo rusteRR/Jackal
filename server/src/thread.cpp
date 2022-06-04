@@ -35,26 +35,31 @@ namespace jackal {
             return;
         }
         if (m_ship_clicked) {
+            m_ship_clicked = false;
             if (request_type != "cell_click") {
                 send_error("not cell clicked");
                 return;
             }
             qDebug() << "ship_move"; // TODO: need pass correct pirate id
             emit process_move("ship_move", 0, json["col_to"].toInt(), json["row_to"].toInt());
-            m_ship_clicked = false;
             is_my_turn = false;
         }
         else if (m_pirate_clicked) {
-            if (request_type != "cell_click" && request_type != "ship_click") {
-                send_error("not cell nor ship clicked");
-                return;
-            }
-            qDebug() << "pirate_move";
-            emit process_move("pirate_move", 0, json["col_to"].toInt(),
-                              json["row_to"].toInt());
-            qDebug() << "pirate_move successful";
             m_pirate_clicked = false;
-            is_my_turn = false;
+            if (request_type == "cell_click" ||  request_type == "ship_click") {
+                qDebug() << "pirate_move";
+                emit process_move("pirate_move", 0, json["col_to"].toInt(),
+                                  json["row_to"].toInt());
+                qDebug() << "pirate_move successful";
+                is_my_turn = false;
+            } else if (request_type == "coin_click"){
+                qDebug() << "take_coin";
+                emit process_move("take_coin", 0/*TODO: pirate_id*/, 0,0);
+                qDebug() << "take_coin successful";
+            } else{
+                send_error("wrong turn");
+            }
+            
         }
         else if (request_type == "ship_click") {
             m_ship_clicked = true;
@@ -102,7 +107,8 @@ namespace jackal {
         }
     }
 
-    void ClientWorker::send_json_slot(QJsonObject json) {
+    void ClientWorker::send_json_slot(QJsonObject json, int current_player) {
+        if (json["response_type"] == "requests_error" && m_player_id != current_player) return;
         send_to_client(json);
     }
 
