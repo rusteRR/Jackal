@@ -89,6 +89,7 @@ namespace jackalui {
         grid->setVerticalSpacing(0);
 
         GRID->addWidget(FIELD);
+        GRID->addSpacing(300);
     }
 
     void FieldWidget::set_pics(const QJsonDocument &json) {

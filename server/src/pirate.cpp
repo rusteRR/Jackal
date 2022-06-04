@@ -15,6 +15,7 @@ jackal::Pirate::Pirate(int col, int row, Ship *ship, Player* owner) :
 
 // Make move from cuurent position to position (col, row)
 void jackal::Pirate::move(Coords coords, moveType type) {
+    // Move type to differ ship move and pirate move
     if (m_status == status::ON_BOARD && type == moveType::PLAIN) {
         m_ship->leave_ship(this);
         m_status = status::ALIVE;
@@ -113,6 +114,9 @@ int jackal::Pirate::get_coins_amount() const {
 }
 
 void jackal::Pirate::decrease_debuff() {
+    if (m_stucked_for == 0 && m_drunk_for == 0) {
+        return;
+    }
     m_drunk_for = std::max(m_drunk_for - 1, 0);
     m_stucked_for = std::max(m_stucked_for - 1, 0);
     if (m_drunk_for == 0 && m_stucked_for == 0) {

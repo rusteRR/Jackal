@@ -32,6 +32,7 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
 
     else if (request_type == "pirate_move") {
         std::shared_ptr<Pirate> pirate_to_go = m_players[m_current_player]->get_pirate(pirate_id);
+        std::cout << (pirate_to_go->get_status() == status::DROWN) << std::endl;
 
         if (!check_move_correctness(pirate_to_go, new_coords) || !pirate_to_go) {
             return Handler::get_error_json(request_type);
@@ -49,11 +50,11 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         EventType event_type = current_event.invoke(*pirate_to_go);
         while (event_type != EventType::SIMPLE) {
             coords = pirate_to_go->get_coords();
+            Event& new_event = m_field.get_element(coords.x, coords.y);
+            event_type = new_event.invoke(*pirate_to_go);
             if (coords.x < 0 || coords.y < 0) {
                 break;
             }
-            Event& new_event = m_field.get_element(coords.x, coords.y);
-            event_type = new_event.invoke(*pirate_to_go);
             pirate_to_go->attack_pirate(*this);
         }
         drop_coin(pirate_id);
@@ -108,7 +109,7 @@ jackal::Game::Game(game_type type) : m_current_player(0), m_game_type(type), coi
 
 void jackal::Game::change_turn() noexcept {
     m_players[m_current_player]->decrease_debuff();
-    m_current_player = (m_current_player + 1) % 4;
+    m_current_player = (m_current_player + 1) % 1;
 }
 
 std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
