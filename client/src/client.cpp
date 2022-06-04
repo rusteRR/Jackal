@@ -15,7 +15,8 @@ namespace jackalui {
     }
 
     void Client::authUser() {
-        auth->showFullScreen();
+        //auth->showFullScreen();
+        auth->show();
         mainMenuWidget->hide();
     }
 

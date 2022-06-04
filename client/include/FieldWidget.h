@@ -59,7 +59,8 @@ namespace jackalui {
         const std::map<QString, QString> error_messages = {{"take_coin", "There is no coin"},
                                                      {"ship_move", "You can't move ship like that"},
                                                      {"pirate_move", "You can't move pirate like that"},
-                                                           {"not cell clicked", "not cell clicked"}};
+                                                     {"not cell clicked", "not cell clicked"},
+                                                     {"wrong turn", "pirate can only move on cell or ship"}};
         std::map<int, QString> names = { {0, "pirate1"}, {1, "pirate2"}, {2, "pirate3"}, {3, "pirate4"}};
         std::map<int, std::pair<int,int>> cur_ships = {{0, {0, 6}}, {1, {6, 12}}, {2, {12, 6}}, {3,{6, 0}}};
         std::map<int,int> players_coins = {{0, 0}, {1, 0}, {2, 0}, {3, 0} };

@@ -85,7 +85,6 @@ namespace jackalui {
             return;
         }
         m_money = money_count;
-        //TODO: fix coin bug
         money_counter->setNum(m_money);
         money_counter->show();
         money_counter->raise();
