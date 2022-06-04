@@ -7,6 +7,7 @@
 #include <QString>
 #include <QPushButton>
 #include <QPainter>
+#include <QSignalMapper>
 #include "PirateWidget.h"
 #include "controller.h"
 #include "ShipWidget.h"
@@ -52,7 +53,11 @@ namespace jackalui {
 
     public slots:
 
-        void PirateClicked();
+        void PirateClickedFirst();
+
+        void PirateClickedSecond();
+
+        void PirateClickedThird();
 
         void CoinClicked();
 

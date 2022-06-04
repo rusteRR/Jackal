@@ -23,7 +23,7 @@ public slots:
 
     void ship_click(int id, int row, int col);
 
-    void pirate_click(int id, int row, int col);
+    void pirate_click(int player_id, int pirate_id, int row, int col);
 
     void click_coin(int row, int col);
 

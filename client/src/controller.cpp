@@ -85,13 +85,14 @@ void Controller::ship_click(int id, int row, int col) {
     send_to_server(qObj);
 }
 
-void Controller::pirate_click(int id, int row, int col) {
-    std::cout << "Pirate_id: " << id << ' ' << row << ' ' << col << std::endl;
+void Controller::pirate_click(int player_id, int pirate_id, int row, int col) {
+    std::cout << "Pirate_id: " << pirate_id << ' ' << row << ' ' << col << std::endl;
 
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "pirate_click");
-    qObj.insert("pirate_id", id);
+    qObj.insert("pirate_id", pirate_id);
+    qObj.insert("player_id", player_id);
     qObj.insert("col_to", col);
     qObj.insert("row_to", row);
     send_to_server(qObj);

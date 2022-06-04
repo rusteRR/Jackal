@@ -39,17 +39,17 @@ namespace jackalui {
         pirate3 = new QPushButton(this);
         QPixmap pirate_pic("pirate_icon" + QString::number(m_player + 1) + ".png");
         QIcon ButtonIcon(pirate_pic);
-        pirate1->setGeometry(45, 42, 40, 40);
+        pirate1->setGeometry(13, 56, 25, 25);
         pirate1->setIcon(ButtonIcon);
         pirate1->setIconSize(pirate1->rect().size());
         pirate1->raise();
 
-        pirate2->setGeometry(45, 42, 40, 40);
+        pirate2->setGeometry(38, 56, 25, 25);
         pirate2->setIcon(ButtonIcon);
         pirate2->setIconSize(pirate2->rect().size());
         pirate2->raise();
 
-        pirate3->setGeometry(45, 42, 40, 40);
+        pirate3->setGeometry(63, 56, 25, 25);
         pirate3->setIcon(ButtonIcon);
         pirate3->setIconSize(pirate3->rect().size());
         pirate3->raise();
@@ -69,8 +69,22 @@ namespace jackalui {
         connect(this, &EventWidget::onPressed, controller, [&]() {
             controller->pass_coords(m_player, m_row, m_col);
         });
+        /*QSignalMapper mapper;
 
-        connect(pirate1, SIGNAL(clicked()),  SLOT(PirateClicked()));
+        connect(pirate1, SIGNAL(clicked()), &mapper,  SLOT(map()));
+        mapper.setMapping(pirate1, 0); // Number to be passed in the slot
+
+        connect(pirate2, SIGNAL(clicked()), &mapper, SLOT(map()));
+        mapper.setMapping(pirate2, 1); // Number to be passed in the slot
+
+        connect(pirate3, SIGNAL(clicked()), &mapper, SLOT(map()));
+        mapper.setMapping(pirate3, 2); // Number to be passed in the slot
+
+        connect(&mapper, SIGNAL(mapped(int)), this, SLOT(PirateClicked(int)));*/
+
+        connect(pirate1, SIGNAL(clicked()),  SLOT(PirateClickedFirst()));
+        connect(pirate2, SIGNAL(clicked()),  SLOT(PirateClickedSecond()));
+        connect(pirate3, SIGNAL(clicked()),  SLOT(PirateClickedThird()));
     }
 
     void EventWidget::set_pic(const QString &file_to_set) {
@@ -174,8 +188,22 @@ namespace jackalui {
         m_is_flipped = false;
     }
 
-    void EventWidget::PirateClicked() {
-        emit controller->pirate_click(m_player, m_row, m_col);
+    void EventWidget::PirateClickedFirst() {
+        int pirate_id = 0;
+        qDebug() << "Pirate clicked " << pirate_id;
+        emit controller->pirate_click(m_player, pirate_id, m_row, m_col);
+    }
+
+    void EventWidget::PirateClickedSecond() {
+        int pirate_id = 1;
+        qDebug() << "Pirate clicked " << pirate_id;
+        emit controller->pirate_click(m_player, pirate_id, m_row, m_col);
+    }
+
+    void EventWidget::PirateClickedThird() {
+        int pirate_id = 2;
+        qDebug() << "Pirate clicked " << pirate_id;
+        emit controller->pirate_click(m_player, pirate_id, m_row, m_col);
     }
 
     void EventWidget::CoinClicked() {
