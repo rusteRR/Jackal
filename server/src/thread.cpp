@@ -44,8 +44,7 @@ namespace jackal {
             emit process_move("ship_move", 0, json["col_to"].toInt(), json["row_to"].toInt());
             is_my_turn = false;
         }
-        else if (m_pirate_clicked) {
-            m_pirate_clicked = false;
+        else if (m_pirate_clicked != -1) {
             if (request_type == "cell_click" ||  request_type == "ship_click") {
                 qDebug() << "pirate_move";
                 emit process_move("pirate_move", 0, json["col_to"].toInt(),
@@ -59,13 +58,14 @@ namespace jackal {
             } else{
                 send_error("wrong turn");
             }
-            
+            m_pirate_clicked = -1;
         }
         else if (request_type == "ship_click") {
             m_ship_clicked = true;
         } else if (request_type == "pirate_click") {
             if (json["pirate_id"].toInt() == m_player_id){
-                m_pirate_clicked = true;
+                //m_pirate_clicked = json["pirate_id"].toInt(); TODO
+                m_pirate_clicked = 0;
             }
         } else if (request_type == "coin_click"){
             send_error("you should choose pirate first");

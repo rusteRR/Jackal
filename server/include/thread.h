@@ -52,7 +52,7 @@ namespace jackal {
         
         bool m_ship_clicked{false};
         
-        bool m_pirate_clicked{false};
+        int m_pirate_clicked{-1};
         
         bool is_my_turn{false};
         
