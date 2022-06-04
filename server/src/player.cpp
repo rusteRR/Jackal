@@ -43,8 +43,10 @@ void jackal::Player::decrease_debuff() {
 
 void jackal::Player::ressurect_pirates(Coords spawn_coords) {
     for (auto &pirate : m_pirates) {
-        pirate->move(spawn_coords);
-        pirate->stuck(HEAL_TIME + 1);
+        if (pirate->get_status() == status::DEAD) {
+            pirate->move(spawn_coords);
+            pirate->stuck(HEAL_TIME + 1);
+        }
     }
 }
 
