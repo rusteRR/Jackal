@@ -109,7 +109,7 @@ jackal::Game::Game(game_type type) : m_current_player(0), m_game_type(type), coi
 
 void jackal::Game::change_turn() noexcept {
     m_players[m_current_player]->decrease_debuff();
-    m_current_player = (m_current_player + 1) % 4;
+    m_current_player = (m_current_player + 1) % 1;
 }
 
 std::vector<std::shared_ptr<jackal::Pirate>> jackal::Game::get_pirates() const {
@@ -169,6 +169,7 @@ void jackal::Game::drop_coin(int pirate_id) {
     if (pirate_to_go->get_status() == status::CARRYING_COIN) {
         int dropped_coins = pirate_to_go->drop_coin();
         coins_remaining += dropped_coins;
+        pirate_to_go->set_status(status::ALIVE);
         current_event.increase_coins(dropped_coins);
     }
 }

@@ -35,7 +35,9 @@ jackal::EventType jackal::MultiPointer::invoke(jackal::Pirate &pirate) {
     is_opened = true;
     auto [cur_x, cur_y] = pirate.get_coords();
     pirate.set_last_move(eventType::MULTIPOINTER, pirate.get_coords());
-    pirate.move(Coords{cur_x + directions.begin()->first, cur_y + directions.begin()->second});
+    std::uniform_int_distribution<int> distr(0, static_cast<int>(directions.size()) - 1);
+    int ind = distr(eng1);
+    pirate.move(Coords{cur_x + std::next(directions.begin(), ind)->first, cur_y + std::next(directions.begin(), ind)->second});
     /*
     auto [new_x, new_y] = Server::get_coords;
     while (directions.find({new_x - cur_x, new_y - cur_y}) == directions.end()) {

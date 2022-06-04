@@ -30,6 +30,15 @@ void Controller::start_game() {
     send_to_server(qObj);
 }
 
+void Controller::click_coin(int row, int col) {
+    QJsonObject qObj;
+    qObj.insert("game", "Jackal");
+    qObj.insert("request_type", "coin_click");
+    qObj.insert("col_to", col);
+    qObj.insert("row_to", row);
+    send_to_server(qObj);
+}
+
 void Controller::end_game() {
     std::cout << "end game!" << std::endl;
 }

@@ -21,7 +21,7 @@ namespace jackalui {
         auto FIELD = new QWidget(this);
         auto grid = new QGridLayout(FIELD);
 
-        QImage image1("icon.png");
+        {QImage image1("icon.png");
         QImage image2("icon.png");
         QImage image3("icon.png");
         QImage image4("icon.png");
@@ -32,26 +32,24 @@ namespace jackalui {
         p1.setFont(QFont("Italic", 34));
         p1.drawText(40, 70, "player1");
         p1.drawText(40, 140, "150");
-
         QPixmap pirate_blue("pirate_blue.png");
         p1.drawPixmap(200, 0, pirate_blue);
+
         p2.setFont(QFont("Italic", 34));
         p2.drawText(40, 70, "player2");
         p2.drawText(40, 140, "150");
-
-
         QPixmap pirate_green("pirate_green.png");
         p2.drawPixmap(190, 0, pirate_green);
+
         p3.setFont(QFont("Italic", 34));
         p3.drawText(40, 70, "player3");
         p3.drawText(40, 140, "150");
-
         QPixmap pirate_purple("pirate_purple.png");
         p3.drawPixmap(190, 0, pirate_purple);
+
         p4.setFont(QFont("Italic", 34));
         p4.drawText(40, 70, "player4");
         p4.drawText(40, 140, "150");
-
         QPixmap pirate_red("pirate_red.png");
         p4.drawPixmap(190, 0, pirate_red);
 
@@ -62,7 +60,7 @@ namespace jackalui {
         player1->setPixmap(QPixmap::fromImage(image1));
         player2->setPixmap(QPixmap::fromImage(image2));
         player3->setPixmap(QPixmap::fromImage(image3));
-        player4->setPixmap(QPixmap::fromImage(image4));
+        player4->setPixmap(QPixmap::fromImage(image4));}
 
         auto spacer = new QSpacerItem(100, 150);
         players->addSpacerItem(spacer);
@@ -135,16 +133,19 @@ namespace jackalui {
                 field[cur_pos.first][cur_pos.second]->removeShip();
                 field[ship_row][ship_col]->set_ship(player_id, player_coins);
                 cur_ships[i] = {ship_row, ship_col};
+            } else {
+                field[ship_row][ship_col]->set_ship(player_id, player_coins);
             }
 
             QJsonArray pirates = player["pirates"].toArray();
             for (int j = 0; j < pirates.size(); ++j) {
                 auto pirate = pirates.at(j);
+                int pirate_id = pirate["pirate_id"].toInt();
                 int pirate_row = pirate["coord_y"].toInt();
                 int pirate_col = pirate["coord_x"].toInt();
                 bool is_dead = pirate["is_dead"].toBool();
                 if (!is_dead) {
-                    field[pirate_row][pirate_col]->add_pirate(player_id);
+                    field[pirate_row][pirate_col]->add_pirate(player_id, pirate_id);
                 }
             }
         }
@@ -167,7 +168,6 @@ namespace jackalui {
             int coins = cell["coins"].toInt();
             bool is_open = cell["is_open"].toBool();
             QString filename = cell["filename"].toString();
-            // TODO: and money
             field[row][col]->set_pic(filename);
             if (is_open) {
                 field[row][col]->flip();

@@ -3,6 +3,9 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QPushButton>
+#include <QPainter>
+#include <QString>
 #include <QDebug>
 #include "controller.h"
 
@@ -24,7 +27,7 @@ namespace jackalui {
 
     private:
         QLabel *m_label;
-        QLabel *money_counter;
+        QPushButton *money_counter;
         int m_id;
         int m_row;
         int m_col;

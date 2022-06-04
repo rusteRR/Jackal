@@ -25,6 +25,8 @@ public slots:
 
     void pirate_click(int id, int row, int col);
 
+    void click_coin(int row, int col);
+
     void enter_name(const QString &name);
     
     void back_to_menu_slot();

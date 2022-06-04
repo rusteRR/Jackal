@@ -3,7 +3,6 @@
 namespace jackalui {
     ShipWidget::ShipWidget(int id, int money_, int row, int col, QWidget *parent, Controller *controller_) : m_id(id), QWidget(parent),
                                                                                            m_label(new QLabel(this)),
-                                                                                           money_counter(new QLabel(m_label)),
                                                                                            controller(controller_),
                                                                                            money(money_), m_row(row), m_col(col) {
         m_label->setScaledContents(true);
@@ -14,10 +13,11 @@ namespace jackalui {
         layout->addWidget(m_label);
         layout->setContentsMargins(0, 0, 0, 0);
 
-        // TODO: set money counter inside ship, probably it could be more beautiful :)
-        money_counter->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        money_counter->setAlignment(Qt::AlignBottom);
-        money_counter->setNum(money);
+
+        money_counter = new QPushButton(this);
+        money_counter->setGeometry(0, 0, 25, 25);
+
+        set_coins(money);
 
         connect(this, &ShipWidget::onPressed, controller, [&]() {
             controller->ship_click(m_id, m_row, m_col);
@@ -26,7 +26,14 @@ namespace jackalui {
 
     void ShipWidget::set_coins(int money_count) {
         money = money_count;
-        money_counter->setNum(money);
+
+        QPixmap coin("coin.png");
+        QPainter painter(&coin);
+        painter.setFont(QFont("Italic", 50));
+        painter.drawText(45, 95, QString::number(money));
+        QIcon ButtonIcon(coin);
+        money_counter->setIcon(ButtonIcon);
+        money_counter->setIconSize(money_counter->rect().size());
     }
 
     void ShipWidget::mousePressEvent(QMouseEvent *ev) {
