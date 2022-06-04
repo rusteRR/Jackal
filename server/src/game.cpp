@@ -169,6 +169,7 @@ void jackal::Game::drop_coin(int pirate_id) {
     if (pirate_to_go->get_status() == status::CARRYING_COIN) {
         int dropped_coins = pirate_to_go->drop_coin();
         coins_remaining += dropped_coins;
+        pirate_to_go->set_status(status::ALIVE);
         current_event.increase_coins(dropped_coins);
     }
 }
