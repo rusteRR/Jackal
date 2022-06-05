@@ -94,16 +94,15 @@ namespace jackal {
     }
 
     void ClientWorker::read_response() {
-        QJsonDocument json;
-        m_in.startTransaction();
-        while (!m_in.atEnd()) {
+        while (true) {
+            m_in.startTransaction();
+            QJsonDocument json;
             m_in >> json;
+            if (!m_in.commitTransaction()) {
+                m_in.rollbackTransaction();
+                return;
+            }
             produce_json(json);
-        }
-        if (!m_in.commitTransaction())
-            return;
-        if (m_in.status() != QDataStream::Ok) {
-            return;
         }
     }
 
