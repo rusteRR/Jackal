@@ -49,6 +49,8 @@ signals:
 
     void update_names(const QJsonArray &json);
 
+    void show_moves(const QJsonArray &json);
+
 private:
     void send_to_server(const QJsonDocument &str);
 

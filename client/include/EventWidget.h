@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QDebug>
+#include <QFrame>
 #include <QGridLayout>
 #include <QString>
 #include <QPushButton>
@@ -14,7 +15,7 @@
 #include <string>
 
 namespace jackalui {
-    class EventWidget : public QWidget {
+    class EventWidget : public QFrame {
     Q_OBJECT
     public:
         explicit EventWidget(int col_, int row_, QWidget *parent = nullptr, Controller *controller_ = nullptr);
@@ -33,6 +34,10 @@ namespace jackalui {
 
         void set_coins(int money_count);
 
+        void make_possible_to_move();
+
+        void clear_frame();
+
     private:
         QLabel *m_label;
         QPushButton *money_counter;
@@ -43,6 +48,7 @@ namespace jackalui {
         QPushButton *pirate1;
         QPushButton *pirate2;
         QPushButton *pirate3;
+        QFrame *frame;
         bool m_is_flipped = false;
         int m_col;
         int m_row;

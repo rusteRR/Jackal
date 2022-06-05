@@ -122,6 +122,8 @@ void Controller::read_response() {
             emit handle_error(json["error"].toString());
         } else if (json["response_type"] == "players") {
             emit update_names(json["players"].toArray());
+        } else if (json["response_type"] == "possible_moves") {
+            emit show_moves(json["coords_to_go"].toArray());
         } else {
             qDebug() << "unknown response" << json["response_type"].toString();
         }

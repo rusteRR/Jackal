@@ -14,6 +14,7 @@ namespace jackalui {
         connect(controller, &Controller::handle_field, this, &FieldWidget::update_field);
         connect(controller, &Controller::handle_error, this, &FieldWidget::show_error);
         connect(controller, &Controller::update_names, this, &FieldWidget::update_names);
+        connect(controller, &Controller::show_moves, this, &FieldWidget::show_moves);
         menuButton->setMaximumSize(300, 500);
 
         auto GRID = new QHBoxLayout(this);
@@ -83,8 +84,8 @@ namespace jackalui {
                 grid->addWidget(event, i, j);
             }
         }
-        grid->setHorizontalSpacing(0);
-        grid->setVerticalSpacing(0);
+        grid->setHorizontalSpacing(1);
+        grid->setVerticalSpacing(1);
 
         GRID->addWidget(FIELD);
         GRID->addSpacing(300);
@@ -115,6 +116,14 @@ namespace jackalui {
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 13; ++j) {
                 field[i][j]->remove_pirates();
+            }
+        }
+    }
+
+    void FieldWidget::clear_field() {
+        for (int i = 0; i < 13; ++i) {
+            for (int j = 0; j < 13; ++j) {
+                field[i][j]->clear_frame();
             }
         }
     }
@@ -161,6 +170,7 @@ namespace jackalui {
     }
 
     void FieldWidget::update_field(const QJsonArray &field_data) {
+        clear_field();
         for (int i = 0; i < field_data.size(); ++i) {
             auto cell = field_data.at(i);
             int row = cell["coord_y"].toInt();
@@ -216,7 +226,17 @@ namespace jackalui {
         player4->setPixmap(QPixmap::fromImage(image4));
     }
 
+    void FieldWidget::show_moves(const QJsonArray &json) {
+        for (int i = 0; i < json.size(); ++i) {
+            auto cell = json.at(i);
+            int row = cell["coord_y"].toInt();
+            int col = cell["coord_x"].toInt();
+            field[row][col]->make_possible_to_move();
+        }
+    }
+
     void FieldWidget::show_error(const QString &error_message) {
+        clear_field();
         qDebug() << "error: " << error_message;
         QMessageBox msgBox;
         msgBox.setWindowTitle("Jackal error");

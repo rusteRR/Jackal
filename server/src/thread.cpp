@@ -63,7 +63,7 @@ namespace jackal {
         } else if (request_type == "pirate_click") {
             if (json["player_id"] == m_player_id) {
                 m_pirate_clicked = json["pirate_id"].toInt();
-                //emit get_possible_turns(m_player_id, m_pirate_clicked);
+                emit get_possible_turns(m_pirate_clicked, m_player_id);
             }
         } else if (request_type == "coin_click") {
             send_error("you should choose pirate first");

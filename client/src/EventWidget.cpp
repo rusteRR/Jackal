@@ -1,17 +1,18 @@
 #include "EventWidget.h"
 
 namespace jackalui {
-    EventWidget::EventWidget(int col_, int row_, QWidget *parent, Controller *controller_) : QWidget(parent),
+    EventWidget::EventWidget(int col_, int row_, QWidget *parent, Controller *controller_) : QFrame(parent),
                                                                                              m_label(new QLabel(this)),
                                                                                              m_col(col_), m_row(row_),
                                                                                            //  money_counter(new QLabel(this)),
                                                                                              controller(controller_) {
+        frame = new QFrame(this);
+        frame->setGeometry(frame->x(), frame->y(), 87, 79);
         if (m_col == 0 || m_row == 0 || m_col == 12 || m_row == 12) {
             picture_to_set = "water.png";
         } else {
             picture_to_set = "closed.png";
         }
-
         QPixmap pixmap(picture_to_set);
         m_label->setScaledContents(true);
         m_label->setPixmap(pixmap.scaled(100, 100, Qt::KeepAspectRatio));
@@ -106,6 +107,7 @@ namespace jackalui {
         connect(pirate1, SIGNAL(clicked()),  SLOT(PirateClickedFirst()));
         connect(pirate2, SIGNAL(clicked()),  SLOT(PirateClickedSecond()));
         connect(pirate3, SIGNAL(clicked()),  SLOT(PirateClickedThird()));
+
     }
 
     void EventWidget::set_pic(const QString &file_to_set) {
@@ -207,6 +209,18 @@ namespace jackalui {
         layout()->addWidget(m_label);
         m_have_ship = false;
         m_is_flipped = false;
+    }
+
+    void EventWidget::make_possible_to_move() {
+        /*frame->setLineWidth(1);
+        frame->setFrameStyle(QFrame::Box);
+        frame->show();*/
+        frame->show();
+        frame->setStyleSheet("border: 2px solid rgb(0, 255, 0);");
+    }
+
+    void EventWidget::clear_frame() {
+        frame->hide();
     }
 
     void EventWidget::PirateClickedFirst() {
