@@ -8,7 +8,7 @@
 #include <iostream>
 
 Controller::Controller(QObject *parent) : QObject(parent), m_socket(new QTcpSocket(this)) {
-    m_socket->connectToHost("192.168.0.101", 4242);
+    m_socket->connectToHost(QHostAddress::LocalHost, 4242);
     connect(m_socket, &QTcpSocket::readyRead, this, &Controller::read_response);
     in.setDevice(m_socket);
     in.setVersion(QDataStream::Qt_4_0);

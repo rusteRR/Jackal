@@ -39,12 +39,34 @@ namespace jackalui {
         pirate3 = new QPushButton(this);
         QPixmap pirate_pic("pirate_icon" + QString::number(m_player + 1) + ".png");
         QIcon ButtonIcon(pirate_pic);
+
+
+        // rect.adjust(10, 10, -10, -10);
+        pirate1->setFixedSize(20, 20);
+        pirate1->setIcon(ButtonIcon);
+        // pirate1->setIconSize(pirate1->rect().size());
+        // pirate1->raise();
+        QRect rect(QPoint(), pirate1->size());
+        QRegion region(rect,QRegion::Ellipse);
+        pirate1->setMask(region);
         pirate1->setGeometry(13, 56, 25, 25);
+
+        pirate2->setFixedSize(20, 20);
+        pirate2->setIcon(ButtonIcon);
+        pirate2->setMask(region);
+        pirate2->setGeometry(38, 56, 25, 25);
+
+        pirate3->setFixedSize(20, 20);
+        pirate3->setIcon(ButtonIcon);
+        pirate3->setMask(region);
+        pirate3->setGeometry(13, 56, 25, 25);
+
+        /*pirate1->setGeometry(13, 56, 25, 25);
         pirate1->setIcon(ButtonIcon);
         pirate1->setIconSize(pirate1->rect().size());
-        pirate1->raise();
+        pirate1->raise();*/
 
-        pirate2->setGeometry(38, 56, 25, 25);
+        /*pirate2->setGeometry(38, 56, 25, 25);
         pirate2->setIcon(ButtonIcon);
         pirate2->setIconSize(pirate2->rect().size());
         pirate2->raise();
@@ -52,7 +74,7 @@ namespace jackalui {
         pirate3->setGeometry(63, 56, 25, 25);
         pirate3->setIcon(ButtonIcon);
         pirate3->setIconSize(pirate3->rect().size());
-        pirate3->raise();
+        pirate3->raise();*/
 
 
 
