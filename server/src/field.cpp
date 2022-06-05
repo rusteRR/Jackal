@@ -58,7 +58,7 @@ namespace jackal {
         std::vector<std::pair<int, int>> random_coords;
         for (int i = 0; i < rows_no_water; ++i) {
             for (int j = 0; j < columns_no_water; ++j) {
-                if (i % 10 == 0 && j % 10 == 0) continue;
+                if (i % (m_columns - 3) == 0 && j % (m_columns - 3) == 0) continue;
                 random_coords.emplace_back(i + 1, j + 1);
             }
         }

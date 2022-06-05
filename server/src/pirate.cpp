@@ -40,7 +40,8 @@ jackal::Coords jackal::Pirate::get_coords() const {
 void jackal::Pirate::attack_pirate(Game &game) {
     std::vector<std::shared_ptr<Pirate>> pirates_to_attack = game.get_pirates();
     for (const auto& pirate_ptr : pirates_to_attack) {
-        if (pirate_ptr->get_coords() == m_coords && pirate_ptr->get_status() == status::PROTECTED) {
+        if ((pirate_ptr->get_coords() == m_coords && pirate_ptr->get_status() == status::PROTECTED) ||
+                (pirate_ptr->get_coords() == m_coords && pirate_ptr->get_status() == status::ON_BOARD)) {
             this->go_to_ship();
             return;
         }
