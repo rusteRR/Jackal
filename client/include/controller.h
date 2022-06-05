@@ -51,6 +51,8 @@ signals:
 
     void show_moves(const QJsonArray &json);
 
+    void show_current_player(int player_num);
+
 private:
     void send_to_server(const QJsonDocument &str);
 

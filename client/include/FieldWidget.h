@@ -53,6 +53,8 @@ namespace jackalui {
 
         void show_moves(const QJsonArray &json);
 
+        void show_current_player(int player_num);
+
     private:
         QLabel* player1 = new QLabel(this);
         QLabel* player2 = new QLabel(this);
