@@ -56,7 +56,7 @@ namespace jackal {
         }
         emit confirm_registration(player_id, thread_id);
         send_players_names();
-        if (m_game != nullptr){
+        if (m_game != nullptr && player_id != -1){
             QJsonObject state = m_game->get_current_state();
             int cur_id = m_game->current_player_id();
             emit update_status(cur_id);

@@ -4,10 +4,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QString>
+#include <QTextStream>
 #include <iostream>
 
 Controller::Controller(QObject *parent) : QObject(parent), m_socket(new QTcpSocket(this)) {
-    m_socket->connectToHost(QHostAddress::LocalHost, 4242);
+    m_socket->connectToHost("192.168.0.101", 4242);
     connect(m_socket, &QTcpSocket::readyRead, this, &Controller::read_response);
     in.setDevice(m_socket);
     in.setVersion(QDataStream::Qt_4_0);
@@ -49,7 +50,7 @@ void Controller::pass_coords(int id, int row, int col) {
     QJsonObject qObj;
     qObj.insert("game", "Jackal");
     qObj.insert("request_type", "cell_click");
-    qObj.insert("pirate_id", id); // TODO: actually not 1, should be different
+    qObj.insert("pirate_id", id);
     qObj.insert("col_to", col);
     qObj.insert("row_to", row);
     send_to_server(qObj);
@@ -101,34 +102,29 @@ void Controller::pirate_click(int player_id, int pirate_id, int row, int col) {
 
 void Controller::read_response() {
     qDebug() << "entered read_response";
-    in.startTransaction();
-    QJsonDocument json;
-    while (!in.atEnd()) {
+    while(true) {
+        in.startTransaction();
+        QJsonDocument json;
         in >> json;
-        //emit field_response(json);
+        if (!in.commitTransaction()) {
+            in.rollbackTransaction();
+            break;
+        }
         qDebug() << "response_type is " << json["response_type"];
         if (json["response_type"] == "game_state") {
             emit handle_field(json["field_data"].toArray());
             emit handle_players(json["players_data"].toArray());
             return;
-        }
-        else if (json["response_type"] == "confirm_registration") {
+        } else if (json["response_type"] == "confirm_registration") {
             emit authCorrect();
             return;
-        }
-        else if (json["response_type"] == "requests_error") {
+        } else if (json["response_type"] == "requests_error") {
             emit handle_error(json["error"].toString());
-        }
-        else if (json["response_type"] == "players"){
+        } else if (json["response_type"] == "players") {
             emit update_names(json["players"].toArray());
-        } else{
-            qDebug() << "unknown response";
+        } else {
+            qDebug() << "unknown response" << json["response_type"].toString();
         }
-    }
-    if (!in.commitTransaction())
-        return;
-    if (in.status() != QDataStream::Ok) {
-        return;
     }
 }
 
