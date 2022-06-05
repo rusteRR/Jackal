@@ -7,6 +7,12 @@
 #include <chrono>
 #include <functional>
 
+namespace water_cells_execept_borders {
+    constexpr int TOTAL_CELLS = 4;
+    constexpr int x[] = {1, 1, 11, 11};
+    constexpr int y[] = {1, 11, 1, 11};
+}
+
 namespace jackal {
     void Field::generate_field(Settings& settings) {
         std::map<std::string, std::function<std::shared_ptr<Event>()>> event_factory {
@@ -49,10 +55,11 @@ namespace jackal {
         int event_count;
         int rows_no_water = m_rows - 2;
         int columns_no_water = m_columns - 2;
-        std::vector<std::pair<int, int>> random_coords(rows_no_water * columns_no_water);
+        std::vector<std::pair<int, int>> random_coords;
         for (int i = 0; i < rows_no_water; ++i) {
             for (int j = 0; j < columns_no_water; ++j) {
-                random_coords[i * columns_no_water + j] = {i + 1, j + 1};
+                if (i % 10 == 0 && j % 10 == 0) continue;
+                random_coords.emplace_back(i + 1, j + 1);
             }
         }
         //std::mt19937 gen{std::random_device()()};
@@ -65,6 +72,11 @@ namespace jackal {
         for (int i = 0; i < m_rows; ++i) {
             m_field[i][0] = std::make_shared<Water>();
             m_field[i][m_columns - 1] = std::make_shared<Water>();
+        }
+        for (int i = 0; i < water_cells_execept_borders::TOTAL_CELLS; i++) {
+            int x = water_cells_execept_borders::x[i];
+            int y = water_cells_execept_borders::y[i];
+            m_field[x][y] = std::make_shared<Water>();
         }
         int coord_ind = 0;
         while (f >> event_name >> event_count) {
