@@ -7,6 +7,7 @@
 namespace {
     constexpr int TREASURE_AMOUNT = 3;
     constexpr int COIN_AMOUNT = 1;
+    constexpr int MAX_CYCLE_CONST = 121;
 }
 
 QJsonObject jackal::Game::process_move(const std::string& request_type, int pirate_id, int col_to, int row_to) {
@@ -48,13 +49,15 @@ QJsonObject jackal::Game::process_move(const std::string& request_type, int pira
         pirate_to_go->set_last_move(eventType::SIMPLE, coords);
         pirate_to_go->attack_pirate(*this);
         EventType event_type = current_event.invoke(*pirate_to_go);
+        int cycle_steps_counter = 0;
         while (event_type != EventType::SIMPLE) {
+            if (++cycle_steps_counter > MAX_CYCLE_CONST) {
+                pirate_to_go->die();
+                break;
+            }
             coords = pirate_to_go->get_coords();
             Event& new_event = m_field.get_element(coords.x, coords.y);
             event_type = new_event.invoke(*pirate_to_go);
-            if (coords.x < 0 || coords.y < 0) {
-                break;
-            }
             pirate_to_go->attack_pirate(*this);
         }
         drop_coin(pirate_id);

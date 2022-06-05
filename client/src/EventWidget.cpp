@@ -59,7 +59,7 @@ namespace jackalui {
         pirate3->setFixedSize(20, 20);
         pirate3->setIcon(ButtonIcon);
         pirate3->setMask(region);
-        pirate3->setGeometry(13, 56, 25, 25);
+        pirate3->setGeometry(63, 56, 25, 25);
 
         /*pirate1->setGeometry(13, 56, 25, 25);
         pirate1->setIcon(ButtonIcon);
