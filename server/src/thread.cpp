@@ -141,5 +141,10 @@ namespace jackal {
         qDebug() << "Now moving:" << id;
         if (m_player_id == id) is_my_turn = true;
         else is_my_turn = false;
+        QJsonObject now_moving;
+        now_moving.insert("game", "jackal");
+        now_moving.insert("response_type", "current_player");
+        now_moving.insert("id", id);
+        send_to_client(now_moving);
     }
 }
